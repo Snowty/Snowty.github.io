@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>筱筱汀的碎碎念</title>
-  <meta name="description" content="欢迎聆听我的碎碎念😯">
+  <title>5月上旬的工作小结</title>
+  <meta name="description" content="测试了Firefox测了台国产专用机上面的Firefox，版本比较低。">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="筱筱汀的碎碎念">
-  <meta name="twitter:description" content="欢迎聆听我的碎碎念😯">
+  <meta name="twitter:title" content="5月上旬的工作小结">
+  <meta name="twitter:description" content="测试了Firefox测了台国产专用机上面的Firefox，版本比较低。">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="筱筱汀的碎碎念">
-  <meta property="og:description" content="欢迎聆听我的碎碎念😯">
+  <meta property="og:title" content="5月上旬的工作小结">
+  <meta property="og:description" content="测试了Firefox测了台国产专用机上面的Firefox，版本比较低。">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/tags/">
+  <link rel="canonical" href="http://localhost:4000/2017/05/daily/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,93 +148,86 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
+    <h1 class="post-title">5月上旬的工作小结</h1>
     <div class="post-meta">
-      <time datetime="" itemprop="datePublished" class="post-meta__date date"></time>
-      <span class="post-meta__tags tags"></span>
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2017-05-12 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-05-12</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
     </div>
-    <h1 class="post-title"></h1>
   </header>
 
   <section class="post">
-    
+    <h3 id="测试了firefox">测试了Firefox</h3>
+<p>测了台国产专用机上面的Firefox，版本比较低。</p>
 
-<ul class="tag_box inline">
-    
-  
+<p>主要思路就是去网上找一些历史漏洞，exploit-db是个好地方，youtube也很好用啊，有黑阔们的演示。</p>
 
+<p>找了两个RCE和一个crash的漏洞，也算是做了一把渗透测试人员。</p>
 
-  
-     
-    	<li><a href="#碎碎念-ref">碎碎念 <span>2</span></a></li>
-     
-    	<li><a href="#日常-ref">日常 <span>1</span></a></li>
-    
-  
+<p>写好报告，录个演示视频，完事。录视频的时候发现自己的声音好难听，哭。</p>
 
+<h3 id="nsa的那个工具包">NSA的那个工具包</h3>
+<p>测了3389的那个洞，没扫到啥资源，卒。</p>
 
+<h3 id="wordpress-46-rce-exploit"><a href="https://cxsecurity.com/issue/WLB-2017050014">Wordpress 4.6 RCE exploit</a></h3>
+<p>自己在本地搭的环境可以成功RCE，但是扫描效果不理想。</p>
 
-</ul>
+<p>PoC是用bash写的，请教了二狗子如何改成python版本的。</p>
 
-<div class = "card">
- 
+<p>感觉自己好智障，明明看人家注释都可以懂，我还一脸懵逼，coding能力太差啊，要多practise。</p>
 
-  <h3 id="碎碎念-ref">碎碎念</h3>
-  <ul>
-      
-    
+<p>还get到这种需要发网络请求的脚本，可以用Burpsuite去抓包，很容易看出来问题。</p>
 
+<h3 id="看了好多论文">看了好多论文</h3>
+<p>以前一直觉得看论文很枯燥无味啊，但是这几篇论文的实验方法，确实让我受益颇丰。</p>
 
-  
-    
-      
-      	
-      	<li><a href="/2017/05/daily/">5月上旬的工作小结</a></li>
-      	
-      
-    
-  
-    
-      
-      	
-      	<li><a href="/2017/04/myFirstBlog/">我的第一篇博客</a></li>
-      	
-      
-    
-  
+<p>1.收集一些代码资源与问题，不仅可以去git这类主流仓库爬去，还可以去Stack Overflow这种网站爬去相关问题</p>
 
+<p>2.对比法。例如找iOS的漏洞，可以去对比同版本的Android，一般Android上有的漏洞，iOS上也有可能有。</p>
 
+<p>3.查看不可靠的第三方库。例如Android的app上会调用很多第三方的库，但是程序员很难保证这些库是最新版本的，并且无漏洞。</p>
 
-  </ul>
+<p>4.将代码的片段计算hash值，建立Merkle Tree来进行对比。区块链上也在用Merkle Tree，这是一棵神器的树。</p>
 
+<h3 id="听了三个讲座">听了三个讲座</h3>
+<p>第一个是个人生安全讲座，学了点防身术，主要就是扣小拇指、踢裆、在后面掰腿，具体怎么做还是得实践。女孩子是得好好保护自己。最后总结就是要多读书，多健身。</p>
 
- 
+<p>第二个是听了段海新老师关于HTTPS cookie的一个讲座。这个等我深入研究下再补充吧。
+主要是讲了cookie的同源，不同于浏览器的同源，cookie不看protocol,所以可以用http的cookie去覆盖https的cookie。
+还有一点就是用了SSL证书的网站如果启用了CDN，会把私钥放在CDN运营商那里，有点迷。</p>
 
-  <h3 id="日常-ref">日常</h3>
-  <ul>
-      
-    
+<p>第三个是听了阿里巴巴中间件的讲座，主要是因为最近看过一些关于中间件的后门，所以想去看看。然儿并没有涉及安全问题，主要是说阿里的算法的优化，应对双十一的巨大访问量所做的一些架构，然后宣传他们家的中间件大赛。</p>
 
+<h3 id="wannacry勒索软件">WannaCry勒索软件</h3>
+<p>当晚爆发了WannaCry勒索病毒，唔。</p>
 
-  
-    
-      
-      	
-      	<li><a href="/2017/05/daily/">5月上旬的工作小结</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
-
-</div>
 
   </section>
 </article>
+
+<section class="post-comments">
+
+  
+    <div class="ds-thread" data-thread-key="/2017/05/daily/" data-title="5月上旬的工作小结" data-url="http://localhost:4000/2017/05/daily/"></div>
+
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"Snowty"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+  
+  
+  
+  
+</section>
+
 
             <section class="footer">
     <footer>
