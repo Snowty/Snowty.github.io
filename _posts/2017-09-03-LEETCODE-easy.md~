@@ -1,0 +1,42 @@
+---
+layout: post
+title: leetcode-001-Two Sum
+date: 2017-09-03 
+tags: Coding 
+---
+
+### 至编程孜然微辣的我
+虽然是计算机专业的学生，但是编程能力一直很差。大一的C语言就没有学好，勉强飘过及格线。后来的C++、JAVA，都是水水过关，天知道我的课程设计是怎么过的，嗯，大家心照不宣就好了。转眼间就到研二了，听师兄们讲他们的面试经历，笔试必用C++/JAVA。从现在开始督促自己刷题，一周至少三题吧。
+
+
+### [Two Sum](https://leetcode.com/problems/two-sum/description/)
+{% highlight cpp %}
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[] { map.get(complement), i };
+        }
+        map.put(nums[i], i);
+    }
+    throw new IllegalArgumentException("No two sum solution");
+}
+{% endhighlight %}
+
+
+### 思路and知识点
+一开始弱鸡的我直接用循环去尝试了，结果跟我说超时了。所以我乖乖地看了人家的解题过程啊啊啊啊啊。
+
+1.`vector`: 动态数组，头文件加上`#include<vector>`
+  
+  `vector <int> a;`    //等于声明了一个int数组a[],大小没有指定,可以动态的向里面添加删除
+  
+  `vector <int *> a;`  //二维数组
+  
+  `vector <int**>a;`   //三维数组
+
+2.`map`:关联式容器,`#include<map>`
+
+  `map<int,string> mapStudent;`  //int为索引，指向string的指针
+

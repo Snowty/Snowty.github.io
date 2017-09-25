@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>MFC查询注册表数据</title>
+  <meta name="description" content="相关注册表数据">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MFC查询注册表数据">
+  <meta name="twitter:description" content="相关注册表数据">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="MFC查询注册表数据">
+  <meta property="og:description" content="相关注册表数据">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/09/MFCRegData/">
+  <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<!-- 站点统计 -->
+  <script 
+  async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>  
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 筱筱汀的碎碎念 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                Snowty
+                            
+                        </h2>
+                        <p>
+                           
+                                主业瘦身美白 / 业余信息安全
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 筱筱汀的碎碎念" class="blog-button">筱筱汀的碎碎念</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎聆听我的碎碎念😯</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">MFC查询注册表数据</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2017-09-20 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-09-20</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h3 id="相关注册表数据">相关注册表数据</h3>
+
+<p>想要通过查询注册表，收集一些系统信息。</p>
+
+<p>1.系统版本信息:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ProductName:Windows 10 Enterprise 2015 LTSB
+
+RegisteredOwner:Snowty
+
+SystemRoot:C:\WINDOWS
+</code></pre>
+</div>
+
+<p><img src="/images/posts/2017/09/MFCRegData//1.png" alt="" /></p>
+
+<p>2.是否为虚拟机：	HKEY_LOCAL_MACHINE/HARDWARE/DESCRIPTION/System/BIOS/</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>SystemProductName:VMware Virtual Platform
+</code></pre>
+</div>
+
+<p><img src="/images/posts/2017/09/MFCRegData//2.png" alt="" /></p>
+
+<p>3.电脑位数：	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>PROCESSOR_ARCHITECTURE:
+	
+    x86　　→32位操作系统
+	
+    AMD64 →64位操作系统
+	
+    IA64　→64位操作系统（for Itanium-based）
+</code></pre>
+</div>
+
+<p><img src="/images/posts/2017/09/MFCRegData//3.png" alt="" /></p>
+
+<p>4.office版本：	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Office\</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>office2003:11.0
+office2007:12.0
+office2010:14.0
+office2013:15.0
+office2016:16.0
+office2017:17.0
+</code></pre>
+</div>
+
+<p>5.国家/时区：	HKEY_CURRENT_USER\Control Panel\International\</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sCountry:中华人民共和国
+
+LocalName:zh-CN
+
+sLanguage:CHS
+</code></pre>
+</div>
+
+<p><img src="/images/posts/2017/09/MFCRegData//4.png" alt="" /></p>
+
+<h3 id="mfc查询注册表信息">MFC查询注册表信息</h3>
+
+<p>此处代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。</p>
+
+<p>整体来说代码很简单，通俗易懂。但是其间出现了宽字节<code class="highlighter-rouge">\0</code>截断的问题，真心是折腾了好久🙄</p>
+
+<p>此处使用<code class="highlighter-rouge">RegOpenKeyEx</code>打开注册表，使用<code class="highlighter-rouge">RegGetValue</code>进行查询，详细用法可以查看<a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx">MSDN</a></p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">LONG</span> <span class="n">WINAPI</span> <span class="n">RegGetValue</span><span class="p">(</span>
+  <span class="n">_In_</span>        <span class="n">HKEY</span>    <span class="n">hkey</span><span class="p">,</span>
+  <span class="n">_In_opt_</span>    <span class="n">LPCTSTR</span> <span class="n">lpSubKey</span><span class="p">,</span>
+  <span class="n">_In_opt_</span>    <span class="n">LPCTSTR</span> <span class="n">lpValue</span><span class="p">,</span>
+  <span class="n">_In_opt_</span>    <span class="n">DWORD</span>   <span class="n">dwFlags</span><span class="p">,</span>
+  <span class="n">_Out_opt_</span>   <span class="n">LPDWORD</span> <span class="n">pdwType</span><span class="p">,</span>
+  <span class="n">_Out_opt_</span>   <span class="n">PVOID</span>   <span class="n">pvData</span><span class="p">,</span>
+  <span class="n">_Inout_opt_</span> <span class="n">LPDWORD</span> <span class="n">pcbData</span>
+<span class="p">);</span></code></pre></figure>
+
+<p>此处以查询ProductName为例，全部工程代码见<a href="https://github.com/Snowty/MFC_RegData">Git</a>。</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">CRegDataDlg</span><span class="o">::</span><span class="n">OnClickedQuery</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="c1">// TODO: Add your control notification handler code here
+</span>	<span class="c1">//--------------------------------查询系统版本信息---------------------------------------------
+</span>	<span class="n">HKEY</span> <span class="n">hKEY</span><span class="p">;</span>	<span class="c1">//handler
+</span>	<span class="n">LPCTSTR</span> <span class="n">banner_Set</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">"Software</span><span class="se">\\</span><span class="s">Microsoft</span><span class="se">\\</span><span class="s">Windows NT</span><span class="se">\\</span><span class="s">CurrentVersion"</span><span class="p">);</span> <span class="c1">//子健目录
+</span>	<span class="kt">long</span> <span class="n">retopen</span> <span class="o">=</span> <span class="p">(</span><span class="o">::</span><span class="n">RegOpenKeyEx</span><span class="p">(</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span><span class="n">banner_Set</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">KEY_READ</span><span class="p">,</span><span class="o">&amp;</span><span class="n">hKEY</span><span class="p">));</span>	<span class="c1">//打开系统版本注册表
+</span>	<span class="k">if</span><span class="p">(</span><span class="n">retopen</span><span class="o">!=</span><span class="n">ERROR_SUCCESS</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">MessageBox</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">"ERROR:Can not open the hKEY!"</span><span class="p">));</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="c1">//查询ProductName
+</span>	<span class="n">DWORD</span> <span class="n">cdData</span><span class="o">=</span><span class="mi">80</span><span class="p">;</span>	<span class="c1">//预设置的数据长度
+</span>	<span class="n">LPDWORD</span> <span class="n">lp</span><span class="o">=&amp;</span><span class="n">cdData</span><span class="p">;</span>
+	<span class="n">LPBYTE</span> <span class="n">ProductName_Get</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BYTE</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>	<span class="c1">//保存查询的数据
+</span>	<span class="kt">long</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">RegGetValue</span><span class="p">(</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">"Software</span><span class="se">\\</span><span class="s">Microsoft</span><span class="se">\\</span><span class="s">Windows NT</span><span class="se">\\</span><span class="s">CurrentVersion"</span><span class="p">),</span><span class="n">_T</span><span class="p">(</span><span class="s">"ProductName"</span><span class="p">),</span> <span class="n">RRF_RT_REG_SZ</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">ProductName_Get</span><span class="p">,</span> <span class="n">lp</span><span class="p">);</span><span class="c1">//注册表查询，将结果保存在ProductName_Get中
+</span>
+	<span class="c1">//将unicode转换为ASCII
+</span>	<span class="kt">char</span> <span class="n">ProductName_Get_Buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+	<span class="n">DWORD</span> <span class="n">dBufSize</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span>
+	<span class="n">WideCharToMultiByte</span><span class="p">(</span><span class="n">CP_UTF8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">LPCWCH</span><span class="p">)</span><span class="n">ProductName_Get</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ProductName_Get_Buf</span><span class="p">,</span> <span class="n">dBufSize</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span><span class="c1">//转换后的结果保存在ProductName_Get_Buf中
+</span>	<span class="n">m_ProductName</span> <span class="o">=</span> <span class="n">CString</span><span class="p">(</span><span class="n">ProductName_Get_Buf</span><span class="p">);</span><span class="c1">//显示在界面上
+</span>    
+        <span class="n">UpdateData</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>	<span class="c1">//将值赋给控件
+</span>
+	<span class="k">delete</span><span class="p">[]</span> <span class="n">ProductName_Get</span><span class="p">;</span>
+
+	<span class="o">::</span><span class="n">RegCloseKey</span><span class="p">(</span><span class="n">hKEY</span><span class="p">);</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="宽字节转换">宽字节转换</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>`WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，于此对应的是`MultiByteToWideChar`
+
+`ASCII`：7位，1 byte。
+
+`Unicode`：16位，2 byte，所以称为宽字节，将7位的ASCII扩充为16位(0来填充)。
+</code></pre>
+</div>
+
+<p>书上的源码没有使用这个函数进行转换，所以导致我的输出只有字符串的第一个字符，例如本来应该输出<code class="highlighter-rouge">Windows 10 Enterprise 2015 LTSB</code>,但只输出了<code class="highlighter-rouge">W</code>。</p>
+
+<p>后来经彬彬大神的点拨，让我对<code class="highlighter-rouge">ProductName_Get</code>的字符串进行逐个输出，然后看到了<code class="highlighter-rouge">\0</code>的bug。</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> 
+    <span class="n">putchar</span><span class="p">(</span><span class="n">ProductName_Get</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> </code></pre></figure>
+
+<p>可以看到，ProductName_Get[0]=’W’,ProductName_Get[1]=’\0’,直接把字符串截断了</p>
+
+<p><img src="/images/posts/2017/09/MFCRegData//6.png" alt="" /></p>
+
+
+  </section>
+</article>
+
+<section class="post-comments">
+
+  
+    <div class="ds-thread" data-thread-key="/2017/09/MFCRegData/" data-title="MFC查询注册表数据" data-url="http://localhost:4000/2017/09/MFCRegData/"></div>
+
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"Snowty"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Snowty" title="@Snowty 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:xsnowting@gmail.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+          </ul>
+        </nav>
+
+        </div>
+
+        <div class = "footer_div">  
+           <p class="copyright text-muted" align="center">
+            Copyright &copy; 筱筱汀的碎碎念 2017 Powerde by <a href="http://jekyll.com.cn/">jekyll</a>。
+            
+            </p>
+        	<div align="right">
+    			<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+          <!-- 访问统计 
+          <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+          </span>
+          -->
+
+        </div>
+        <div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
