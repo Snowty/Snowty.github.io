@@ -222,11 +222,11 @@ sLanguage:CHS
 
 <h3 id="mfc查询注册表信息">MFC查询注册表信息</h3>
 
-<p>此处代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。</p>
+<p>代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。</p>
 
 <p>整体来说代码很简单，通俗易懂。但是其间出现了宽字节<code class="highlighter-rouge">\0</code>截断的问题，真心是折腾了好久🙄</p>
 
-<p>此处使用<code class="highlighter-rouge">RegOpenKeyEx</code>打开注册表，使用<code class="highlighter-rouge">RegGetValue</code>进行查询，详细用法可以查看<a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx">MSDN</a></p>
+<p>使用<code class="highlighter-rouge">RegGetValue</code>进行查询，详细用法可以查看<a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx">MSDN</a></p>
 
 <figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">LONG</span> <span class="n">WINAPI</span> <span class="n">RegGetValue</span><span class="p">(</span>
   <span class="n">_In_</span>        <span class="n">HKEY</span>    <span class="n">hkey</span><span class="p">,</span>
@@ -238,22 +238,13 @@ sLanguage:CHS
   <span class="n">_Inout_opt_</span> <span class="n">LPDWORD</span> <span class="n">pcbData</span>
 <span class="p">);</span></code></pre></figure>
 
-<p>此处以查询ProductName为例，全部工程代码见<a href="https://github.com/Snowty/MFC_RegData">Git</a>。</p>
+<p>以查询ProductName为例，全部工程代码见<a href="https://github.com/Snowty/MFC_RegData">Git</a>。</p>
 
 <figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">CRegDataDlg</span><span class="o">::</span><span class="n">OnClickedQuery</span><span class="p">()</span>
 <span class="p">{</span>
 	<span class="c1">// TODO: Add your control notification handler code here
-</span>	<span class="c1">//--------------------------------查询系统版本信息---------------------------------------------
-</span>	<span class="n">HKEY</span> <span class="n">hKEY</span><span class="p">;</span>	<span class="c1">//handler
-</span>	<span class="n">LPCTSTR</span> <span class="n">banner_Set</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">"Software</span><span class="se">\\</span><span class="s">Microsoft</span><span class="se">\\</span><span class="s">Windows NT</span><span class="se">\\</span><span class="s">CurrentVersion"</span><span class="p">);</span> <span class="c1">//子健目录
-</span>	<span class="kt">long</span> <span class="n">retopen</span> <span class="o">=</span> <span class="p">(</span><span class="o">::</span><span class="n">RegOpenKeyEx</span><span class="p">(</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span><span class="n">banner_Set</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">KEY_READ</span><span class="p">,</span><span class="o">&amp;</span><span class="n">hKEY</span><span class="p">));</span>	<span class="c1">//打开系统版本注册表
-</span>	<span class="k">if</span><span class="p">(</span><span class="n">retopen</span><span class="o">!=</span><span class="n">ERROR_SUCCESS</span><span class="p">)</span>
-	<span class="p">{</span>
-		<span class="n">MessageBox</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">"ERROR:Can not open the hKEY!"</span><span class="p">));</span>
-		<span class="k">return</span><span class="p">;</span>
-	<span class="p">}</span>
-	
-	<span class="c1">//查询ProductName
+</span>	<span class="c1">//--------------------------------查询系统版本信息--------------------------
+</span>	<span class="c1">//查询ProductName
 </span>	<span class="n">DWORD</span> <span class="n">cdData</span><span class="o">=</span><span class="mi">80</span><span class="p">;</span>	<span class="c1">//预设置的数据长度
 </span>	<span class="n">LPDWORD</span> <span class="n">lp</span><span class="o">=&amp;</span><span class="n">cdData</span><span class="p">;</span>
 	<span class="n">LPBYTE</span> <span class="n">ProductName_Get</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BYTE</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>	<span class="c1">//保存查询的数据
@@ -269,13 +260,42 @@ sLanguage:CHS
 </span>
 	<span class="k">delete</span><span class="p">[]</span> <span class="n">ProductName_Get</span><span class="p">;</span>
 
-	<span class="o">::</span><span class="n">RegCloseKey</span><span class="p">(</span><span class="n">hKEY</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
 
+<p>如果使用<code class="highlighter-rouge">RegQueryValueEx</code>进行查询，则需要先使用<code class="highlighter-rouge">RegOpenKeyEx</code>打开注册表：</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">CRegDataDlg</span><span class="o">::</span><span class="n">OnClickedQuery</span><span class="p">()</span>
+<span class="p">{</span>
+        <span class="n">HKEY</span> <span class="n">hKEY</span><span class="p">;</span>	<span class="c1">//handler
+</span>	<span class="n">LPCTSTR</span> <span class="n">banner_Set</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">"Software</span><span class="se">\\</span><span class="s">Microsoft</span><span class="se">\\</span><span class="s">Windows NT</span><span class="se">\\</span><span class="s">CurrentVersion"</span><span class="p">);</span> <span class="c1">//子健目录
+</span>	<span class="kt">long</span> <span class="n">retopen</span> <span class="o">=</span> <span class="p">(</span><span class="o">::</span><span class="n">RegOpenKeyEx</span><span class="p">(</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span><span class="n">banner_Set</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">KEY_READ</span><span class="p">,</span><span class="o">&amp;</span><span class="n">hKEY</span><span class="p">));</span>	<span class="c1">//打开系统版本注册表
+</span>	<span class="k">if</span><span class="p">(</span><span class="n">retopen</span><span class="o">!=</span><span class="n">ERROR_SUCCESS</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">MessageBox</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">"ERROR:Can not open the hKEY!"</span><span class="p">));</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+        <span class="c1">//查询RegisteredOwner
+</span>	<span class="n">LPBYTE</span> <span class="n">RegisteredOwner_Get</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BYTE</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+	<span class="n">DWORD</span> <span class="n">type_2</span> <span class="o">=</span> <span class="n">REG_SZ</span><span class="p">;</span>
+	<span class="n">DWORD</span> <span class="n">cdData_2</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">ret2</span> <span class="o">=</span> <span class="o">::</span><span class="n">RegQueryValueEx</span><span class="p">(</span><span class="n">hKEY</span><span class="p">,</span><span class="n">_T</span><span class="p">(</span><span class="s">"RegisteredOwner"</span><span class="p">),</span><span class="nb">NULL</span><span class="p">,</span><span class="o">&amp;</span><span class="n">type_2</span><span class="p">,</span><span class="n">RegisteredOwner_Get</span><span class="p">,</span><span class="o">&amp;</span><span class="n">cdData_2</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">ret2</span><span class="o">!=</span><span class="n">ERROR_SUCCESS</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">MessageBox</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">"Can not query the Reg"</span><span class="p">));</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">char</span> <span class="n">dBuf2</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+	<span class="n">DWORD</span> <span class="n">dBufSize2</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span>
+	<span class="n">WideCharToMultiByte</span><span class="p">(</span><span class="n">CP_UTF8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">LPCWCH</span><span class="p">)</span><span class="n">RegisteredOwner_Get</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dBuf2</span><span class="p">,</span> <span class="n">dBufSize2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
+	<span class="n">m_RegisteredOwner</span> <span class="o">=</span> <span class="n">CString</span><span class="p">(</span><span class="n">dBuf2</span><span class="p">);</span>
+        <span class="k">delete</span><span class="p">[]</span> <span class="n">RegisteredOwner_Get</span><span class="p">;</span>
+	<span class="o">::</span><span class="n">RegCloseKey</span><span class="p">(</span><span class="n">hKEY</span><span class="p">);</span>
 <span class="p">}</span></code></pre></figure>
 
 <h3 id="宽字节转换">宽字节转换</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>`WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，于此对应的是`MultiByteToWideChar`
+<div class="highlighter-rouge"><pre class="highlight"><code>`WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，与此对应的是`MultiByteToWideChar`
 
 `ASCII`：7位，1 byte。
 

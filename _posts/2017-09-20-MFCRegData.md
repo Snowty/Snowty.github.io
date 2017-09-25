@@ -65,7 +65,7 @@ tags: Coding MFC Sec
 
 整体来说代码很简单，通俗易懂。但是其间出现了宽字节`\0`截断的问题，真心是折腾了好久🙄
 
-此处使用`RegOpenKeyEx`打开注册表，使用`RegGetValue`进行查询，详细用法可以查看[MSDN](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx)
+使用`RegGetValue`进行查询，详细用法可以查看[MSDN](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx)
 
 {% highlight cpp%}
 LONG WINAPI RegGetValue(
@@ -85,16 +85,7 @@ LONG WINAPI RegGetValue(
 void CRegDataDlg::OnClickedQuery()
 {
 	// TODO: Add your control notification handler code here
-	//--------------------------------查询系统版本信息---------------------------------------------
-	HKEY hKEY;	//handler
-	LPCTSTR banner_Set = _T("Software\\Microsoft\\Windows NT\\CurrentVersion"); //子健目录
-	long retopen = (::RegOpenKeyEx(HKEY_LOCAL_MACHINE,banner_Set,0,KEY_READ,&hKEY));	//打开系统版本注册表
-	if(retopen!=ERROR_SUCCESS)
-	{
-		MessageBox(_T("ERROR:Can not open the hKEY!"));
-		return;
-	}
-	
+	//--------------------------------查询系统版本信息--------------------------
 	//查询ProductName
 	DWORD cdData=80;	//预设置的数据长度
 	LPDWORD lp=&cdData;
@@ -111,11 +102,40 @@ void CRegDataDlg::OnClickedQuery()
 
 	delete[] ProductName_Get;
 
-	::RegCloseKey(hKEY);
-
 }
 {% endhighlight %}
 
+如果使用`RegQueryValueEx`进行查询，则需要先使用`RegOpenKeyEx`打开注册表：
+{% highlight cpp %}
+void CRegDataDlg::OnClickedQuery()
+{
+        HKEY hKEY;	//handler
+	LPCTSTR banner_Set = _T("Software\\Microsoft\\Windows NT\\CurrentVersion"); //子健目录
+	long retopen = (::RegOpenKeyEx(HKEY_LOCAL_MACHINE,banner_Set,0,KEY_READ,&hKEY));	//打开系统版本注册表
+	if(retopen!=ERROR_SUCCESS)
+	{
+		MessageBox(_T("ERROR:Can not open the hKEY!"));
+		return;
+	}
+
+        //查询RegisteredOwner
+	LPBYTE RegisteredOwner_Get = new BYTE[80];
+	DWORD type_2 = REG_SZ;
+	DWORD cdData_2 = 80;
+	long ret2 = ::RegQueryValueEx(hKEY,_T("RegisteredOwner"),NULL,&type_2,RegisteredOwner_Get,&cdData_2);
+	if(ret2!=ERROR_SUCCESS)
+	{
+		MessageBox(_T("Can not query the Reg"));
+		return;
+	}
+	char dBuf2[100];
+	DWORD dBufSize2 = 80;
+	WideCharToMultiByte(CP_UTF8, 0, (LPCWCH)RegisteredOwner_Get, -1, dBuf2, dBufSize2, NULL, FALSE);
+	m_RegisteredOwner = CString(dBuf2);
+        delete[] RegisteredOwner_Get;
+	::RegCloseKey(hKEY);
+}
+{% endhighlight %}
 ### 宽字节转换
 
     `WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，与此对应的是`MultiByteToWideChar`
