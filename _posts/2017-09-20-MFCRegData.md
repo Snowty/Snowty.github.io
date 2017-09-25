@@ -61,7 +61,7 @@ tags: Coding MFC Sec
 
 ### MFC查询注册表信息
 
-此处代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。
+代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。
 
 整体来说代码很简单，通俗易懂。但是其间出现了宽字节`\0`截断的问题，真心是折腾了好久🙄
 
@@ -79,7 +79,7 @@ LONG WINAPI RegGetValue(
 );
 {% endhighlight %}
 
-此处以查询ProductName为例，全部工程代码见[Git](https://github.com/Snowty/MFC_RegData)。
+以查询ProductName为例，全部工程代码见[Git](https://github.com/Snowty/MFC_RegData)。
 
 {% highlight cpp %}
 void CRegDataDlg::OnClickedQuery()
@@ -118,7 +118,7 @@ void CRegDataDlg::OnClickedQuery()
 
 ### 宽字节转换
 
-    `WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，于此对应的是`MultiByteToWideChar`
+    `WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，与此对应的是`MultiByteToWideChar`
 
     `ASCII`：7位，1 byte。
 
