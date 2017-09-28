@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>筱筱汀的碎碎念</title>
-  <meta name="description" content="欢迎聆听我的碎碎念😯">
+  <title>unsigned int 与 signed int</title>
+  <meta name="description" content="unsigned intunsigned int : 无符号数，0~2^n - 1。遇到负数，则以补码形式存储。">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="筱筱汀的碎碎念">
-  <meta name="twitter:description" content="欢迎聆听我的碎碎念😯">
+  <meta name="twitter:title" content="unsigned int 与 signed int">
+  <meta name="twitter:description" content="unsigned intunsigned int : 无符号数，0~2^n - 1。遇到负数，则以补码形式存储。">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="筱筱汀的碎碎念">
-  <meta property="og:description" content="欢迎聆听我的碎碎念😯">
+  <meta property="og:title" content="unsigned int 与 signed int">
+  <meta property="og:description" content="unsigned intunsigned int : 无符号数，0~2^n - 1。遇到负数，则以补码形式存储。">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/tags/">
+  <link rel="canonical" href="http://localhost:4000/2017/09/unsigned/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,226 +148,91 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
+    <h1 class="post-title">unsigned int 与 signed int</h1>
     <div class="post-meta">
-      <time datetime="" itemprop="datePublished" class="post-meta__date date"></time>
-      <span class="post-meta__tags tags"></span>
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2017-09-28 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-09-28</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
     </div>
-    <h1 class="post-title"></h1>
   </header>
 
   <section class="post">
-    
+    <h3 id="unsigned-int">unsigned int</h3>
+<p><code class="highlighter-rouge">unsigned int</code> : 无符号数，0~2^n - 1。遇到负数，则以<strong>补码</strong>形式存储。</p>
 
-<ul class="tag_box inline">
-    
-  
+<p><code class="highlighter-rouge">(signed) int</code> : 有符号数，-2^(n-1)~2^(n-1) - 1</p>
 
+<h3 id="简单的循环问题">简单的循环问题</h3>
 
-  
-     
-    	<li><a href="#碎碎念-ref">碎碎念 <span>2</span></a></li>
-     
-    	<li><a href="#日常-ref">日常 <span>1</span></a></li>
-     
-    	<li><a href="#Coding-ref">Coding <span>2</span></a></li>
-     
-    	<li><a href="#MFC-ref">MFC <span>1</span></a></li>
-     
-    	<li><a href="#Java-ref">Java <span>1</span></a></li>
-     
-    	<li><a href="#计算机体系结构-ref">计算机体系结构 <span>1</span></a></li>
-     
-    	<li><a href="#Sec-ref">Sec <span>1</span></a></li>
-    
-  
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">signed</span> <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>   <span class="c1">//有符号数
+</span>    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=-</span><span class="mi">10</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
 
+<p>此处的i&lt;0.</p>
 
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>   <span class="c1">//无符号数，此处将i初始化为负数，以补码形式存储，在计算机中是一个很大的数
+</span>    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=-</span><span class="mi">10</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>  
+    <span class="p">{</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
 
-</ul>
+<p>此处的i&gt;0.</p>
 
-<div class = "card">
- 
+<h3 id="溢出问题">溢出问题</h3>
 
-  <h3 id="碎碎念-ref">碎碎念</h3>
-  <ul>
-      
-    
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cm">/* Kernel memory region holding user-accessible data */</span>
+<span class="cp">#define KSIZE 1024
+</span><span class="kt">char</span> <span class="n">kbuf</span><span class="p">[</span><span class="n">KSIZE</span><span class="p">];</span>
 
+<span class="cm">/* Copy at most maxlen bytes from kernel region to user buffer */</span>
+<span class="kt">int</span> <span class="nf">copy_from_kernel</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">user_dest</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxlen</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* Byte count len is minimum of buffer size and maxlen */</span>
+    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">KSIZE</span> <span class="o">&lt;</span> <span class="n">maxlen</span> <span class="o">?</span> <span class="n">KSIZE</span> <span class="o">:</span> <span class="n">maxlen</span><span class="p">;</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">user_dest</span><span class="p">,</span> <span class="n">kbuf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">len</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
 
-  
-    
-      
-      	
-      	<li><a href="/2017/05/daily/">5月上旬的工作小结</a></li>
-      	
-      
-    
-  
-    
-      
-      	
-      	<li><a href="/2017/04/myFirstBlog/">我的第一篇博客</a></li>
-      	
-      
-    
-  
+<p>此处的<strong>len</strong>选择 <code class="highlighter-rouge">KSIZE</code>与<code class="highlighter-rouge">maxlen</code>中长度较短的。</p>
 
+<p>但是如果此时<code class="highlighter-rouge">maxlen</code>为<strong>负数</strong>，以补码形式存储，即为一个很大的数。</p>
 
+<p>再结合<code class="highlighter-rouge">memcpy</code>会造成缓冲区溢出。</p>
 
-  </ul>
-
-
- 
-
-  <h3 id="日常-ref">日常</h3>
-  <ul>
-      
-    
-
-
-  
-    
-      
-      	
-      	<li><a href="/2017/05/daily/">5月上旬的工作小结</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
- 
-
-  <h3 id="Coding-ref">Coding</h3>
-  <ul>
-      
-    
-
-
-  
-    
-      
-      	
-      	<li><a href="/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/">Java入门</a></li>
-      	
-      
-    
-  
-    
-      
-      	
-      	<li><a href="/2017/09/MFCRegData/">MFC查询注册表数据</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
- 
-
-  <h3 id="MFC-ref">MFC</h3>
-  <ul>
-      
-    
-
-
-  
-    
-      
-      	
-      	<li><a href="/2017/09/MFCRegData/">MFC查询注册表数据</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
- 
-
-  <h3 id="Java-ref">Java</h3>
-  <ul>
-      
-    
-
-
-  
-    
-      
-      	
-      	<li><a href="/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/">Java入门</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
- 
-
-  <h3 id="计算机体系结构-ref">计算机体系结构</h3>
-  <ul>
-      
-    
-
-
-  
-    
-      
-      	
-      	<li><a href="/2017/09/unsigned/">unsigned int 与 signed int</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
- 
-
-  <h3 id="Sec-ref">Sec</h3>
-  <ul>
-      
-    
-
-
-  
-    
-      
-      	
-      	<li><a href="/2017/09/unsigned/">unsigned int 与 signed int</a></li>
-      	
-      
-    
-  
-
-
-
-  </ul>
-
-
-
-</div>
 
   </section>
 </article>
+
+<section class="post-comments">
+
+  
+    <div class="ds-thread" data-thread-key="/2017/09/unsigned/" data-title="unsigned int 与 signed int" data-url="http://localhost:4000/2017/09/unsigned/"></div>
+
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"Snowty"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+  
+  
+  
+  
+</section>
+
 
             <section class="footer">
     <footer>

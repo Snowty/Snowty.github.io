@@ -2,7 +2,7 @@
 layout: post
 title: MFC查询注册表数据
 date: 2017-09-20 
-tags: Coding MFC Sec
+tags: Coding MFC
 ---
 
 ### 相关注册表数据
