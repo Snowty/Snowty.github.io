@@ -5,9 +5,39 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 28 Sep 2017 17:25:51 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Sep 2017 17:25:51 +0800</lastBuildDate>
+    <pubDate>Tue, 02 Jan 2018 20:57:26 +0800</pubDate>
+    <lastBuildDate>Tue, 02 Jan 2018 20:57:26 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>2018开年的碎碎念</title>
+        <description>&lt;h3 id=&quot;关于此博客的闲置与启用&quot;&gt;关于此博客的闲置与启用&lt;/h3&gt;
+&lt;p&gt;问我闲置这么久的原因 ? 还不是因为我懒🤣…并且觉得markdown的图片大小很难控制。&lt;/p&gt;
+
+&lt;p&gt;再次启用是因为今天清理Gmail邮箱的时候，看到有个妹子在17年7月份的时候，给我发邮件请教博客搭建相关的问题。&lt;/p&gt;
+
+&lt;p&gt;嘤嘤嘤，我的Gmail塞满了twitter的垃圾邮件，并且觉得没人联系我，也懒得check，好愧疚。&lt;/p&gt;
+
+&lt;p&gt;另外元旦假期的时候挖到了三个CVE，两个XSS，一个图片上传。准备把一些挖洞详情写在这里吧，总觉得在CSDN还有博客园写这些不太好。&lt;/p&gt;
+
+&lt;h3 id=&quot;2018年的一些展望&quot;&gt;2018年的一些展望&lt;/h3&gt;
+&lt;p&gt;在深圳把毕设做完，五月份可以安心回北京找实习，想去3BAT😊&lt;/p&gt;
+
+&lt;p&gt;希望以后可以从事安全+AI相关的工作吧，毕竟自己入门了这么久安全，研一也选了机器学习相关课程，现在的毕设机缘巧合下做了深度学习。&lt;/p&gt;
+
+&lt;p&gt;当然重中之重就是要多挖漏洞，感觉多看漏洞详情多去复现漏洞还是很有用的。&lt;/p&gt;
+
+&lt;p&gt;还有就是跑步健身，去年的体检查出来不少不是很紧要的小病，还是得重视起来吧，早睡早起😋~&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 02 Jan 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/01/2018Boom/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/2018Boom/</guid>
+        
+        <category>碎碎念</category>
+        
+        
+      </item>
     
       <item>
         <title>unsigned int 与 signed int</title>
@@ -63,8 +93,6 @@
         <pubDate>Thu, 28 Sep 2017 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2017/09/unsigned/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/09/unsigned/</guid>
-        
-        <category>计算机体系结构</category>
         
         <category>Sec</category>
         
@@ -137,8 +165,6 @@ Snowty
         <guid isPermaLink="true">http://localhost:4000/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/</guid>
         
         <category>Coding</category>
-        
-        <category>Java</category>
         
         
       </item>
@@ -306,8 +332,6 @@ sLanguage:CHS
         
         <category>Coding</category>
         
-        <category>MFC</category>
-        
         
       </item>
     
@@ -362,8 +386,6 @@ sLanguage:CHS
         <guid isPermaLink="true">http://localhost:4000/2017/05/daily/</guid>
         
         <category>碎碎念</category>
-        
-        <category>日常</category>
         
         
       </item>

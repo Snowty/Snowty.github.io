@@ -1422,3 +1422,6 @@ nav a {
   transform: translateY(-3px);
 }
 /*导航按钮-end*/
+.post-container img[alt~="@2x"] {
+  zoom: 50%;
+}
