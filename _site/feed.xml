@@ -5,9 +5,57 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 02 Jan 2018 20:57:26 +0800</pubDate>
-    <lastBuildDate>Tue, 02 Jan 2018 20:57:26 +0800</lastBuildDate>
+    <pubDate>Tue, 02 Jan 2018 22:06:10 +0800</pubDate>
+    <lastBuildDate>Tue, 02 Jan 2018 22:06:10 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>这人生首三个弱弱的CVE</title>
+        <description>&lt;h3 id=&quot;cve-2017-17971&quot;&gt;&lt;a href=&quot;https://www.cvedetails.com/cve/CVE-2017-17971/&quot;&gt;CVE-2017-17971&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;一直觉得是大厂的通用型漏洞，非常高大上的那种。&lt;/p&gt;
+
+&lt;p&gt;年末的前两天，狗科在推特上发现了一个做安全的小伙子，发了自己的第一个CVE截图。&lt;/p&gt;
+
+&lt;p&gt;看了下漏洞详情，发现就是个在忘记密码处的很简单的XSS，几乎不用绕过。&lt;/p&gt;
+
+&lt;p&gt;于是我也尝试在&lt;a href=&quot;https://www.cvedetails.com/&quot;&gt;CVE details&lt;/a&gt;网站上找一些已经有CVE编号的CRM。&lt;/p&gt;
+
+&lt;p&gt;Dolibarr CRM ,出于尝试的心态在忘记密码处试了xss语句，报错提示是出现了注入的语句，并且有对应的文件名。&lt;/p&gt;
+
+&lt;p&gt;下载了源码，发现只对部分xss语句进行的过滤，&lt;code class=&quot;highlighter-rouge&quot;&gt;onclick&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;onscroll&lt;/code&gt;并不在黑名单里，然后就是存储型XSS。&lt;/p&gt;
+
+&lt;p&gt;第一次提交CVE，Discover我以为是填写个人或者组织(我想成了二分类问题，一定是最近机器学习看多了…)直接填上了individual…Reference我以为是参考文献…后来在github提交了issue，描述了漏洞详情。&lt;/p&gt;
+
+&lt;h3 id=&quot;cve-2017-18004&quot;&gt;&lt;a href=&quot;https://www.cvedetails.com/cve/CVE-2017-18004/&quot;&gt;CVE-2017-18004&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;zurmo这个之前有过挺多个xss的cve，感觉已经把过滤做的很好了，也没报太大希望。&lt;/p&gt;
+
+&lt;p&gt;吃午饭前开了burp扫描，睡完午觉回来发现扫出来xss了，但是只是回显在js代码里面，并没有执行。&lt;/p&gt;
+
+&lt;p&gt;后来狗科帮我闭合了下，成功弹框。&lt;/p&gt;
+
+&lt;h3 id=&quot;cve-2018-3814&quot;&gt;&lt;a href=&quot;https://www.cvedetails.com/cve/CVE-2018-3814/&quot;&gt;CVE-2018-3814&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;CraftCMS纯粹是我想看看有啥小众的CMS漏洞有CVE，发现可以试用Demo，就申请了看看。&lt;/p&gt;
+
+&lt;p&gt;本着有上传就必有漏洞的精神，试了下改文件名后缀。&lt;/p&gt;
+
+&lt;p&gt;一开始不行，后来无意中发现如果上传两张同样的图片的话，第二张同名的图片可以改成”.php”后缀。&lt;/p&gt;
+
+&lt;p&gt;打开php文件，发现可以解析，但是里面的shell语句被GD库过滤没了。&lt;/p&gt;
+
+&lt;p&gt;想来研一的时候做过一个CMSeasy getshell的漏洞复现，里面就有绕过GD库的说明。&lt;/p&gt;
+
+&lt;p&gt;也怪自己当初没有搞得特别清楚，浪费了一点时间。再去仔细看别人的说明，发现得多试几张图片才行。&lt;/p&gt;
+
+&lt;p&gt;成功出现&lt;code class=&quot;highlighter-rouge&quot;&gt;phpinfo&lt;/code&gt;的图片的时候，我的手都是抖的🤣，算是第一次自己挖出来一个中危漏洞吧&lt;/p&gt;
+</description>
+        <pubDate>Tue, 02 Jan 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/01/myfirstCVE/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/myfirstCVE/</guid>
+        
+        <category>Sec</category>
+        
+        
+      </item>
     
       <item>
         <title>2018开年的碎碎念</title>
@@ -23,7 +71,7 @@
 &lt;h3 id=&quot;2018年的一些展望&quot;&gt;2018年的一些展望&lt;/h3&gt;
 &lt;p&gt;在深圳把毕设做完，五月份可以安心回北京找实习，想去3BAT😊&lt;/p&gt;
 
-&lt;p&gt;希望以后可以从事安全+AI相关的工作吧，毕竟自己入门了这么久安全，研一也选了机器学习相关课程，现在的毕设机缘巧合下做了深度学习。&lt;/p&gt;
+&lt;p&gt;希望以后可以从事&lt;code class=&quot;highlighter-rouge&quot;&gt;安全+AI&lt;/code&gt;相关的工作吧，毕竟自己入门了这么久安全，研一也选了机器学习相关课程，现在的毕设机缘巧合下做了深度学习。&lt;/p&gt;
 
 &lt;p&gt;当然重中之重就是要多挖漏洞，感觉多看漏洞详情多去复现漏洞还是很有用的。&lt;/p&gt;
 
