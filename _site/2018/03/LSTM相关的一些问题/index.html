@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>2018开年的碎碎念</title>
-  <meta name="description" content="关于此博客的闲置与启用问我闲置这么久的原因 ? 还不是因为我懒🤣…并且觉得markdown的图片大小很难控制。">
+  <title>LSTM相关的一些问题</title>
+  <meta name="description" content="前言">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="2018开年的碎碎念">
-  <meta name="twitter:description" content="关于此博客的闲置与启用问我闲置这么久的原因 ? 还不是因为我懒🤣…并且觉得markdown的图片大小很难控制。">
+  <meta name="twitter:title" content="LSTM相关的一些问题">
+  <meta name="twitter:description" content="前言">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="2018开年的碎碎念">
-  <meta property="og:description" content="关于此博客的闲置与启用问我闲置这么久的原因 ? 还不是因为我懒🤣…并且觉得markdown的图片大小很难控制。">
+  <meta property="og:title" content="LSTM相关的一些问题">
+  <meta property="og:description" content="前言">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2018/01/2018Boom/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,10 +148,10 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">2018开年的碎碎念</h1>
+    <h1 class="post-title">LSTM相关的一些问题</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
-      <time datetime="2018-01-02 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-01-02</time>  
+      <time datetime="2018-03-01 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-01</time>  
          
       <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
     </p>
@@ -159,33 +159,110 @@
   </header>
 
   <section class="post">
-    <h3 id="关于此博客的闲置与启用">关于此博客的闲置与启用</h3>
-<p>问我闲置这么久的原因 ? 还不是因为我懒🤣…并且觉得markdown的图片大小很难控制。</p>
+    <h3 id="前言">前言</h3>
 
-<p>再次启用是因为今天清理Gmail邮箱的时候，看到有个妹子在17年7月份的时候，给我发邮件请教博客搭建相关的问题。</p>
+<p>最近在看深度学习相关的东西，就把一些自己想了很久，网上的答案也不是很详细的东西记录下来，可能会有部分错误，会不断改进哒。</p>
 
-<p>嘤嘤嘤，我的Gmail塞满了twitter的垃圾邮件，并且觉得没人联系我，也懒得check，好愧疚。</p>
+<h3 id="rnn-与-lstm-相关基础">RNN 与 LSTM 相关基础</h3>
 
-<p>另外元旦假期的时候挖到了三个CVE，两个XSS，一个图片上传。准备把一些挖洞详情写在这里吧，总觉得在CSDN还有博客园写这些不太好。</p>
+<p>网上看到的RNN的网络图如下：</p>
 
-<h3 id="2018年的一些展望">2018年的一些展望</h3>
-<p>在深圳把毕设做完，五月份可以安心回北京找实习，想去3BAT😊</p>
+<p><img src="/images/posts/2018/03/LSTM//RNN-shorttermdepdencies.png" height="280" width="600" /></p>
 
-<p>希望以后可以从事<code class="highlighter-rouge">安全+AI</code>相关的工作吧，毕竟自己入门了这么久安全，研一也选了机器学习相关课程，现在的毕设机缘巧合下做了深度学习。</p>
+<p>但是也可以将RNN的网络图画成如下的模式：</p>
 
-<p>当然重中之重就是要多挖漏洞，感觉多看漏洞详情多去复现漏洞还是很有用的。</p>
+<p><img src="/images/posts/2018/03/LSTM//LSTM3-SimpleRNN.png" height="280" width="600" /></p>
 
-<p>还有就是跑步健身，去年的体检查出来不少不是很紧要的小病，还是得重视起来吧，早睡早起😋~</p>
+<p>是不是很眼熟！对，LSTM只是在RNN的基础上进行了扩展，添加了很多gate来控制之前的记忆，以解决RNN可能引起的梯度弥散与梯度爆炸(这里可以参考<a href="https://zhuanlan.zhihu.com/p/25518711">YJango的循环神经网络——实现LSTM</a>)的问题。</p>
 
-<h3 id="知道图片怎么调整大小啦更新于20180303-">知道图片怎么调整大小啦！（更新于2018.03.03 ）</h3>
+<p>传统的LSTM的网络图看上去特别复杂:</p>
 
-<p>我之前都是这么插入图片的，<code class="highlighter-rouge">![](/images/readme//index.png) </code></p>
+<p><img src="/images/posts/2018/03/LSTM//LSTM3-chain.png" height="280" width="600" /></p>
 
-<p><img src="/images/readme//index.png" alt="" /></p>
+<p>但是只要清楚一点，就是里面那么多的gate只是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。具体可以参考：</p>
 
-<p>然后酱紫插入图片就可以控制长宽啦，<code class="highlighter-rouge">&lt;img src="/images/readme//index.png" height="400" width="700"&gt; </code></p>
+<p><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p>
 
-<p><img src="/images/readme//index.png" height="400" width="700" /></p>
+<p><a href="https://zhuanlan.zhihu.com/p/25518711">YJango的循环神经网络——实现LSTM</a></p>
+
+<p>因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~</p>
+
+<h3 id="lstm的输入与输出">LSTM的输入与输出</h3>
+
+<p>首先还是看下RNN的输入与输出吧(摘自<a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks</a>)：</p>
+
+<p><img src="/images/posts/2018/03/LSTM/charseq.jpeg" height="400" width="500" /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>An example RNN with 4-dimensional input and output layers, and a hidden layer of 3 units (neurons). 
+This diagram shows the activations in the forward pass when the RNN is fed the characters "hell" as input. 
+The output layer contains confidences the RNN assigns for the next character (vocabulary is "h,e,l,o"); 
+We want the green numbers to be high and red numbers to be low.
+</code></pre>
+</div>
+
+<p>将”hello”这个单词的每次字母进行One-Hot编码，每输入一个字母预测下一个输出的字母是什么。例如，输入h对应输出e，输入e对应输出l，而输入l则可能对应l或者o。此处对应4维的输入与输出层，一个有着三个神经元的隐藏层。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">batch_size</th>
+      <th style="text-align: center">input_size</th>
+      <th style="text-align: center">time_steps</th>
+      <th style="text-align: center">num_units</th>
+      <th style="text-align: center">layer_num</th>
+      <th style="text-align: center">class_num</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>再看下这个知乎回答上的这个图,可能会更加清晰一些:
+<img src="/images/posts/2018/03/LSTM/知乎RNN图.jpg" height="400" width="600" /></p>
+
+<p><a href="https://www.zhihu.com/question/41949741/answer/318771336">作者：Scofield</a></p>
+
+<p>所以，LSTM的输入与输出是怎样的呢？可以完全类比RNN的输入与输出。</p>
+
+<p><img src="/images/posts/2018/03/LSTM/myLSTM.jpg" height="600" width="850" /></p>
+
+<p>这张图我手工画的，可能有不对的地方，主要参考了<a href="https://jasdeep06.github.io/posts/Understanding-LSTM-in-Tensorflow-MNIST/">Understanding LSTM in Tensorflow(MNIST dataset)</a></p>
+
+<p>困惑了我最久的是num_units到底是什么，然后<a href="https://www.zhihu.com/question/41949741/answer/309529532">知乎</a>这个回答好详细！</p>
+
+<p><img src="/images/posts/2018/03/LSTM/singleLSTMcell.png" height="300" width="500" /></p>
+
+<p>图中四个黄色的框框就是传统的前馈神经网络，而num_units就是这个前馈神经网络里面的隐藏节点啊啊啊啊。</p>
+
+<h3 id="关于张量tensor的一些疑惑">关于张量(tensor)的一些疑惑</h3>
+
+<p>神经网络的处理单位均为<code class="highlighter-rouge">向量</code>，所以<code class="highlighter-rouge">张量</code>是什么？</p>
+
+<p>主要参考这篇文章<a href="https://zhuanlan.zhihu.com/p/25268020">数学不行还学AI-第4话-图解张量</a>,写的通俗易懂，我就不摘抄啦噜。</p>
+
+<p><img src="/images/posts/2018/03/LSTM/tensor.jpg" height="500" width="700" /></p>
+
+<p>常见的张量有：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>3D = 时间序列   (time, frequency, channel)
+
+4D = 图像      (sample_size, width, height, color_depth)
+
+5D = 视频      (sample_size, frames, width, height, color_depth))
+</code></pre>
+</div>
+
+<p>总而言之，张量想要多少维就多少维，就看你的需求与设计啦。</p>
+
+<h3 id="暂时就写这么多吧想到了再补充">暂时就写这么多吧，想到了再补充</h3>
 
 
 
@@ -195,7 +272,7 @@
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2018/01/2018Boom/" data-title="2018开年的碎碎念" data-url="http://localhost:4000/2018/01/2018Boom/"></div>
+    <div class="ds-thread" data-thread-key="/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" data-title="LSTM相关的一些问题" data-url="http://localhost:4000/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"></div>
 
     <script type="text/javascript">
         var duoshuoQuery = {short_name:"Snowty"};

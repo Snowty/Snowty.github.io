@@ -5,9 +5,163 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 02 Jan 2018 22:06:10 +0800</pubDate>
-    <lastBuildDate>Tue, 02 Jan 2018 22:06:10 +0800</lastBuildDate>
+    <pubDate>Sat, 03 Mar 2018 16:07:06 +0800</pubDate>
+    <lastBuildDate>Sat, 03 Mar 2018 16:07:06 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>LSTM相关的一些问题</title>
+        <description>&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;最近在看深度学习相关的东西，就把一些自己想了很久，网上的答案也不是很详细的东西记录下来，可能会有部分错误，会不断改进哒。&lt;/p&gt;
+
+&lt;h3 id=&quot;rnn-与-lstm-相关基础&quot;&gt;RNN 与 LSTM 相关基础&lt;/h3&gt;
+
+&lt;p&gt;网上看到的RNN的网络图如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM//RNN-shorttermdepdencies.png&quot; height=&quot;280&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但是也可以将RNN的网络图画成如下的模式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM//LSTM3-SimpleRNN.png&quot; height=&quot;280&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;是不是很眼熟！对，LSTM只是在RNN的基础上进行了扩展，添加了很多gate来控制之前的记忆，以解决RNN可能引起的梯度弥散与梯度爆炸(这里可以参考&lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;)的问题。&lt;/p&gt;
+
+&lt;p&gt;传统的LSTM的网络图看上去特别复杂:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM//LSTM3-chain.png&quot; height=&quot;280&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但是只要清楚一点，就是里面那么多的gate只是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。具体可以参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://colah.github.io/posts/2015-08-Understanding-LSTMs/&quot;&gt;Understanding LSTM Networks&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~&lt;/p&gt;
+
+&lt;h3 id=&quot;lstm的输入与输出&quot;&gt;LSTM的输入与输出&lt;/h3&gt;
+
+&lt;p&gt;首先还是看下RNN的输入与输出吧(摘自&lt;a href=&quot;http://karpathy.github.io/2015/05/21/rnn-effectiveness/&quot;&gt;The Unreasonable Effectiveness of Recurrent Neural Networks&lt;/a&gt;)：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM/charseq.jpeg&quot; height=&quot;400&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;An example RNN with 4-dimensional input and output layers, and a hidden layer of 3 units (neurons). 
+This diagram shows the activations in the forward pass when the RNN is fed the characters &quot;hell&quot; as input. 
+The output layer contains confidences the RNN assigns for the next character (vocabulary is &quot;h,e,l,o&quot;); 
+We want the green numbers to be high and red numbers to be low.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;将”hello”这个单词的每次字母进行One-Hot编码，每输入一个字母预测下一个输出的字母是什么。例如，输入h对应输出e，输入e对应输出l，而输入l则可能对应l或者o。此处对应4维的输入与输出层，一个有着三个神经元的隐藏层。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;batch_size&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;input_size&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;time_steps&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;num_units&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;layer_num&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;class_num&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;3&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;再看下这个知乎回答上的这个图,可能会更加清晰一些:
+&lt;img src=&quot;/images/posts/2018/03/LSTM/知乎RNN图.jpg&quot; height=&quot;400&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/41949741/answer/318771336&quot;&gt;作者：Scofield&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;所以，LSTM的输入与输出是怎样的呢？可以完全类比RNN的输入与输出。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM/myLSTM.jpg&quot; height=&quot;600&quot; width=&quot;850&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这张图我手工画的，可能有不对的地方，主要参考了&lt;a href=&quot;https://jasdeep06.github.io/posts/Understanding-LSTM-in-Tensorflow-MNIST/&quot;&gt;Understanding LSTM in Tensorflow(MNIST dataset)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;困惑了我最久的是num_units到底是什么，然后&lt;a href=&quot;https://www.zhihu.com/question/41949741/answer/309529532&quot;&gt;知乎&lt;/a&gt;这个回答好详细！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM/singleLSTMcell.png&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图中四个黄色的框框就是传统的前馈神经网络，而num_units就是这个前馈神经网络里面的隐藏节点啊啊啊啊。&lt;/p&gt;
+
+&lt;h3 id=&quot;关于张量tensor的一些疑惑&quot;&gt;关于张量(tensor)的一些疑惑&lt;/h3&gt;
+
+&lt;p&gt;神经网络的处理单位均为&lt;code class=&quot;highlighter-rouge&quot;&gt;向量&lt;/code&gt;，所以&lt;code class=&quot;highlighter-rouge&quot;&gt;张量&lt;/code&gt;是什么？&lt;/p&gt;
+
+&lt;p&gt;主要参考这篇文章&lt;a href=&quot;https://zhuanlan.zhihu.com/p/25268020&quot;&gt;数学不行还学AI-第4话-图解张量&lt;/a&gt;,写的通俗易懂，我就不摘抄啦噜。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM/tensor.jpg&quot; height=&quot;500&quot; width=&quot;700&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;常见的张量有：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3D = 时间序列   (time, frequency, channel)
+
+4D = 图像      (sample_size, width, height, color_depth)
+
+5D = 视频      (sample_size, frames, width, height, color_depth))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;总而言之，张量想要多少维就多少维，就看你的需求与设计啦。&lt;/p&gt;
+
+&lt;h3 id=&quot;暂时就写这么多吧想到了再补充&quot;&gt;暂时就写这么多吧，想到了再补充&lt;/h3&gt;
+
+</description>
+        <pubDate>Thu, 01 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</guid>
+        
+        <category>AI</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>杂七杂八的安全tips</title>
+        <description>&lt;h3 id=&quot;xss-tips&quot;&gt;XSS TIPS&lt;/h3&gt;
+
+&lt;p&gt;Ref:&lt;a href=&quot;https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Open%20redirect&quot;&gt;PayloadsAllTheThings&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;CRLF&lt;/code&gt;:    (&lt;code class=&quot;highlighter-rouge&quot;&gt;CR&lt;/code&gt;:&lt;code class=&quot;highlighter-rouge&quot;&gt;\r&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;0x0d&lt;/code&gt;;&lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;:&lt;code class=&quot;highlighter-rouge&quot;&gt;\n&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;0x0a&lt;/code&gt;)
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java%0d%0ascript%0d%0a:alert(0)
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;XSS from Open URL - If it’s in a JS variable
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;;alert(0);//
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;XSS from data:// wrapper
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://www.example.com/redirect.php?url=data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik7PC9zY3JpcHQ+Cg==
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;XSS from javascript:// wrapper
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://www.example.com/redirect.php?url=javascript:prompt(1)
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Tue, 02 Jan 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/01/secTips/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/secTips/</guid>
+        
+        <category>Sec</category>
+        
+        
+      </item>
     
       <item>
         <title>这人生首三个弱弱的CVE</title>
@@ -76,6 +230,16 @@
 &lt;p&gt;当然重中之重就是要多挖漏洞，感觉多看漏洞详情多去复现漏洞还是很有用的。&lt;/p&gt;
 
 &lt;p&gt;还有就是跑步健身，去年的体检查出来不少不是很紧要的小病，还是得重视起来吧，早睡早起😋~&lt;/p&gt;
+
+&lt;h3 id=&quot;知道图片怎么调整大小啦更新于20180303-&quot;&gt;知道图片怎么调整大小啦！（更新于2018.03.03 ）&lt;/h3&gt;
+
+&lt;p&gt;我之前都是这么插入图片的，&lt;code class=&quot;highlighter-rouge&quot;&gt;![](/images/readme//index.png) &lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/readme//index.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后酱紫插入图片就可以控制长宽啦，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img src=&quot;/images/readme//index.png&quot; height=&quot;400&quot; width=&quot;700&quot;&amp;gt; &lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/readme//index.png&quot; height=&quot;400&quot; width=&quot;700&quot; /&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Tue, 02 Jan 2018 00:00:00 +0800</pubDate>
