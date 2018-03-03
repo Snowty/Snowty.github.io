@@ -20,7 +20,7 @@ title: 关于我
 <p>
 使用了<a target="_blank" href='http://baixin.io/'>潘柏信</a>大神的模板,博客源码在<a target="_blank" href='https://github.com/leopardpan/leopardpan.github.io/'>Github</a>.
 <p>
-如果你也想搭建一个一样的博客，可以参考他的<a href="/2016/10/jekyll_tutorials1/"> Jekyll 搭建个人博客 </a>教程。
+如果你也想搭建一个一样的博客，可以参考他的<a href="http://baixin.io/2016/10/jekyll_tutorials1/"> Jekyll 搭建个人博客 </a>教程。
 <p>
 讲真，我真的好喜欢这个模板啊，安利给大家~比心~😁~
 
