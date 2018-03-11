@@ -5,8 +5,8 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 11 Mar 2018 19:41:54 +0800</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 19:41:54 +0800</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 19:47:24 +0800</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 19:47:24 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -357,6 +357,15 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
 &lt;p&gt;XHR需要根据&lt;code class=&quot;highlighter-rouge&quot;&gt;目标域&lt;/code&gt;返回的HTTP头来授权是否允许跨域访问，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;JS无法控制HTTP头&lt;/code&gt;（这点非常重要啊啊啊啊啊啊，👻👽💀🤖👏👏👏）。XSS在没有其他辅助的情况下也无法控制HTTP头啊啊啊啊。&lt;/p&gt;
 
 &lt;p&gt;除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。&lt;/p&gt;
+
+&lt;p&gt;跨域的方式主要有：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CORS
+CSP
+JSONP
+postMessage
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;h3 id=&quot;cross-origin-resource-sharingcors&quot;&gt;Cross-origin Resource Sharing(CORS)&lt;/h3&gt;
 

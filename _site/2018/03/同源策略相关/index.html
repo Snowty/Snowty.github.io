@@ -182,6 +182,15 @@
 
 <p>除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。</p>
 
+<p>跨域的方式主要有：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CORS
+CSP
+JSONP
+postMessage
+</code></pre>
+</div>
+
 <h3 id="cross-origin-resource-sharingcors">Cross-origin Resource Sharing(CORS)</h3>
 
 <p>例如从<code class="highlighter-rouge">http://www.a.com/test.html</code>发起对<code class="highlighter-rouge">http://www.b.com/test.php</code>的请求，请求头中包含<code class="highlighter-rouge">origin:http://www.a.com</code>。</p>
