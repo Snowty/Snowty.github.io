@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>Java入门</title>
-  <meta name="description" content="Hello world">
+  <title>网上搜集的一些安全岗面试问题--web常见漏洞原理与防御</title>
+  <meta name="description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Java入门">
-  <meta name="twitter:description" content="Hello world">
+  <meta name="twitter:title" content="网上搜集的一些安全岗面试问题--web常见漏洞原理与防御">
+  <meta name="twitter:description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Java入门">
-  <meta property="og:description" content="Hello world">
+  <meta property="og:title" content="网上搜集的一些安全岗面试问题--web常见漏洞原理与防御">
+  <meta property="og:description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,10 +148,10 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">Java入门</h1>
+    <h1 class="post-title">网上搜集的一些安全岗面试问题--web常见漏洞原理与防御</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
-      <time datetime="2017-09-25 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-09-25</time>  
+      <time datetime="2018-03-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-06</time>  
          
       <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
     </p>
@@ -159,63 +159,112 @@
   </header>
 
   <section class="post">
-    <h3 id="hello-world">Hello world</h3>
+    <h3 id="怎么又要开始准备面试了">怎么又要开始准备面试了</h3>
+<p>上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…</p>
 
-<p>根据<a href="http://www.runoob.com/java/java-tutorial.html">runoob</a>网站上的教程进行学习。</p>
+<p>今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣</p>
 
-<p>文件名为HelloWorld.java</p>
+<p>下面总结的内容都比较简略，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span><span class="o">{</span>
-     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello World"</span><span class="o">);</span>
-     <span class="o">}</span>
- <span class="o">}</span></code></pre></figure>
+<p>然后，把CHYbeta大神的<a href="https://github.com/CHYbeta/Web-Security-Learning">Web-Security-Learning</a>过一遍😳？</p>
 
-<p>运行：</p>
+<h3 id="常见漏洞的原理与防御">常见漏洞的原理与防御</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ javac HelloWorld.java
-$ java HelloWorld
-Hello World
+<ol>
+  <li>
+    <p>XSS：<a href="https://security.yirendai.com/news/share/26">浅谈XSS—字符编码和浏览器解析原理</a></p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>类型：
+
+    反射型XSS：把用户输入的数据“反射”给浏览器，需要用户点击某链接
+
+    存储型XSS：把用户输入的数据存储在服务器
+
+    DOM Based XSS：也属于反射型XSS，修改页面的DOM节点形成XSS
+
+常用payload：
+
+    https://www.t00ls.net/thread-42640-1-1.html
+
+防御：
+
+    Cookie的`HttpOnly标识`
+
+    XSS Filter：过滤用户输入的危险字符
+
+    输出检查：编码和转义
 </code></pre>
-</div>
+    </div>
+  </li>
+  <li>
+    <p>SQL Injection:</p>
 
-<p>String[] args是什么？可以传入参数。</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>原理：
 
-<p>文件名为Test.java</p>
+    用户输入的数据当做代码执行
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span><span class="o">{</span>
-     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
-     <span class="o">}</span>
- <span class="o">}</span></code></pre></figure>
+防御：
+        
+    使用预编译语句，绑定变量
 
-<p>运行：</p>
+    检查数据类型
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ javac Test.java
-$ java Test Snowty
-Snowty
+    使用安全函数
+
+    最小权限原则
 </code></pre>
-</div>
+    </div>
+  </li>
+  <li>
+    <p>CSRF:</p>
 
-<p><code class="highlighter-rouge">String[] args</code> 还有一种等价的写法： <code class="highlighter-rouge">String... args</code></p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>原理：
 
-<p>前者为数组形式, 后者为可变参数形式。</p>
+    用户登录某账户，浏览器获得cookie
 
-<h3 id="基础语法">基础语法</h3>
+    攻击者诱使用户访问某构造好的恶意CSRF页面
 
-<p><strong>对象</strong>：对象是类的一个实例，有状态和行为。例如，一条狗是一个对象，它的状态有：颜色、名字、品种；行为有：摇尾巴、叫、吃等。</p>
+防御：
+        
+    验证码
 
-<p><strong>类</strong>：类是一个模板，它描述一类对象的行为和状态。</p>
+    Referer Check（HTTPS跳转到HTTP不会发送Referer）
 
-<p><strong>方法</strong>：方法就是行为，一个类可以有很多方法。逻辑运算、数据修改以及所有动作都是在方法中完成的。</p>
+    Anti CSRF Token
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>SSRF（Server-Side Request Forgery）:服务器端请求伪造（这个漏洞我还真的没有测试过…</p>
 
-<p><strong>实例变量</strong>：每个对象都有独特的实例变量，对象的状态由这些实例变量的值决定。</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>参考：http://uknowsec.cn/posts/notes/SSRF%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0.html
 
-<p><strong>方法名</strong>：所有的方法名都应该以小写字母开头。如果方法名含有若干单词，则后面的每个单词首字母大写。</p>
+原理：
+    
+    由攻击者构造的攻击链接传给服务端执行造成的漏洞，一般用来在外网探测或攻击内网服务
 
-<p><strong>源文件名</strong>：源文件名必须和类名相同。当保存文件的时候，你应该使用类名作为文件名保存（切记Java是大小写敏感的），文件名的后缀为.java。（如果文件名和类名不相同则会导致编译错误）。</p>
+可利用的伪协议：
 
-<p><strong>主方法入口</strong>：所有的Java 程序由public static void main(String []args)方法开始执行。</p>
+    对curl函数的滥用，dict file ftp ftps gopher http https imap imaps pop3 pop3s rtsp smb smbs smtp smtps telnet tftp 
+
+防御：
+
+    过滤返回信息
+
+    限制请求端口
+
+    内网IP黑名单
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>XXE</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>参考：https://thief.one/2017/06/20/1/
+</code></pre>
+    </div>
+  </li>
+</ol>
 
 
 
@@ -225,7 +274,7 @@ Snowty
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/" data-title="Java入门" data-url="http://localhost:4000/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/"></div>
+    <div class="ds-thread" data-thread-key="/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/" data-title="网上搜集的一些安全岗面试问题--web常见漏洞原理与防御" data-url="http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/"></div>
 
     <script type="text/javascript">
         var duoshuoQuery = {short_name:"Snowty"};

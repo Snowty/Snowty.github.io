@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Word2Vec以及tf实现</title>
+  <meta name="description" content="引言？">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Word2Vec以及tf实现">
+  <meta name="twitter:description" content="引言？">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Word2Vec以及tf实现">
+  <meta property="og:description" content="引言？">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/03/Word2Vec/">
+  <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<!-- 站点统计 -->
+  <script 
+  async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>  
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 筱筱汀的碎碎念 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                Snowty
+                            
+                        </h2>
+                        <p>
+                           
+                                主业瘦身美白 / 业余信息安全
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 筱筱汀的碎碎念" class="blog-button">筱筱汀的碎碎念</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎聆听我的碎碎念😯</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">Word2Vec以及tf实现</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2018-03-10 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-10</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h3 id="引言">引言？</h3>
+
+<p>大部分内容摘自《TensorFlow实战》（黄文坚），算是读书笔记，也会在网上搜集一些相关的文章进行补充。
+我觉得这本书很nice呀，虽然没有对具体的神经网络进行详细的讲解，但是很通俗易懂，偏实战。
+也会有看了神经网络的详解然后雨里雾里，再在这边看了总结的豁然开朗之感。</p>
+
+<h3 id="one-hot-encoder">One-Hot Encoder</h3>
+
+<p>最早的词向量表示方法为One-Hot Encoder，将字词转成离散的单独的符号：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>杭州 [0,0,0,0,0,0,0,1,0,……，0,0,0,0,0,0,0]
+上海 [0,0,0,0,1,0,0,0,0,……，0,0,0,0,0,0,0]
+宁波 [0,0,0,1,0,0,0,0,0,……，0,0,0,0,0,0,0]
+北京 [0,0,0,0,0,0,0,0,0,……，1,0,0,0,0,0,0]
+</code></pre>
+</div>
+
+<p>杭州、上海、宁波、北京各对应一个向量，向量中只有一个值为1，其余都为0。
+使用One-Hot Encoder有一个问题，即对特征的编码是随机的，没有考虑到字词之间的关系。如北京、上海应该聚集到一起，华盛顿、纽约聚集在一起。并且效率低、计算麻烦。</p>
+
+<h3 id="什么是word2vec">什么是Word2Vec</h3>
+
+<p>循环神经网络是在NLP领域最常使用的神经网络，而Word2Vec则是将语言中的字词转化为计算机可以理解的稠密向量（Dense Vector），通过一个嵌入空间使得语义上相似的单词在该空间内距离很近。</p>
+
+<p>Word2Vec分为：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CBOW（Continuous Bag of Words）:从原始语句（例如：中国的首都是____）推测目标字词（例如：北京）
+
+Skip-Gram:从目标字词推测出原始语句，在大型语料库中表现更好
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">负采样</code>：在Word2Vec的CBOW模型中，只训练一个二分类模型，区分真实的目标词汇和编造的噪声词汇（Negative Sampling）。只需要计算随机选择的k个词汇而并非全部。在实际中，使用Noise-Contrastive Estimation（NCE）Loss，在tf中对应为<code class="highlighter-rouge">tf.nn.nce_loss()</code></p>
+
+<h3 id="模型拆解">模型拆解</h3>
+
+<p>Word2Vec模型其实就是简单化的神经网络：</p>
+
+<p><img src="/images/posts/2018/03/Word2Vec//1.jpg" height="500" width="800" /></p>
+
+<p>图片来源:<a href="https://zhuanlan.zhihu.com/p/27234078">理解 Word2Vec 之 Skip-Gram 模型</a>,作者写的超级详细，可以去读读。</p>
+
+<p>输入是One-Hot Vector。
+如果想要用300个特征来表示一个单词，则隐藏层的维度为300，且Hidden Layer没有激活函数。
+Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输出概率分布。</p>
+
+<p>将从输入层到隐含层的那些权重，作为每一个词汇表中的词的向量。</p>
+
+<p>因为One-Hot Vector十分稀疏，消耗大量的计算资源。为了进行高效计算，只要选择选择矩阵中对应的向量中维度值为1的索引行：</p>
+
+<p><img src="/images/posts/2018/03/Word2Vec//4.jpg" height="150" width="500" /></p>
+
+<p>左边向量中取值为1的对应维度为3（下标从0开始），那么计算结果就是矩阵的第3行（下标从0开始）—— [10, 12, 19]，这样模型中的隐层权重矩阵便成了一个”查找表“（lookup table）</p>
+
+<p>详细拆解参考<a href="http://www.sohu.com/a/128794834_211120">如果看了此文还不懂 Word2Vec，那是我太笨</a></p>
+
+<ol>
+  <li>CBOW</li>
+</ol>
+
+<p>将一个词所在的上下文中的词作为输入，而那个词本身作为输出，也就是说，看到一个上下文，希望大概能猜出这个词和它的意思。通过在一个大的语料库训练，得到一个从输入层到隐含层的权重模型。如下图所示，第l个词的上下文词是i，j，k，那么i，j，k作为输入，它们所在的词汇表中的位置的值置为1。然后，输出是l，把它所在的词汇表中的位置的值置为1。训练完成后，就得到了每个词到隐含层的每个维度的权重，就是每个词的向量。例如第i个词的词向量为<code class="highlighter-rouge">(Wi,1 Wi,2...Wi,m)</code>,m为向量的维度。</p>
+
+<p><img src="/images/posts/2018/03/Word2Vec//2.jpeg" height="500" width="700" /></p>
+
+<ol>
+  <li>Skip-gram</li>
+</ol>
+
+<p>将一个词所在的上下文中的词作为输出，而那个词本身作为输入，也就是说，给出一个词，希望预测可能出现的上下文的词。通过在一个大的语料库训练，得到一个从输入层到隐含层的权重模型。如下图所示，第l个词的上下文词是i，j，k，那么i，j，k作为输出，它们所在的词汇表中的位置的值置为1。然后，输入是l，把它所在的词汇表中的位置的值置为1。训练完成后，就得到了每个词到隐含层的每个维度的权重，就是每个词的向量。</p>
+
+<p><img src="/images/posts/2018/03/Word2Vec//3.jpeg" height="500" width="700" /></p>
+
+<h3 id="tf实现word2vec">tf实现Word2Vec</h3>
+
+<p>使用Skip-Gram模式的Word2Vec，以“the quick brown fox jumped over the lazy dog”为例，训练样本为(quick,the)，(quick,brown),(brown,quick),(brown,fox)等。训练时，希望模型可以从目标词汇quick推测出语境the，同时也需要制造随机的词汇作为负样本（噪声）。使用SGD（随机梯度下降算法）来更新模型中Word Embedding的参数，让概率分布的损失函数(NCE Loss)尽可能小。这样每个单词的Embedded Vector就会随着训练过程不断调整，直到处于一个最合适语料的空间位置。</p>
+
+<p>基本每一句都有注释啦，可以结合原书来看此段代码😳</p>
+
+<p>啊啊啊，我手工巧了一遍代码，才发现代码居然是tf上的<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/word2vec/word2vec_basic.py">demo</a>…</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -*- coding: UTF-8 -*-</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span> 
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="c"># ---------------------------  数据预处理---------------------------</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
+<span class="c">#   从‘http://mattmahoney.net/dc’下载文本文件，里面约有17005207个用空格分隔好的英文句子。</span>
+<span class="k">def</span> <span class="nf">maybe_download</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">expected_bytes</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">statinfo</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">statinfo</span><span class="o">.</span><span class="n">st_size</span> <span class="o">==</span> <span class="n">expected_bytes</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Found and verified'</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">statinfo</span><span class="o">.</span><span class="n">st_size</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span>
+            <span class="s">'Failed to verify'</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s">'. Can you get to it with a browser?'</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">filename</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="n">maybe_download</span><span class="p">(</span><span class="s">"text8.zip"</span><span class="p">,</span><span class="mi">31344016</span><span class="p">)</span>
+<span class="c">#   filename = "text8.zip"</span>
+
+<span class="c">#   解压文件，并使用`tf.compat.as_str`将数据转化成单词列表。</span>
+<span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+       <span class="n">data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">as_str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">namelist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Data size'</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+
+<span class="c">#   创建vocabulary词汇表,选取前50000频数的单词，其余单词认定为Unknown，编号为0</span>
+<span class="n">vocabulary_size</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="k">def</span> <span class="nf">build_dataset</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'UNK'</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---------------------------------"</span><span class="p">)</span>
+    <span class="c">#   collections.Counter统计单词列表中单词的频数</span>
+    <span class="c">#   most_common 取top 50000频数的单词作为vocabulary</span>
+    <span class="c">#   count = [(单词1,词频1),(单词2,词频2),...]</span>
+    <span class="n">count</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="n">vocabulary_size</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c">#   存入dic中</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>  
+
+    <span class="c">#   遍历单词列表，如果出现在dictionary中，则转化为编号。不在则为0。</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">unk_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">unk_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">unk_count</span>
+    <span class="c">#   字典的反转形式，可用编号查询出对应的单词</span>
+    <span class="n">reverse_dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span><span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">dictionary</span><span class="p">,</span><span class="n">reverse_dictionary</span>
+<span class="n">data</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">dictionary</span><span class="p">,</span><span class="n">reverse_dictionary</span> <span class="o">=</span> <span class="n">build_dataset</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<span class="c">#   删除原始单词列表，节约内存</span>
+<span class="k">del</span> <span class="n">words</span>
+<span class="c">#   打印最高频出现的词汇及数量，[['UNK', 418391], ('the', 1061396), ('of', 593677), ('and', 416629), ('one', 411764)]</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Most common words (+UNK)'</span><span class="p">,</span><span class="n">count</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="c">#   打印data前10个单词</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Sample data'</span><span class="p">,</span><span class="n">data</span><span class="p">[:</span><span class="mi">10</span><span class="p">],[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[:</span><span class="mi">10</span><span class="p">]])</span>
+
+<span class="c">#   ---------------------------生成Word2Vec的训练样本---------------------------</span>
+<span class="c">#   使用Skip-Gram模式，将原始数据：</span>
+<span class="c">#   “the quick brown fox jumped over the lazy dog”转化为：</span>
+<span class="c">#   (quick,the)，(quick,brown),(brown,quick),(brown,fox)等。</span>
+<span class="n">data_index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">def</span> <span class="nf">generate_batch</span><span class="p">(</span><span class="n">batch_size</span> <span class="p">,</span> <span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span><span class="p">):</span> <span class="c">#  生成训练用的batch数据</span>
+    <span class="c">#   skip_window 单词最远可以联系的距离</span>
+    <span class="c">#   num_skips 对每个单词生成多少样本</span>
+    <span class="k">global</span> <span class="n">data_index</span>   <span class="c">#   定义为全局变量，因为会反复调用此函数</span>
+    <span class="c">#   batch_size 必须为num_skips的整数倍，确保每个batch包含一个词汇对应的所有样本</span>
+    <span class="k">assert</span> <span class="n">batch_size</span> <span class="o">%</span> <span class="n">num_skips</span> <span class="o">==</span> <span class="mi">0</span>  
+    <span class="k">assert</span> <span class="n">num_skips</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">skip_window</span>
+    <span class="c">#   ndarray对象是用于存放同类型元素的多维数组</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="c">#   某个单词创建样本时会使用到的单词数量,包括单词本身和它前后的单词</span>
+    <span class="n">span</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">skip_window</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c">#   双向队列，使用append方法添加变量时，只会保留最后插入span个变量</span>
+    <span class="nb">buffer</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">span</span><span class="p">)</span> 
+    <span class="c">#   从序号data_index开始，把span个单词顺序读入buffer作为初始值</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">span</span><span class="p">):</span>
+        <span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data_index</span><span class="p">])</span>
+        <span class="n">data_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span> <span class="o">//</span> <span class="n">num_skips</span><span class="p">):</span>    <span class="c"># // 为整数除法</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">skip_window</span>    <span class="c">#   buffer中第skip_window个变量为目标单词</span>
+        <span class="n">targets_to_avoid</span> <span class="o">=</span> <span class="p">[</span> <span class="n">skip_window</span> <span class="p">]</span>  <span class="c">#   生成样本时需要避免的单词列表</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_skips</span><span class="p">):</span>
+            <span class="k">while</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets_to_avoid</span><span class="p">:</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">span</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">targets_to_avoid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">num_skips</span> <span class="o">+</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">skip_window</span><span class="p">]</span>
+            <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">num_skips</span> <span class="o">+</span><span class="n">j</span> <span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+        <span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data_index</span><span class="p">])</span>
+        <span class="n">data_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_index</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">batch</span> <span class="p">,</span><span class="n">labels</span>
+<span class="c">#   简单测试功能</span>
+<span class="n">batch</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">generate_batch</span><span class="p">(</span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">num_skips</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="n">skip_window</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span><span class="s">'-&gt;'</span><span class="p">,</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="c">#   训练数据</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">embedding_size</span> <span class="o">=</span> <span class="mi">128</span>    <span class="c"># 单词转为稠密向量的维度，一般是50~1000</span>
+<span class="n">skip_window</span> <span class="o">=</span> <span class="mi">1</span>     <span class="c"># 单词间最远可以联系的距离 </span>
+<span class="n">num_skips</span> <span class="o">=</span> <span class="mi">2</span>   <span class="c"># 每个目标单词提取的样本数</span>
+
+<span class="c">#   验证数据，随机抽取一些频数最高的单词，看向量空间上跟它们最近的单词是否相关性比较高</span>
+<span class="n">valid_size</span> <span class="o">=</span> <span class="mi">16</span>     <span class="c"># 抽取的验证单词数</span>
+<span class="n">valid_window</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c"># 验证单词只从频数最高的100个单词中抽取</span>
+<span class="n">valid_examples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">valid_window</span><span class="p">,</span><span class="n">valid_size</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">num_sampled</span> <span class="o">=</span> <span class="mi">64</span>    <span class="c"># 训练时用来做负样本的噪声单词的数量</span>
+
+<span class="c">#   ---------------------------定义Skip-Gram模型的网络结构---------------------------</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+    <span class="n">train_inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span><span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">])</span>
+    <span class="n">train_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span><span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c">#   将随机产生的valid_examples转换为constant</span>
+    <span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">valid_examples</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s">'/cpu:0'</span><span class="p">):</span>
+        <span class="c">#   tf.random_uniform随机生成所有单词的词向量embeddings,单词表大小为50000，向量维度为128</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span><span class="n">embedding_size</span><span class="p">],</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">))</span>
+        <span class="c">#   tf.nn.embedding_lookup 查找输入train_inputs对应的向量</span>
+        <span class="n">embed</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span><span class="n">train_inputs</span><span class="p">)</span>
+        <span class="c">#   使用NCE Loss作为训练的优化目标</span>
+        <span class="n">nce_weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span><span class="n">embedding_size</span><span class="p">],</span>
+                                <span class="n">stddev</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">)))</span>
+        <span class="n">nce_biases</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">]))</span>
+    <span class="c">#   loss的计算方式</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">nce_loss</span><span class="p">(</span><span class="n">weights</span> <span class="o">=</span> <span class="n">nce_weights</span><span class="p">,</span>
+                                         <span class="n">biases</span> <span class="o">=</span> <span class="n">nce_biases</span><span class="p">,</span>
+                                         <span class="n">labels</span> <span class="o">=</span> <span class="n">train_labels</span><span class="p">,</span>
+                                         <span class="n">inputs</span> <span class="o">=</span> <span class="n">embed</span><span class="p">,</span>
+                                         <span class="n">num_sampled</span> <span class="o">=</span> <span class="n">num_sampled</span><span class="p">,</span>
+                                         <span class="n">num_classes</span> <span class="o">=</span> <span class="n">vocabulary_size</span><span class="p">))</span>
+
+    <span class="c">#   定义优化器为SGD，lr为1.0</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    <span class="c">#   计算嵌入向量embeddings的L2范数norm</span>
+    <span class="n">norm</span>  <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">keep_dims</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+    <span class="c">#   规范化</span>
+    <span class="n">normalized_embeddings</span> <span class="o">=</span> <span class="n">embeddings</span> <span class="o">/</span><span class="n">norm</span>
+    <span class="c">#   tf.nn.embedding_lookup 查询验证单词的嵌入向量</span>
+    <span class="n">valid_embeddings</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span>
+        <span class="n">normalized_embeddings</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="p">)</span>
+    <span class="c">#   计算验证单词的嵌入向量与词汇表中所有单词的相似性</span>
+    <span class="n">similarity</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">valid_embeddings</span><span class="p">,</span><span class="n">normalized_embeddings</span><span class="p">,</span><span class="n">transpose_b</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="c">#   初始化所有模型参数</span>
+    <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+
+<span class="c">#   最大的迭代次数</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100001</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">init</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Initialized"</span><span class="p">)</span>
+    <span class="n">average_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+        <span class="c">#   生成一个batch的inputs和labels数据</span>
+        <span class="n">batch_inputs</span><span class="p">,</span><span class="n">batch_labels</span> <span class="o">=</span> <span class="n">generate_batch</span><span class="p">(</span>
+            <span class="n">batch_size</span><span class="p">,</span><span class="n">num_skips</span><span class="p">,</span><span class="n">skip_window</span><span class="p">)</span>
+        <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">train_inputs</span><span class="p">:</span><span class="n">batch_inputs</span><span class="p">,</span><span class="n">train_labels</span><span class="p">:</span><span class="n">batch_labels</span><span class="p">}</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">loss_val</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">optimizer</span><span class="p">,</span><span class="n">loss</span><span class="p">],</span><span class="n">feed_dict</span> <span class="o">=</span> <span class="n">feed_dict</span><span class="p">)</span>
+        <span class="n">average_loss</span> <span class="o">+=</span><span class="n">loss_val</span>
+        <span class="c"># 2000此循环，计算一下平均loss并显示出来</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="p">:</span>
+                <span class="n">average_loss</span> <span class="o">/=</span> <span class="mi">2000</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Average loss at step "</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="s">": "</span><span class="p">,</span><span class="n">average_loss</span><span class="p">)</span>
+            <span class="n">average_loss</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c"># 每10000次循环，计算一次验证单词与全部单词的相似度，并将最相似的8个单词展示出来</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">sim</span> <span class="o">=</span> <span class="n">similarity</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">valid_size</span><span class="p">):</span>
+                <span class="n">valid_word</span> <span class="o">=</span> <span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">valid_examples</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                <span class="n">top_k</span> <span class="o">=</span> <span class="mi">8</span>
+                <span class="n">nearest</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="n">top_k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">log_str</span> <span class="o">=</span> <span class="s">"Nearest to </span><span class="si">%</span><span class="s">s: "</span> <span class="o">%</span> <span class="n">valid_word</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">top_k</span><span class="p">):</span>
+                <span class="n">close_word</span> <span class="o">=</span> <span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">nearest</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+                <span class="c">#close_word = reverse_dictionary.get(nearest[k])</span>
+                <span class="n">log_str</span> <span class="o">=</span> <span class="s">"</span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s ,"</span> <span class="o">%</span> <span class="p">(</span><span class="n">log_str</span><span class="p">,</span><span class="n">close_word</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">log_str</span><span class="p">)</span>
+    <span class="n">final_embeddings</span> <span class="o">=</span> <span class="n">normalized_embeddings</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+
+<span class="c">#   ---------------------------可视化---------------------------</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="c"># low_dim_embs 是降维到2维的单词的空间向量，在图表中展示每个单词的位置</span>
+<span class="k">def</span> <span class="nf">plot_with_labels</span><span class="p">(</span><span class="n">low_dim_embs</span><span class="p">,</span><span class="n">labels</span><span class="p">,</span><span class="n">filename</span> <span class="o">=</span> <span class="s">'tsne.png'</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">low_dim_embs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span><span class="s">"More labels than embeddings"</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">18</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">low_dim_embs</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>    <span class="c"># 显示散点图（单词的位置）</span>
+        <span class="c"># plt.annotate为单词本身</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span>     
+                     <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span>
+                     <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">textcoords</span> <span class="o">=</span> <span class="s">'offset points'</span><span class="p">,</span>
+                     <span class="n">ha</span> <span class="o">=</span> <span class="s">'right'</span><span class="p">,</span>
+                     <span class="n">va</span> <span class="o">=</span> <span class="s">'bottom'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>   <span class="c">#   保存图片到本地</span>
+
+<span class="c"># 降维,将原始的128维嵌入向量降到2维，展示词频最高的100个单词</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">perplexity</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">init</span><span class="o">=</span><span class="s">"pca"</span><span class="p">,</span><span class="n">n_iter</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">)</span>
+<span class="n">plot_only</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">low_dim_embs</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">final_embeddings</span><span class="p">[:</span><span class="n">plot_only</span><span class="p">,:])</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">plot_only</span><span class="p">)]</span>
+<span class="n">plot_with_labels</span><span class="p">(</span><span class="n">low_dim_embs</span><span class="p">,</span><span class="n">labels</span><span class="p">)</span></code></pre></figure>
+
+
+
+  </section>
+</article>
+
+<section class="post-comments">
+
+  
+    <div class="ds-thread" data-thread-key="/2018/03/Word2Vec/" data-title="Word2Vec以及tf实现" data-url="http://localhost:4000/2018/03/Word2Vec/"></div>
+
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"Snowty"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Snowty" title="@Snowty 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:xsnowting@gmail.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+          </ul>
+        </nav>
+
+        </div>
+
+        <div class = "footer_div">  
+           <p class="copyright text-muted" align="center">
+            Copyright &copy; 筱筱汀的碎碎念 2018 Powerde by <a href="http://jekyll.com.cn/">jekyll</a>。
+            
+            </p>
+        	<div align="right">
+    			<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+          <!-- 访问统计 
+          <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+          </span>
+          -->
+
+        </div>
+        <div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

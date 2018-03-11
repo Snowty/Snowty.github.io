@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>网上搜集的一些安全岗面试问题--同源策略与跨域</title>
+  <meta name="description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="网上搜集的一些安全岗面试问题--同源策略与跨域">
+  <meta name="twitter:description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="网上搜集的一些安全岗面试问题--同源策略与跨域">
+  <meta property="og:description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/">
+  <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<!-- 站点统计 -->
+  <script 
+  async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>  
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 筱筱汀的碎碎念 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                Snowty
+                            
+                        </h2>
+                        <p>
+                           
+                                主业瘦身美白 / 业余信息安全
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 筱筱汀的碎碎念" class="blog-button">筱筱汀的碎碎念</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎聆听我的碎碎念😯</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">网上搜集的一些安全岗面试问题--同源策略与跨域</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2018-03-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-06</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h3 id="怎么又要开始准备面试了">怎么又要开始准备面试了</h3>
+<p>上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…
+今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣</p>
+
+<p>下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口</p>
+
+<p>然后，把CHYbeta大神的<a href="https://github.com/CHYbeta/Web-Security-Learning">Web-Security-Learning</a>过一遍😳？</p>
+
+<h3 id="什么是同源策略">什么是同源策略</h3>
+
+<p>源就是<code class="highlighter-rouge">[主机，协议，端口名]</code>的一个三元组。
+（此外，cookie的同源策略是<code class="highlighter-rouge">[主机，端口名]</code>，不包含协议，因此可以用http的cookie去覆盖https的cookie。）</p>
+
+<p>同源策略(Same Origin Policy, SOP)：限制了来自不同源的”document“或者脚本，对当前”document“读取或者设置某些属性。</p>
+
+<p><code class="highlighter-rouge">&lt;script&gt;、&lt;img&gt;、&lt;iframe&gt;、&lt;link&gt;</code>等标签都可以跨域加载资源，而不受同源策略的限制，但是浏览器限制了JS的权限，使其不能读、写返回的资源。</p>
+
+<p><code class="highlighter-rouge">XMLHttpRequest</code>不可以跨域加载资源，但是可以读写资源。如果可以跨域，则会导致一些敏感数据的泄漏，如CSRF Token。</p>
+
+<p>XHR需要根据<code class="highlighter-rouge">目标域</code>返回的HTTP头来授权是否允许跨域访问，因为<code class="highlighter-rouge">JS无法控制HTTP头</code>（这点非常重要啊啊啊啊啊啊，👻👽💀🤖👏👏👏）。XSS在没有其他辅助的情况下也无法控制HTTP头啊啊啊啊。</p>
+
+<p>除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。</p>
+
+<h3 id="cross-origin-resource-sharingcors">Cross-origin Resource Sharing(CORS)</h3>
+
+<p>例如从<code class="highlighter-rouge">http://www.a.com/test.html</code>发起对<code class="highlighter-rouge">http://www.b.com/test.php</code>的请求，请求头中包含<code class="highlighter-rouge">origin:http://www.a.com</code>。</p>
+
+<p>（origin header 可以用于防范CSRF，不像Refer那么容易被伪造或清空，此处的referer怎么改？？？？？😱😱😱😱😱😱😱😱😱😱😱）</p>
+
+<p>如果www.b.com返回的http Header中包含：<code class="highlighter-rouge">Access control allow origin:http://www.a.com</code>,则表示这个跨域请求被通过。（下图是图糙理不糙啊啊啊</p>
+
+<p><img src="/images/posts/2018/03/SOP/ACAO.png" height="250" width="450" /></p>
+
+<p>还有很多其他的标准：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Access-Control-Allow-Origin
+Access-Control-Allow-Methods
+Access-Control-Allow-Headers
+Access-Control-Max-Age
+</code></pre>
+</div>
+
+<h3 id="content-security-policycsp">Content Security Policy(CSP)</h3>
+
+<p>由服务器返回一个HTTP头，并在其中描述页面该遵守的安全策略。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>X-Content-Security-Policy:allow 'self' *.mydomain.com    // 浏览器将信任来自mydomain.com及其子域名下面的内容
+</code></pre>
+</div>
+
+<p>CSP的实质为白名单，在浏览器层面做的防护，是和同源策略同一级别，除非浏览器本身出现漏洞，否则不可能从机制上绕过。
+CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的域发起请求。</p>
+
+<p>CSP怎么能有这么多姿势…</p>
+
+<ul>
+  <li><a href="https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.49.ZP8rXN&amp;articleid=518">Content Security Policy 入门教程</a></li>
+  <li><a href="https://paper.seebug.org/423/">前端防御从入门到弃坑–CSP变迁</a></li>
+</ul>
+
+<h3 id="jsonp只支持get请求">JSONP(只支持get请求)</h3>
+
+<p><code class="highlighter-rouge">JSONP(JSON with Padding)</code>是一个简单高效的跨域方式，可以简单理解为带callback的json。利用<code class="highlighter-rouge">&lt;script&gt;</code>标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。
+参考<a href="https://www.zhihu.com/question/19966531/answer/13502030">知乎</a>。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>当需要通讯时，本站脚本创建一个&lt;script&gt;元素，地址指向第三方的API网址，形如:
+
+    &lt;script src="http://www.example.net/api?param1=1&amp;param2=2"&gt;&lt;/script&gt;
+
+并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。     
+
+第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如：     
+
+    callback({"name":"hax","gender":"Male"})     
+
+这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
+</code></pre>
+</div>
+
+<p>JSONP是CSP的克星</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script src="/path/jsonp?callback=alert(document.domain)//"&gt; &lt;/script&gt;
+</code></pre>
+</div>
+
+<h3 id="postmessage">postMessage</h3>
+
+<p>postMessage允许每一个window（包括当前窗口、弹出窗口、iframe等）对象往其他的窗口发送文本消息，从而实现跨窗口的消息传递，不受同源策略限制。</p>
+
+<h3 id="同源攻防">同源攻防</h3>
+
+<p><a href="https://www.anquanke.com/post/id/86078">漫谈同源策略攻防</a></p>
+
+<ul>
+  <li>
+    <p>对URI的解析：</p>
+
+    <p>在某些浏览器对URI的解释存在漏洞的时候，可以构造相应的攻击连绕过SOP</p>
+  </li>
+  <li>
+    <p>设计缺陷绕过SOP：</p>
+
+    <p>在Java6，7中，如果两个域名解析到相同的IP，则会认为他们同源。假设我们有attacker.com和victim.com,两者都共享主机123.123.123.123。攻击者attacker.com可以在自己控制的域名下上传一个jar文件来访问victim.com的内容。</p>
+  </li>
+  <li>
+    <p>访问本地文件的同源策略</p>
+
+    <p><code class="highlighter-rouge">&lt;frame src="/home/user/dir/2.html"&gt;</code></p>
+
+    <p><code class="highlighter-rouge">&lt;frame src="/home/user/2.html"&gt;</code></p>
+
+    <p>1.html与2.html视为同源</p>
+  </li>
+  <li>
+    <p>特立独行的IE：</p>
+
+    <p>TrustZones（信任域）：当一个URI被加入到了IE的信任网站区域中时，浏览器会无视同源策略。</p>
+
+    <p>IE在考虑同源策略时不包括端口， 这意味着不同端口上的应用程序可以读取到比如用户的登陆账户密码/cookie等。</p>
+
+    <p>通过变更自身的源绕过同源策略：IE 6，7版中网页可以通过document.domain设置自身的来源为任意其他来源</p>
+  </li>
+</ul>
+
+<h3 id="防御">防御</h3>
+<p>最好的防御方式则是设置CORS</p>
+
+<p>禁止跨域写，引入CSRF令牌，且必须正确的配置同源策略，否则令牌也会被读取。</p>
+
+<p>禁止跨域读，我们可以通过设置<code class="highlighter-rouge">X-Frame-Options</code>头来禁止该页面被嵌入到恶意页面中</p>
+
+<p>禁止跨域嵌入，比如<code class="highlighter-rouge">&lt;script data-original=&gt;&lt;/script&gt;</code>、 <code class="highlighter-rouge">&lt;img data-original=x&gt;&lt;/img&gt;</code>，<code class="highlighter-rouge">&lt;svg onload=&gt;</code>，各种字体加载等等。同时，使用CSRF令牌也可以有效避免被跨域嵌入。</p>
+
+
+
+  </section>
+</article>
+
+<section class="post-comments">
+
+  
+    <div class="ds-thread" data-thread-key="/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/" data-title="网上搜集的一些安全岗面试问题--同源策略与跨域" data-url="http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/"></div>
+
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"Snowty"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Snowty" title="@Snowty 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:xsnowting@gmail.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+          </ul>
+        </nav>
+
+        </div>
+
+        <div class = "footer_div">  
+           <p class="copyright text-muted" align="center">
+            Copyright &copy; 筱筱汀的碎碎念 2018 Powerde by <a href="http://jekyll.com.cn/">jekyll</a>。
+            
+            </p>
+        	<div align="right">
+    			<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+          <!-- 访问统计 
+          <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+          </span>
+          -->
+
+        </div>
+        <div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
