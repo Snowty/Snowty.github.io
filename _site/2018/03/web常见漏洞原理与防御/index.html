@@ -6,16 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>网上搜集的一些安全岗面试问题--web常见漏洞原理与防御</title>
+  <title>安全岗面试相关问题--web常见漏洞原理与防御</title>
   <meta name="description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="网上搜集的一些安全岗面试问题--web常见漏洞原理与防御">
+  <meta name="twitter:title" content="安全岗面试相关问题--web常见漏洞原理与防御">
   <meta name="twitter:description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="网上搜集的一些安全岗面试问题--web常见漏洞原理与防御">
+  <meta property="og:title" content="安全岗面试相关问题--web常见漏洞原理与防御">
   <meta property="og:description" content="怎么又要开始准备面试了上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
@@ -148,7 +148,7 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">网上搜集的一些安全岗面试问题--web常见漏洞原理与防御</h1>
+    <h1 class="post-title">安全岗面试相关问题--web常见漏洞原理与防御</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
       <time datetime="2018-03-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-06</time>  
@@ -171,31 +171,80 @@
 <h3 id="常见漏洞的原理与防御">常见漏洞的原理与防御</h3>
 
 <ol>
+  <li>XSS：<a href="https://security.yirendai.com/news/share/26">浅谈XSS—字符编码和浏览器解析原理</a></li>
+</ol>
+
+<ul>
   <li>
-    <p>XSS：<a href="https://security.yirendai.com/news/share/26">浅谈XSS—字符编码和浏览器解析原理</a></p>
+    <p>常见类型：</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>类型：
-
-    反射型XSS：把用户输入的数据“反射”给浏览器，需要用户点击某链接
-
-    存储型XSS：把用户输入的数据存储在服务器
-
-    DOM Based XSS：也属于反射型XSS，修改页面的DOM节点形成XSS
-
-常用payload：
-
-    https://www.t00ls.net/thread-42640-1-1.html
-
-防御：
-
-    Cookie的`HttpOnly标识`
-
-    XSS Filter：过滤用户输入的危险字符
-
-    输出检查：编码和转义
-</code></pre>
-    </div>
+    <ul>
+      <li>反射型XSS：把用户输入的数据“反射”给浏览器，即需要用户点击某链接</li>
+      <li>存储型XSS：把用户输入的数据存储在服务器</li>
+      <li>DOM Based XSS：也属于反射型XSS，修改页面的DOM节点形成XSS</li>
+    </ul>
   </li>
+  <li>
+    <p>其他类型的XSS：<a href="http://www.fooying.com/the-art-of-xss-1-introduction/">跨站的艺术-XSS入门与介绍</a></p>
+
+    <ul>
+      <li>mXSS:突变型XSS，原本无害，而由于一些特殊原因，如反编码等，导致Payload发生变异，导致的XSS。如：旧版QQ客户端中的链接预览。</li>
+      <li>UXSS:利用浏览器或者浏览器扩展漏洞来制造产生XSS的条件并执行代码的一种攻击类型,可以理解为Bypass同源策略。<a href="http://www.fooying.com/uxss/">通用跨站脚本攻击(UXSS)</a></li>
+      <li>Flash XSS:来源于 getURL/navigateToURL（访问跳转）、ExternalInterface.call（调用js函数）</li>
+      <li>UTF-7 XSS:低版本IE中未指定meta编码或指定编码为UTF-7</li>
+      <li>MHTML XSS:低版本IE中</li>
+      <li>CSS XSS:<code class="highlighter-rouge">body {width:expression(alert(1));: red;}</code></li>
+      <li>VBScript XSS:<code class="highlighter-rouge">&lt;input type ="button" onClick="VBScript:Document.Write 'hello mr. Fooying' MsgBox 'xss'"&gt;</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>注入点：
+  GET参数、POST参数、UA、Referer…一切可以提交的输入点</p>
+  </li>
+  <li>
+    <p>危害：<a href="https://thief.one/2017/05/31/1/">浅谈跨站脚本攻击与防御</a></p>
+
+    <ul>
+      <li>cookie劫持</li>
+      <li>后台增删改文章</li>
+      <li>钓鱼，利用xss构造出一个登录框，骗取用户账户密码。</li>
+      <li>xss蠕虫（利用xss漏洞进行传播）</li>
+      <li>修改网页代码:必须存在存储型xss漏洞，并且将结果返回到页面上
+  （javascript加载外部的代码文件可以是任意扩展名（无扩展名也可以））</li>
+      <li>利用网站重定向</li>
+      <li>获取用户信息（如浏览器信息，IP地址等）:调用java Applet的接口获取客户端本地IP</li>
+    </ul>
+  </li>
+  <li>
+    <p>防御：</p>
+
+    <ul>
+      <li>在Cookie中设置<code class="highlighter-rouge">HttpOnly</code>标识,禁止页面的js访问带有httponly属性的cookie</li>
+      <li>XSS Filter：过滤用户输入的危险字符，设置黑白名单</li>
+      <li>输出检查：编码和转义，常用编码：html编码、url编码、js编码、16进制、base64等，使得浏览器无法解析执行js代码</li>
+      <li>针对不同位置的输出，使用不同的处理方式</li>
+      <li>处理富文本:限制用户能使用的标签，限制为只能使用a、div等安全的标签</li>
+      <li>header中使用content-Sencurity-Policy字段，规定请求js的域名白名单（CSP策略）</li>
+    </ul>
+  </li>
+  <li>绕过：
+    <ul>
+      <li>转换大小写</li>
+      <li>大小写混写</li>
+      <li>双引号改单引号</li>
+      <li>引号改为/</li>
+      <li>用全角字符</li>
+      <li>使用javascript伪协议</li>
+      <li>使用回车、空格等特殊字符</li>
+      <li>在css的style中使用/**/注释符</li>
+      <li>使用字符编码</li>
+      <li>利用事件触发xss</li>
+    </ul>
+  </li>
+  <li>常用payload：<a href="https://www.t00ls.net/thread-42640-1-1.html">tools</a></li>
+</ul>
+
+<ol>
   <li>
     <p>SQL Injection:</p>
 
@@ -274,7 +323,7 @@
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/" data-title="网上搜集的一些安全岗面试问题--web常见漏洞原理与防御" data-url="http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/"></div>
+    <div class="ds-thread" data-thread-key="/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/" data-title="安全岗面试相关问题--web常见漏洞原理与防御" data-url="http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/"></div>
 
     <script type="text/javascript">
         var duoshuoQuery = {short_name:"Snowty"};

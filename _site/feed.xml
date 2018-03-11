@@ -5,9 +5,163 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 11 Mar 2018 19:47:24 +0800</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 19:47:24 +0800</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 20:47:17 +0800</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 20:47:17 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>安全岗面试相关问题--同源策略与跨域</title>
+        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
+&lt;p&gt;上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…
+今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣&lt;/p&gt;
+
+&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
+
+&lt;p&gt;然后，把CHYbeta大神的&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning&quot;&gt;Web-Security-Learning&lt;/a&gt;过一遍😳？&lt;/p&gt;
+
+&lt;h3 id=&quot;什么是同源策略&quot;&gt;什么是同源策略&lt;/h3&gt;
+
+&lt;p&gt;源就是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，协议，端口名]&lt;/code&gt;的一个三元组。
+（此外，cookie的同源策略是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，端口名]&lt;/code&gt;，不包含协议，因此可以用http的cookie去覆盖https的cookie。）&lt;/p&gt;
+
+&lt;p&gt;同源策略(Same Origin Policy, SOP)：限制了来自不同源的”document“或者脚本，对当前”document“读取或者设置某些属性。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;、&amp;lt;img&amp;gt;、&amp;lt;iframe&amp;gt;、&amp;lt;link&amp;gt;&lt;/code&gt;等标签都可以跨域加载资源，而不受同源策略的限制，但是浏览器限制了JS的权限，使其不能读、写返回的资源。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;不可以跨域加载资源，但是可以读写资源。如果可以跨域，则会导致一些敏感数据的泄漏，如CSRF Token。&lt;/p&gt;
+
+&lt;p&gt;XHR需要根据&lt;code class=&quot;highlighter-rouge&quot;&gt;目标域&lt;/code&gt;返回的HTTP头来授权是否允许跨域访问，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;JS无法控制HTTP头&lt;/code&gt;（这点非常重要啊啊啊啊啊啊，👻👽💀🤖👏👏👏）。XSS在没有其他辅助的情况下也无法控制HTTP头啊啊啊啊。&lt;/p&gt;
+
+&lt;p&gt;除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。&lt;/p&gt;
+
+&lt;p&gt;跨域的方式主要有：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CORS
+CSP
+JSONP
+postMessage
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;cross-origin-resource-sharingcors&quot;&gt;Cross-origin Resource Sharing(CORS)&lt;/h3&gt;
+
+&lt;p&gt;例如从&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.a.com/test.html&lt;/code&gt;发起对&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.b.com/test.php&lt;/code&gt;的请求，请求头中包含&lt;code class=&quot;highlighter-rouge&quot;&gt;origin:http://www.a.com&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;（origin header 可以用于防范CSRF，不像Refer那么容易被伪造或清空，此处的referer怎么改？？？？？😱😱😱😱😱😱😱😱😱😱😱）&lt;/p&gt;
+
+&lt;p&gt;如果www.b.com返回的http Header中包含：&lt;code class=&quot;highlighter-rouge&quot;&gt;Access control allow origin:http://www.a.com&lt;/code&gt;,则表示这个跨域请求被通过。（下图是图糙理不糙啊啊啊&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/SOP/ACAO.png&quot; height=&quot;250&quot; width=&quot;450&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;还有很多其他的标准：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Allow-Origin
+Access-Control-Allow-Methods
+Access-Control-Allow-Headers
+Access-Control-Max-Age
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;content-security-policycsp&quot;&gt;Content Security Policy(CSP)&lt;/h3&gt;
+
+&lt;p&gt;由服务器返回一个HTTP头，并在其中描述页面该遵守的安全策略。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;X-Content-Security-Policy:allow 'self' *.mydomain.com    // 浏览器将信任来自mydomain.com及其子域名下面的内容
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CSP的实质为白名单，在浏览器层面做的防护，是和同源策略同一级别，除非浏览器本身出现漏洞，否则不可能从机制上绕过。
+CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的域发起请求。&lt;/p&gt;
+
+&lt;p&gt;CSP怎么能有这么多姿势…&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.49.ZP8rXN&amp;amp;articleid=518&quot;&gt;Content Security Policy 入门教程&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://paper.seebug.org/423/&quot;&gt;前端防御从入门到弃坑–CSP变迁&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;jsonp只支持get请求&quot;&gt;JSONP(只支持get请求)&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSONP(JSON with Padding)&lt;/code&gt;是一个简单高效的跨域方式，可以简单理解为带callback的json。利用&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。
+参考&lt;a href=&quot;https://www.zhihu.com/question/19966531/answer/13502030&quot;&gt;知乎&lt;/a&gt;。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;当需要通讯时，本站脚本创建一个&amp;lt;script&amp;gt;元素，地址指向第三方的API网址，形如:
+
+    &amp;lt;script src=&quot;http://www.example.net/api?param1=1&amp;amp;param2=2&quot;&amp;gt;&amp;lt;/script&amp;gt;
+
+并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。     
+
+第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如：     
+
+    callback({&quot;name&quot;:&quot;hax&quot;,&quot;gender&quot;:&quot;Male&quot;})     
+
+这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;JSONP是CSP的克星&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script src=&quot;/path/jsonp?callback=alert(document.domain)//&quot;&amp;gt; &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;postmessage&quot;&gt;postMessage&lt;/h3&gt;
+
+&lt;p&gt;postMessage允许每一个window（包括当前窗口、弹出窗口、iframe等）对象往其他的窗口发送文本消息，从而实现跨窗口的消息传递，不受同源策略限制。&lt;/p&gt;
+
+&lt;h3 id=&quot;同源攻防&quot;&gt;同源攻防&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.anquanke.com/post/id/86078&quot;&gt;漫谈同源策略攻防&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对URI的解析：&lt;/p&gt;
+
+    &lt;p&gt;在某些浏览器对URI的解释存在漏洞的时候，可以构造相应的攻击连绕过SOP&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;设计缺陷绕过SOP：&lt;/p&gt;
+
+    &lt;p&gt;在Java6，7中，如果两个域名解析到相同的IP，则会认为他们同源。假设我们有attacker.com和victim.com,两者都共享主机123.123.123.123。攻击者attacker.com可以在自己控制的域名下上传一个jar文件来访问victim.com的内容。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;访问本地文件的同源策略&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/dir/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;1.html与2.html视为同源&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;特立独行的IE：&lt;/p&gt;
+
+    &lt;p&gt;TrustZones（信任域）：当一个URI被加入到了IE的信任网站区域中时，浏览器会无视同源策略。&lt;/p&gt;
+
+    &lt;p&gt;IE在考虑同源策略时不包括端口， 这意味着不同端口上的应用程序可以读取到比如用户的登陆账户密码/cookie等。&lt;/p&gt;
+
+    &lt;p&gt;通过变更自身的源绕过同源策略：IE 6，7版中网页可以通过document.domain设置自身的来源为任意其他来源&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;防御&quot;&gt;防御&lt;/h3&gt;
+&lt;p&gt;最好的防御方式则是设置CORS&lt;/p&gt;
+
+&lt;p&gt;禁止跨域写，引入CSRF令牌，且必须正确的配置同源策略，否则令牌也会被读取。&lt;/p&gt;
+
+&lt;p&gt;禁止跨域读，我们可以通过设置&lt;code class=&quot;highlighter-rouge&quot;&gt;X-Frame-Options&lt;/code&gt;头来禁止该页面被嵌入到恶意页面中&lt;/p&gt;
+
+&lt;p&gt;禁止跨域嵌入，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script data-original=&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;、 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img data-original=x&amp;gt;&amp;lt;/img&amp;gt;&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;svg onload=&amp;gt;&lt;/code&gt;，各种字体加载等等。同时，使用CSRF令牌也可以有效避免被跨域嵌入。&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 11 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</guid>
+        
+        <category>Sec</category>
+        
+        
+      </item>
     
       <item>
         <title>Word2Vec以及tf实现</title>
@@ -334,160 +488,6 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       </item>
     
       <item>
-        <title>网上搜集的一些安全岗面试问题--同源策略与跨域</title>
-        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
-&lt;p&gt;上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…
-今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣&lt;/p&gt;
-
-&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
-
-&lt;p&gt;然后，把CHYbeta大神的&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning&quot;&gt;Web-Security-Learning&lt;/a&gt;过一遍😳？&lt;/p&gt;
-
-&lt;h3 id=&quot;什么是同源策略&quot;&gt;什么是同源策略&lt;/h3&gt;
-
-&lt;p&gt;源就是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，协议，端口名]&lt;/code&gt;的一个三元组。
-（此外，cookie的同源策略是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，端口名]&lt;/code&gt;，不包含协议，因此可以用http的cookie去覆盖https的cookie。）&lt;/p&gt;
-
-&lt;p&gt;同源策略(Same Origin Policy, SOP)：限制了来自不同源的”document“或者脚本，对当前”document“读取或者设置某些属性。&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;、&amp;lt;img&amp;gt;、&amp;lt;iframe&amp;gt;、&amp;lt;link&amp;gt;&lt;/code&gt;等标签都可以跨域加载资源，而不受同源策略的限制，但是浏览器限制了JS的权限，使其不能读、写返回的资源。&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;不可以跨域加载资源，但是可以读写资源。如果可以跨域，则会导致一些敏感数据的泄漏，如CSRF Token。&lt;/p&gt;
-
-&lt;p&gt;XHR需要根据&lt;code class=&quot;highlighter-rouge&quot;&gt;目标域&lt;/code&gt;返回的HTTP头来授权是否允许跨域访问，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;JS无法控制HTTP头&lt;/code&gt;（这点非常重要啊啊啊啊啊啊，👻👽💀🤖👏👏👏）。XSS在没有其他辅助的情况下也无法控制HTTP头啊啊啊啊。&lt;/p&gt;
-
-&lt;p&gt;除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。&lt;/p&gt;
-
-&lt;p&gt;跨域的方式主要有：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CORS
-CSP
-JSONP
-postMessage
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;cross-origin-resource-sharingcors&quot;&gt;Cross-origin Resource Sharing(CORS)&lt;/h3&gt;
-
-&lt;p&gt;例如从&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.a.com/test.html&lt;/code&gt;发起对&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.b.com/test.php&lt;/code&gt;的请求，请求头中包含&lt;code class=&quot;highlighter-rouge&quot;&gt;origin:http://www.a.com&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;（origin header 可以用于防范CSRF，不像Refer那么容易被伪造或清空，此处的referer怎么改？？？？？😱😱😱😱😱😱😱😱😱😱😱）&lt;/p&gt;
-
-&lt;p&gt;如果www.b.com返回的http Header中包含：&lt;code class=&quot;highlighter-rouge&quot;&gt;Access control allow origin:http://www.a.com&lt;/code&gt;,则表示这个跨域请求被通过。（下图是图糙理不糙啊啊啊&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/SOP/ACAO.png&quot; height=&quot;250&quot; width=&quot;450&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;还有很多其他的标准：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Allow-Origin
-Access-Control-Allow-Methods
-Access-Control-Allow-Headers
-Access-Control-Max-Age
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;content-security-policycsp&quot;&gt;Content Security Policy(CSP)&lt;/h3&gt;
-
-&lt;p&gt;由服务器返回一个HTTP头，并在其中描述页面该遵守的安全策略。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;X-Content-Security-Policy:allow 'self' *.mydomain.com    // 浏览器将信任来自mydomain.com及其子域名下面的内容
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;CSP的实质为白名单，在浏览器层面做的防护，是和同源策略同一级别，除非浏览器本身出现漏洞，否则不可能从机制上绕过。
-CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的域发起请求。&lt;/p&gt;
-
-&lt;p&gt;CSP怎么能有这么多姿势…&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.49.ZP8rXN&amp;amp;articleid=518&quot;&gt;Content Security Policy 入门教程&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://paper.seebug.org/423/&quot;&gt;前端防御从入门到弃坑–CSP变迁&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;jsonp只支持get请求&quot;&gt;JSONP(只支持get请求)&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSONP(JSON with Padding)&lt;/code&gt;是一个简单高效的跨域方式，可以简单理解为带callback的json。利用&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。
-参考&lt;a href=&quot;https://www.zhihu.com/question/19966531/answer/13502030&quot;&gt;知乎&lt;/a&gt;。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;当需要通讯时，本站脚本创建一个&amp;lt;script&amp;gt;元素，地址指向第三方的API网址，形如:
-
-    &amp;lt;script src=&quot;http://www.example.net/api?param1=1&amp;amp;param2=2&quot;&amp;gt;&amp;lt;/script&amp;gt;
-
-并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。     
-
-第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如：     
-
-    callback({&quot;name&quot;:&quot;hax&quot;,&quot;gender&quot;:&quot;Male&quot;})     
-
-这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;JSONP是CSP的克星&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script src=&quot;/path/jsonp?callback=alert(document.domain)//&quot;&amp;gt; &amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;postmessage&quot;&gt;postMessage&lt;/h3&gt;
-
-&lt;p&gt;postMessage允许每一个window（包括当前窗口、弹出窗口、iframe等）对象往其他的窗口发送文本消息，从而实现跨窗口的消息传递，不受同源策略限制。&lt;/p&gt;
-
-&lt;h3 id=&quot;同源攻防&quot;&gt;同源攻防&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.anquanke.com/post/id/86078&quot;&gt;漫谈同源策略攻防&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;对URI的解析：&lt;/p&gt;
-
-    &lt;p&gt;在某些浏览器对URI的解释存在漏洞的时候，可以构造相应的攻击连绕过SOP&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;设计缺陷绕过SOP：&lt;/p&gt;
-
-    &lt;p&gt;在Java6，7中，如果两个域名解析到相同的IP，则会认为他们同源。假设我们有attacker.com和victim.com,两者都共享主机123.123.123.123。攻击者attacker.com可以在自己控制的域名下上传一个jar文件来访问victim.com的内容。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;访问本地文件的同源策略&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/dir/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-    &lt;p&gt;1.html与2.html视为同源&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;特立独行的IE：&lt;/p&gt;
-
-    &lt;p&gt;TrustZones（信任域）：当一个URI被加入到了IE的信任网站区域中时，浏览器会无视同源策略。&lt;/p&gt;
-
-    &lt;p&gt;IE在考虑同源策略时不包括端口， 这意味着不同端口上的应用程序可以读取到比如用户的登陆账户密码/cookie等。&lt;/p&gt;
-
-    &lt;p&gt;通过变更自身的源绕过同源策略：IE 6，7版中网页可以通过document.domain设置自身的来源为任意其他来源&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;防御&quot;&gt;防御&lt;/h3&gt;
-&lt;p&gt;最好的防御方式则是设置CORS&lt;/p&gt;
-
-&lt;p&gt;禁止跨域写，引入CSRF令牌，且必须正确的配置同源策略，否则令牌也会被读取。&lt;/p&gt;
-
-&lt;p&gt;禁止跨域读，我们可以通过设置&lt;code class=&quot;highlighter-rouge&quot;&gt;X-Frame-Options&lt;/code&gt;头来禁止该页面被嵌入到恶意页面中&lt;/p&gt;
-
-&lt;p&gt;禁止跨域嵌入，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script data-original=&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;、 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img data-original=x&amp;gt;&amp;lt;/img&amp;gt;&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;svg onload=&amp;gt;&lt;/code&gt;，各种字体加载等等。同时，使用CSRF令牌也可以有效避免被跨域嵌入。&lt;/p&gt;
-
-</description>
-        <pubDate>Tue, 06 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</guid>
-        
-        <category>Sec</category>
-        
-        
-      </item>
-    
-      <item>
         <title>文字框选相关问题(R-CNN,SPPNET,Fast R-CNN,Faster R-CNN,CTPN,YOLO )</title>
         <description>&lt;h3 id=&quot;数据集&quot;&gt;数据集&lt;/h3&gt;
 
@@ -571,7 +571,7 @@ VOC物体检测任务：如果某数据集包含了20个物体类别，则还需
       </item>
     
       <item>
-        <title>网上搜集的一些安全岗面试问题--web常见漏洞原理与防御</title>
+        <title>安全岗面试相关问题--web常见漏洞原理与防御</title>
         <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
 &lt;p&gt;上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…&lt;/p&gt;
 
@@ -584,31 +584,80 @@ VOC物体检测任务：如果某数据集包含了20个物体类别，则还需
 &lt;h3 id=&quot;常见漏洞的原理与防御&quot;&gt;常见漏洞的原理与防御&lt;/h3&gt;
 
 &lt;ol&gt;
+  &lt;li&gt;XSS：&lt;a href=&quot;https://security.yirendai.com/news/share/26&quot;&gt;浅谈XSS—字符编码和浏览器解析原理&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;XSS：&lt;a href=&quot;https://security.yirendai.com/news/share/26&quot;&gt;浅谈XSS—字符编码和浏览器解析原理&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;常见类型：&lt;/p&gt;
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;类型：
-
-    反射型XSS：把用户输入的数据“反射”给浏览器，需要用户点击某链接
-
-    存储型XSS：把用户输入的数据存储在服务器
-
-    DOM Based XSS：也属于反射型XSS，修改页面的DOM节点形成XSS
-
-常用payload：
-
-    https://www.t00ls.net/thread-42640-1-1.html
-
-防御：
-
-    Cookie的`HttpOnly标识`
-
-    XSS Filter：过滤用户输入的危险字符
-
-    输出检查：编码和转义
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;反射型XSS：把用户输入的数据“反射”给浏览器，即需要用户点击某链接&lt;/li&gt;
+      &lt;li&gt;存储型XSS：把用户输入的数据存储在服务器&lt;/li&gt;
+      &lt;li&gt;DOM Based XSS：也属于反射型XSS，修改页面的DOM节点形成XSS&lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;其他类型的XSS：&lt;a href=&quot;http://www.fooying.com/the-art-of-xss-1-introduction/&quot;&gt;跨站的艺术-XSS入门与介绍&lt;/a&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;mXSS:突变型XSS，原本无害，而由于一些特殊原因，如反编码等，导致Payload发生变异，导致的XSS。如：旧版QQ客户端中的链接预览。&lt;/li&gt;
+      &lt;li&gt;UXSS:利用浏览器或者浏览器扩展漏洞来制造产生XSS的条件并执行代码的一种攻击类型,可以理解为Bypass同源策略。&lt;a href=&quot;http://www.fooying.com/uxss/&quot;&gt;通用跨站脚本攻击(UXSS)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;Flash XSS:来源于 getURL/navigateToURL（访问跳转）、ExternalInterface.call（调用js函数）&lt;/li&gt;
+      &lt;li&gt;UTF-7 XSS:低版本IE中未指定meta编码或指定编码为UTF-7&lt;/li&gt;
+      &lt;li&gt;MHTML XSS:低版本IE中&lt;/li&gt;
+      &lt;li&gt;CSS XSS:&lt;code class=&quot;highlighter-rouge&quot;&gt;body {width:expression(alert(1));: red;}&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;VBScript XSS:&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;input type =&quot;button&quot; onClick=&quot;VBScript:Document.Write 'hello mr. Fooying' MsgBox 'xss'&quot;&amp;gt;&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;注入点：
+  GET参数、POST参数、UA、Referer…一切可以提交的输入点&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;危害：&lt;a href=&quot;https://thief.one/2017/05/31/1/&quot;&gt;浅谈跨站脚本攻击与防御&lt;/a&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;cookie劫持&lt;/li&gt;
+      &lt;li&gt;后台增删改文章&lt;/li&gt;
+      &lt;li&gt;钓鱼，利用xss构造出一个登录框，骗取用户账户密码。&lt;/li&gt;
+      &lt;li&gt;xss蠕虫（利用xss漏洞进行传播）&lt;/li&gt;
+      &lt;li&gt;修改网页代码:必须存在存储型xss漏洞，并且将结果返回到页面上
+  （javascript加载外部的代码文件可以是任意扩展名（无扩展名也可以））&lt;/li&gt;
+      &lt;li&gt;利用网站重定向&lt;/li&gt;
+      &lt;li&gt;获取用户信息（如浏览器信息，IP地址等）:调用java Applet的接口获取客户端本地IP&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;防御：&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;在Cookie中设置&lt;code class=&quot;highlighter-rouge&quot;&gt;HttpOnly&lt;/code&gt;标识,禁止页面的js访问带有httponly属性的cookie&lt;/li&gt;
+      &lt;li&gt;XSS Filter：过滤用户输入的危险字符，设置黑白名单&lt;/li&gt;
+      &lt;li&gt;输出检查：编码和转义，常用编码：html编码、url编码、js编码、16进制、base64等，使得浏览器无法解析执行js代码&lt;/li&gt;
+      &lt;li&gt;针对不同位置的输出，使用不同的处理方式&lt;/li&gt;
+      &lt;li&gt;处理富文本:限制用户能使用的标签，限制为只能使用a、div等安全的标签&lt;/li&gt;
+      &lt;li&gt;header中使用content-Sencurity-Policy字段，规定请求js的域名白名单（CSP策略）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;绕过：
+    &lt;ul&gt;
+      &lt;li&gt;转换大小写&lt;/li&gt;
+      &lt;li&gt;大小写混写&lt;/li&gt;
+      &lt;li&gt;双引号改单引号&lt;/li&gt;
+      &lt;li&gt;引号改为/&lt;/li&gt;
+      &lt;li&gt;用全角字符&lt;/li&gt;
+      &lt;li&gt;使用javascript伪协议&lt;/li&gt;
+      &lt;li&gt;使用回车、空格等特殊字符&lt;/li&gt;
+      &lt;li&gt;在css的style中使用/**/注释符&lt;/li&gt;
+      &lt;li&gt;使用字符编码&lt;/li&gt;
+      &lt;li&gt;利用事件触发xss&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;常用payload：&lt;a href=&quot;https://www.t00ls.net/thread-42640-1-1.html&quot;&gt;tools&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
   &lt;li&gt;
     &lt;p&gt;SQL Injection:&lt;/p&gt;
 
