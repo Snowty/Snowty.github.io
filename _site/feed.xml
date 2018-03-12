@@ -5,38 +5,14 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 12 Mar 2018 17:32:23 +0800</pubDate>
-    <lastBuildDate>Mon, 12 Mar 2018 17:32:23 +0800</lastBuildDate>
+    <pubDate>Mon, 12 Mar 2018 20:58:46 +0800</pubDate>
+    <lastBuildDate>Mon, 12 Mar 2018 20:58:46 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
-    
-      <item>
-        <title>字符集以及转义编码相关问题</title>
-        <description>&lt;p&gt;###&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;GB2312 , GBK , GB18030 , BIG5 , SHIFT_JIS 等这些都是常说的宽字节（两个字节），ascii就是单字节（一个字节）
-      + 呼吁所有的程序都使用unicode编码，所有的网站都使用utf-8编码
-      + 一个gbk编码汉字，占用2个字节。一个utf-8编码的汉字，占用3个字节&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Mon, 12 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E5%AD%97%E7%AC%A6%E9%9B%86%E7%9B%B8%E5%85%B3/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E5%AD%97%E7%AC%A6%E9%9B%86%E7%9B%B8%E5%85%B3/</guid>
-        
-        <category>Sec</category>
-        
-        
-      </item>
     
       <item>
         <title>安全岗面试相关问题--同源策略与跨域</title>
         <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
-&lt;p&gt;上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…
-今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣&lt;/p&gt;
-
 &lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
-
-&lt;p&gt;然后，把CHYbeta大神的&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning&quot;&gt;Web-Security-Learning&lt;/a&gt;过一遍😳？&lt;/p&gt;
 
 &lt;h3 id=&quot;什么是同源策略&quot;&gt;什么是同源策略&lt;/h3&gt;
 
@@ -174,8 +150,8 @@ CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的�
 
 </description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</guid>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</guid>
         
         <category>Sec</category>
         
@@ -507,84 +483,84 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       </item>
     
       <item>
-        <title>文字框选相关问题(R-CNN,SPPNET,Fast R-CNN,Faster R-CNN,CTPN,YOLO )</title>
-        <description>&lt;h3 id=&quot;数据集&quot;&gt;数据集&lt;/h3&gt;
+        <title>安全岗面试相关问题--Javaweb相关</title>
+        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
+&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/tzutalin/labelImg&quot;&gt;图片框选与标注工具&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;java反序列化漏洞&quot;&gt;Java反序列化漏洞&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//1.jpg&quot; height=&quot;350&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.vulbox.com/knowledge/detail/?id=11&quot;&gt;深入理解JAVA反序列化漏洞&lt;/a&gt;
+&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;amp;mid=2247484200&amp;amp;idx=1&amp;amp;sn=8f3201f44e6374d65589d00d91f7148e&quot;&gt;Java安全之反序列化漏洞分析&lt;/a&gt;&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;ImageNet ILSVC 2012:    标定每张图片中物体的类别。一千万图像，1000类&lt;/p&gt;
-
-    &lt;p&gt;PASCAL VOC 2007:        标定每张图片中，物体的类别和位置，一万图像，20类&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Java序列化与反序列化
+    &lt;ul&gt;
+      &lt;li&gt;序列化：把Java对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的writeObject()方法可以实现序列化。&lt;/li&gt;
+      &lt;li&gt;反序列化：是指把字节序列恢复为Java对象的过程，ObjectInputStream类的readObject()方法用于反序列化。&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ac ed 00 05&lt;/code&gt;是java序列化内容的特征，如果经过base64编码，那么相对应的是&lt;code class=&quot;highlighter-rouge&quot;&gt;rO0AB&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ol&gt;
+  &lt;li&gt;成因
+    &lt;ul&gt;
+      &lt;li&gt;暴露或间接暴露反序列化API，导致用户可以操作传入数据，攻击者可以精心构造反序列化对象并执行恶意代码&lt;/li&gt;
+      &lt;li&gt;反序列化时没有进行校验，或者有些校验使用黑名单方式又被绕过，最终使得包含恶意代码的序列化对象在服务器端被反序列化执行。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;风险
+    &lt;ul&gt;
+      &lt;li&gt;信息泄露&lt;/li&gt;
+      &lt;li&gt;数据篡改
+        &lt;ul&gt;
+          &lt;li&gt;数据伪造&lt;/li&gt;
+          &lt;li&gt;拒绝服务：当篡改的数据不符合序列化对象的格式要求时候，可能会导致在反序列化对象的过程中抛出异常，从而拒绝服务&lt;/li&gt;
+          &lt;li&gt;命令执行：反序列化对象时的运行环境中存在有漏洞的jar包&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;如何发现反序列化漏洞：&lt;a href=&quot;https://github.com/frohoff/ysoserial&quot;&gt;ysoserial&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;从流量中发现序列化的痕迹，关键字：ac ed 00 05，rO0AB&lt;/li&gt;
+      &lt;li&gt;Java RMI的传输100%基于反序列化，Java RMI的默认端口是1099端口&lt;/li&gt;
+      &lt;li&gt;从源码入手，可以被序列化的类一定实现了Serializable接口&lt;/li&gt;
+      &lt;li&gt;观察反序列化时的readObject()方法是否重写，重写中是否有设计不合理，可以被利用之处&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;防范
+    &lt;ul&gt;
+      &lt;li&gt;对序列化的数据进行加密，传输过程使用TLS，进行完整性校验&lt;/li&gt;
+      &lt;li&gt;类白名单校验&lt;/li&gt;
+      &lt;li&gt;禁止JVM执行外部命令Runtime.exec&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h3 id=&quot;r-cnn&quot;&gt;R-CNN&lt;/h3&gt;
+&lt;h3 id=&quot;struct2&quot;&gt;Struct2&lt;/h3&gt;
 
-&lt;p&gt;这个博主写的文章，真的是很清晰啊，把所有不清楚的名词都解释好了~&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://rickgray.me/review-struts2-remote-command-execution-vulnerabilities&quot;&gt;Struts2 历史 RCE 漏洞回顾不完全系列&lt;/a&gt;
+&lt;a href=&quot;http://www.zerokeeper.com/vul-analysis/struts2-command-execution-series-review.html&quot;&gt;Struts2 命令执行系列回顾&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote&quot;&gt;RCNN- 将CNN引入目标检测的开山之作&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;OGNL表达式:通过简单一致的表达式语法，可以存取对象的任意属性，调用对象的方法，遍历整个对象的结构图，实现字段类型转化等功能。
+    &lt;ul&gt;
+      &lt;li&gt;表达式（Expression）：规定OGNL的操作&lt;/li&gt;
+      &lt;li&gt;根对象（Root Object）：OGNL的操作对象&lt;/li&gt;
+      &lt;li&gt;上下文环境（Context）：操作在哪里干&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;成因：用户插入任意OGNL表达式并执行&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/WoPawn/article/details/52133338&quot;&gt;R-CNN论文详解&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;代码审计&quot;&gt;代码审计&lt;/h3&gt;
 
-&lt;p&gt;步骤：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://xianzhi.aliyun.com/forum/topic/1633/&quot;&gt;JAVA代码审计的一些Tips(附脚本)&lt;/a&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  候选区域生成： 一张图像生成1K~2K个候选区域 （采用Selective Search 方法）
-
-2.  特征提取： 对每个候选区域，使用深度卷积网络提取特征 （CNN） 
-
-3.  类别判断： 特征送入每一类的SVM 分类器，判别是否属于该类 
-
-4.  位置精修： 使用回归器精细修正候选框位置 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//RCNN.png&quot; height=&quot;200&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;相关的知识点：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;selective search：根据一定的规则选出候选区域
-
-重叠度（IOU）：两个BBX的重叠度，即矩形框A、B的重叠面积占A、B并集的面积比例
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//IOU.png&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;非极大值抑制（NMS）：一张图片中找出N个可能是同一物体的矩形框，需要判别哪些框是没有用的
-
-VOC物体检测任务：如果某数据集包含了20个物体类别，则还需要加上背景类，总共21类
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;sppnet&quot;&gt;SPPNet&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24774302?refer=xiaoleimlnote&quot;&gt;SPPNet-引入空间金字塔池化改进RCNN&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;fast-r-cnn&quot;&gt;Fast R-CNN&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24780395?refer=xiaoleimlnote&quot;&gt;Fast R-CNN&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;faster-r-cnn&quot;&gt;Faster R-CNN&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote&quot;&gt;Faster R-CNN&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;对比与小结&quot;&gt;对比与小结&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/35887527/answer/73048322&quot;&gt;知乎&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mapmean-average-precision&quot;&gt;mAP(mean average precision)&lt;/h3&gt;
 </description>
-        <pubDate>Tue, 06 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E6%96%87%E5%AD%97%E6%A1%86%E9%80%89/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E6%96%87%E5%AD%97%E6%A1%86%E9%80%89/</guid>
+        <pubDate>Wed, 07 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/</guid>
         
-        <category>AI</category>
+        <category>Sec</category>
         
         
       </item>
@@ -822,10 +798,93 @@ VOC物体检测任务：如果某数据集包含了20个物体类别，则还需
 
 </description>
         <pubDate>Tue, 06 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/</guid>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/</guid>
         
         <category>Sec</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>文字框选相关问题(R-CNN,SPPNET,Fast R-CNN,Faster R-CNN,CTPN,YOLO )</title>
+        <description>&lt;h3 id=&quot;数据集&quot;&gt;数据集&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tzutalin/labelImg&quot;&gt;图片框选与标注工具&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//1.jpg&quot; height=&quot;350&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;ImageNet ILSVC 2012:    标定每张图片中物体的类别。一千万图像，1000类&lt;/p&gt;
+
+    &lt;p&gt;PASCAL VOC 2007:        标定每张图片中，物体的类别和位置，一万图像，20类&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;r-cnn&quot;&gt;R-CNN&lt;/h3&gt;
+
+&lt;p&gt;这个博主写的文章，真的是很清晰啊，把所有不清楚的名词都解释好了~&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote&quot;&gt;RCNN- 将CNN引入目标检测的开山之作&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/WoPawn/article/details/52133338&quot;&gt;R-CNN论文详解&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;步骤：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  候选区域生成： 一张图像生成1K~2K个候选区域 （采用Selective Search 方法）
+
+2.  特征提取： 对每个候选区域，使用深度卷积网络提取特征 （CNN） 
+
+3.  类别判断： 特征送入每一类的SVM 分类器，判别是否属于该类 
+
+4.  位置精修： 使用回归器精细修正候选框位置 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//RCNN.png&quot; height=&quot;200&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;相关的知识点：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;selective search：根据一定的规则选出候选区域
+
+重叠度（IOU）：两个BBX的重叠度，即矩形框A、B的重叠面积占A、B并集的面积比例
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//IOU.png&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;非极大值抑制（NMS）：一张图片中找出N个可能是同一物体的矩形框，需要判别哪些框是没有用的
+
+VOC物体检测任务：如果某数据集包含了20个物体类别，则还需要加上背景类，总共21类
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;sppnet&quot;&gt;SPPNet&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24774302?refer=xiaoleimlnote&quot;&gt;SPPNet-引入空间金字塔池化改进RCNN&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;fast-r-cnn&quot;&gt;Fast R-CNN&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24780395?refer=xiaoleimlnote&quot;&gt;Fast R-CNN&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;faster-r-cnn&quot;&gt;Faster R-CNN&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote&quot;&gt;Faster R-CNN&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;对比与小结&quot;&gt;对比与小结&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/35887527/answer/73048322&quot;&gt;知乎&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mapmean-average-precision&quot;&gt;mAP(mean average precision)&lt;/h3&gt;
+</description>
+        <pubDate>Tue, 06 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/%E6%96%87%E5%AD%97%E6%A1%86%E9%80%89/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E6%96%87%E5%AD%97%E6%A1%86%E9%80%89/</guid>
+        
+        <category>AI</category>
         
         
       </item>

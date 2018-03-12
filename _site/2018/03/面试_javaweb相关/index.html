@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>字符集以及转义编码相关问题</title>
-  <meta name="description" content="###">
+  <title>安全岗面试相关问题--Javaweb相关</title>
+  <meta name="description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="字符集以及转义编码相关问题">
-  <meta name="twitter:description" content="###">
+  <meta name="twitter:title" content="安全岗面试相关问题--Javaweb相关">
+  <meta name="twitter:description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="字符集以及转义编码相关问题">
-  <meta property="og:description" content="###">
+  <meta property="og:title" content="安全岗面试相关问题--Javaweb相关">
+  <meta property="og:description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2018/03/%E5%AD%97%E7%AC%A6%E9%9B%86%E7%9B%B8%E5%85%B3/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,10 +148,10 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">字符集以及转义编码相关问题</h1>
+    <h1 class="post-title">安全岗面试相关问题--Javaweb相关</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
-      <time datetime="2018-03-12 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-12</time>  
+      <time datetime="2018-03-07 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-07</time>  
          
       <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
     </p>
@@ -159,13 +159,77 @@
   </header>
 
   <section class="post">
-    <p>###</p>
+    <h3 id="怎么又要开始准备面试了">怎么又要开始准备面试了</h3>
+<p>下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口</p>
+
+<h3 id="java反序列化漏洞">Java反序列化漏洞</h3>
+
+<p><a href="https://www.vulbox.com/knowledge/detail/?id=11">深入理解JAVA反序列化漏洞</a>
+<a href="https://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;mid=2247484200&amp;idx=1&amp;sn=8f3201f44e6374d65589d00d91f7148e">Java安全之反序列化漏洞分析</a></p>
 
 <ul>
-  <li>GB2312 , GBK , GB18030 , BIG5 , SHIFT_JIS 等这些都是常说的宽字节（两个字节），ascii就是单字节（一个字节）
-      + 呼吁所有的程序都使用unicode编码，所有的网站都使用utf-8编码
-      + 一个gbk编码汉字，占用2个字节。一个utf-8编码的汉字，占用3个字节</li>
+  <li>Java序列化与反序列化
+    <ul>
+      <li>序列化：把Java对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的writeObject()方法可以实现序列化。</li>
+      <li>反序列化：是指把字节序列恢复为Java对象的过程，ObjectInputStream类的readObject()方法用于反序列化。</li>
+      <li><code class="highlighter-rouge">ac ed 00 05</code>是java序列化内容的特征，如果经过base64编码，那么相对应的是<code class="highlighter-rouge">rO0AB</code></li>
+    </ul>
+  </li>
+  <li>成因
+    <ul>
+      <li>暴露或间接暴露反序列化API，导致用户可以操作传入数据，攻击者可以精心构造反序列化对象并执行恶意代码</li>
+      <li>反序列化时没有进行校验，或者有些校验使用黑名单方式又被绕过，最终使得包含恶意代码的序列化对象在服务器端被反序列化执行。</li>
+    </ul>
+  </li>
+  <li>风险
+    <ul>
+      <li>信息泄露</li>
+      <li>数据篡改
+        <ul>
+          <li>数据伪造</li>
+          <li>拒绝服务：当篡改的数据不符合序列化对象的格式要求时候，可能会导致在反序列化对象的过程中抛出异常，从而拒绝服务</li>
+          <li>命令执行：反序列化对象时的运行环境中存在有漏洞的jar包</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>如何发现反序列化漏洞：<a href="https://github.com/frohoff/ysoserial">ysoserial</a>
+    <ul>
+      <li>从流量中发现序列化的痕迹，关键字：ac ed 00 05，rO0AB</li>
+      <li>Java RMI的传输100%基于反序列化，Java RMI的默认端口是1099端口</li>
+      <li>从源码入手，可以被序列化的类一定实现了Serializable接口</li>
+      <li>观察反序列化时的readObject()方法是否重写，重写中是否有设计不合理，可以被利用之处</li>
+    </ul>
+  </li>
+  <li>防范
+    <ul>
+      <li>对序列化的数据进行加密，传输过程使用TLS，进行完整性校验</li>
+      <li>类白名单校验</li>
+      <li>禁止JVM执行外部命令Runtime.exec</li>
+    </ul>
+  </li>
 </ul>
+
+<h3 id="struct2">Struct2</h3>
+
+<p><a href="http://rickgray.me/review-struts2-remote-command-execution-vulnerabilities">Struts2 历史 RCE 漏洞回顾不完全系列</a>
+<a href="http://www.zerokeeper.com/vul-analysis/struts2-command-execution-series-review.html">Struts2 命令执行系列回顾</a></p>
+
+<ul>
+  <li>OGNL表达式:通过简单一致的表达式语法，可以存取对象的任意属性，调用对象的方法，遍历整个对象的结构图，实现字段类型转化等功能。
+    <ul>
+      <li>表达式（Expression）：规定OGNL的操作</li>
+      <li>根对象（Root Object）：OGNL的操作对象</li>
+      <li>上下文环境（Context）：操作在哪里干</li>
+    </ul>
+  </li>
+  <li>成因：用户插入任意OGNL表达式并执行</li>
+</ul>
+
+<h3 id="代码审计">代码审计</h3>
+
+<p><a href="https://xianzhi.aliyun.com/forum/topic/1633/">JAVA代码审计的一些Tips(附脚本)</a></p>
+
 
 
   </section>
@@ -174,7 +238,7 @@
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2018/03/%E5%AD%97%E7%AC%A6%E9%9B%86%E7%9B%B8%E5%85%B3/" data-title="字符集以及转义编码相关问题" data-url="http://localhost:4000/2018/03/%E5%AD%97%E7%AC%A6%E9%9B%86%E7%9B%B8%E5%85%B3/"></div>
+    <div class="ds-thread" data-thread-key="/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/" data-title="安全岗面试相关问题--Javaweb相关" data-url="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/"></div>
 
     <script type="text/javascript">
         var duoshuoQuery = {short_name:"Snowty"};
