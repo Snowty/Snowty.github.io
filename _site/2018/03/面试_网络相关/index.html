@@ -6,16 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>安全岗面试相关问题--Javaweb相关</title>
+  <title>安全岗面试相关问题--网络相关</title>
   <meta name="description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="安全岗面试相关问题--Javaweb相关">
+  <meta name="twitter:title" content="安全岗面试相关问题--网络相关">
   <meta name="twitter:description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="安全岗面试相关问题--Javaweb相关">
+  <meta property="og:title" content="安全岗面试相关问题--网络相关">
   <meta property="og:description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,10 +148,10 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">安全岗面试相关问题--Javaweb相关</h1>
+    <h1 class="post-title">安全岗面试相关问题--网络相关</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
-      <time datetime="2018-03-07 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-07</time>  
+      <time datetime="2018-03-09 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-09</time>  
          
       <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
     </p>
@@ -162,73 +162,125 @@
     <h3 id="怎么又要开始准备面试了">怎么又要开始准备面试了</h3>
 <p>下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口</p>
 
-<h3 id="java反序列化漏洞">Java反序列化漏洞</h3>
+<h3 id="osi七层模型">OSI七层模型</h3>
 
-<p><a href="https://www.vulbox.com/knowledge/detail/?id=11">深入理解JAVA反序列化漏洞</a>
-<a href="https://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;mid=2247484200&amp;idx=1&amp;sn=8f3201f44e6374d65589d00d91f7148e">Java安全之反序列化漏洞分析</a></p>
+<p><img src="/images/posts/2018/03/网络//osi.png" height="400" width="700" /></p>
+
+<h3 id="tcp">TCP</h3>
 
 <ul>
-  <li>Java序列化与反序列化
-    <ul>
-      <li>序列化：把Java对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的writeObject()方法可以实现序列化。</li>
-      <li>反序列化：是指把字节序列恢复为Java对象的过程，ObjectInputStream类的readObject()方法用于反序列化。</li>
-      <li><code class="highlighter-rouge">ac ed 00 05</code>是java序列化内容的特征，如果经过base64编码，那么相对应的是<code class="highlighter-rouge">rO0AB</code></li>
-    </ul>
+  <li>
+    <p><a href="http://blog.csdn.net/li_ning_/article/details/52117463">TCP与UDP的区别</a>
+<img src="/images/posts/2018/03/网络//tcpudp.png" height="250" width="800" /></p>
   </li>
-  <li>成因
-    <ul>
-      <li>暴露或间接暴露反序列化API，导致用户可以操作传入数据，攻击者可以精心构造反序列化对象并执行恶意代码</li>
-      <li>反序列化时没有进行校验，或者有些校验使用黑名单方式又被绕过，最终使得包含恶意代码的序列化对象在服务器端被反序列化执行。</li>
-    </ul>
+  <li>
+    <p><a href="http://blog.csdn.net/xulu_258/article/details/51146489">三次握手</a>
+<img src="/images/posts/2018/03/网络//三次.jpeg" height="400" width="800" /></p>
   </li>
-  <li>风险
+  <li>
+    <p>四次握手
+<img src="/images/posts/2018/03/网络//四次.jpeg" height="500" width="800" /></p>
+  </li>
+  <li>
+    <p>为何连接的时候是三次，关闭的时候是四次
+  因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
+  </li>
+</ul>
+
+<h3 id="dns解析">DNS解析</h3>
+
+<p><img src="/images/posts/2018/03/网络//dns.jpg" height="500" width="800" /></p>
+
+<p><a href="https://www.zhihu.com/question/23042131/answer/66571369">知乎</a></p>
+
+<ul>
+  <li>在浏览器中输入www  . qq  .com 域名，操作系统会先检查自己本地的hosts文件是否有这个网址映射关系，如果有，就先调用这个IP地址映射，完成域名解析。</li>
+  <li>如果hosts里没有这个域名的映射，则查找本地DNS解析器缓存，是否有这个网址映射关系，如果有，直接返回，完成域名解析。</li>
+  <li>如果hosts与本地DNS解析器缓存都没有相应的网址映射关系，首先会找TCP/ip参数中设置的首选DNS服务器，在此我们叫它本地DNS服务器，此服务器收到查询时，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析，此解析具有权威性。</li>
+  <li>如果要查询的域名，不由本地DNS服务器区域解析，但该服务器已缓存了此网址映射关系，则调用这个IP地址映射，完成域名解析，此解析不具有权威性。</li>
+  <li>如果本地DNS服务器本地区域文件与缓存解析都失效，则根据本地DNS服务器的设置（是否设置转发器）进行查询，如果未用转发模式，本地DNS就把请求发至13台根DNS，根DNS服务器收到请求后会判断这个域名(.com)是谁来授权管理，并会返回一个负责该顶级域名服务器的一个IP。本地DNS服务器收到IP信息后，将会联系负责.com域的这台服务器。这台负责.com域的服务器收到请求后，如果自己无法解析，它就会找一个管理.com域的下一级DNS服务器地址(http://qq.com)给本地DNS服务器。当本地DNS服务器收到这个地址后，就会找http://qq.com域服务器，重复上面的动作，进行查询，直至找到www  . qq  .com主机。</li>
+  <li>如果用的是转发模式，此DNS服务器就会把请求转发至上一级DNS服务器，由上一级服务器进行解析，上一级服务器如果不能解析，或找根DNS或把转请求转至上上级，以此循环。不管是本地DNS服务器用是是转发，还是根提示，最后都是把结果返回给本地DNS服务器，由此DNS服务器再返回给客户机。</li>
+</ul>
+
+<h3 id="https相关">HTTPS相关</h3>
+
+<ul>
+  <li>
+    <p><a href="http://blog.csdn.net/kobejayandy/article/details/52433660">https的原理</a>
+  <img src="/images/posts/2018/03/网络//https.jpg" height="500" width="600" /></p>
+  </li>
+  <li>
+    <p><a href="https://mp.weixin.qq.com/s/RIcZNMUWd8P7Quel4vU_Yg">HTTPS 协议降级攻击原理</a></p>
+
     <ul>
-      <li>信息泄露</li>
-      <li>数据篡改
+      <li>由客户端（如浏览器）发送第一个数据包 ClientHello，这个数据包中保存着客户端支持的<code class="highlighter-rouge">加密协议版本</code>。</li>
+      <li>服务器收到这个ClientHello数据包，查看里面客户端支持的加密协议版本，然后匹配服务器自己支持的加密协议版本，从而确认双方应该用的加密协议版本。</li>
+      <li>服务器发送ServerHello数据包给客户端，告诉客户端要使用什么加密协议版本。</li>
+    </ul>
+
+    <p>如果客户端声称自己只支持某个旧版本有漏洞的加密协议，且服务器支持此协议，则攻击有可能发生。</p>
+  </li>
+  <li>
+    <p>https流量如何检测:这个问题是不是类似于用<a href="http://blog.csdn.net/zyw_anquan/article/details/47904495">burp</a>抓包的问题啊，下载CA证书，导入到浏览器，并设置为信任。（待补充吧</p>
+  </li>
+</ul>
+
+<h3 id="拒绝服务攻击">拒绝服务攻击</h3>
+
+<p><a href="https://zhuanlan.zhihu.com/p/26828198">浅谈DDoS攻击与防御</a></p>
+
+<ul>
+  <li>网络层DDoS攻击
+    <ul>
+      <li>SYN flood:三次握手的缺陷；措施：SYN cookie/SYN Proxy、safereset算法等</li>
+      <li>UDP flood：UDP是一种无连接的协议，伪造大量的源IP去发送UDP包。但UDP包双向流量基本对等，也会消耗自身资源</li>
+      <li>
+        <p>ICMP flood：不断发送不正常的ICMP包（内容很大，占带宽）。目前很多服务器禁ping(防火墙可以屏蔽)。</p>
+      </li>
+      <li>防御：
         <ul>
-          <li>数据伪造</li>
-          <li>拒绝服务：当篡改的数据不符合序列化对象的格式要求时候，可能会导致在反序列化对象的过程中抛出异常，从而拒绝服务</li>
-          <li>命令执行：反序列化对象时的运行环境中存在有漏洞的jar包</li>
+          <li>网络架构优化，采用负载均衡</li>
+          <li>添加抗DDoS设备，流量清洗</li>
+          <li>限制单IP请求频率</li>
+          <li>防火墙等保护设置禁止icmp包等</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>如何发现反序列化漏洞：<a href="https://github.com/frohoff/ysoserial">ysoserial</a>
+  <li>应用层DDoS
     <ul>
-      <li>从流量中发现序列化的痕迹，关键字：ac ed 00 05，rO0AB</li>
-      <li>Java RMI的传输100%基于反序列化，Java RMI的默认端口是1099端口</li>
-      <li>从源码入手，可以被序列化的类一定实现了Serializable接口</li>
-      <li>观察反序列化时的readObject()方法是否重写，重写中是否有设计不合理，可以被利用之处</li>
-    </ul>
-  </li>
-  <li>防范
-    <ul>
-      <li>对序列化的数据进行加密，传输过程使用TLS，进行完整性校验</li>
-      <li>类白名单校验</li>
-      <li>禁止JVM执行外部命令Runtime.exec</li>
+      <li>CC攻击：
+        <ul>
+          <li>对一些消耗资源较大的应用页面不断发起正常的请求，如数据库查询；</li>
+          <li>篡改流量大的A网站页面，加入<code class="highlighter-rouge">&lt;iframe src = "target"&gt;</code>，则每当有人访问A，则也会对目标站发起get请求。</li>
+        </ul>
+      </li>
+      <li>
+        <p>Slowloris攻击：以极低的速度往服务器发送http请求（完整的http头是的结尾是<code class="highlighter-rouge">\r\n\r\n</code>）</p>
+      </li>
+      <li>
+        <p>HTTP POST DoS:发送http post包时，指定一个非常大的content-length值，再以很低的速度发包</p>
+      </li>
+      <li>
+        <p>Server Limit DoS:这是由于cookie导致的dos攻击，当然其原理还是基于webserver的特性。apache默认最大的http包头长度为8192字节，如果超出此长度，则会返回4xx错误。如果我们利用存储型xss漏洞，将一个超长的cookie写入客户端页面，则用户再访问此页面后，由于请求头加载了恶意的超长cookie，导致其不能访问该站的页面（除非清空cookie）</p>
+      </li>
+      <li>
+        <p>ReDoS:代码写得有缺陷，导致使用正则时，会出现大量占用资源的情况，导致服务不可用</p>
+      </li>
+      <li>措施：
+        <ul>
+          <li>使用频率高的数据放在memcache中（最近有新闻报道<a href="http://www.freebuf.com/company-information/163963.html">Memcached</a>的安全漏洞导致github被大规模DDoS）</li>
+          <li>网络架构优化，充分利用好CDN和镜像站点的分流作用</li>
+          <li>限制请求频率</li>
+          <li>验证码（验证过程：对比用户提交的明文和服务器端Session里存放的验证码明文是否一致）</li>
+          <li>判断UA（不可靠）</li>
+          <li>让客户端解析一段JS（不可靠）（类似于区块链里面的Hashcash）</li>
+          <li>Apache的配置文件里，调小timeout、keepalivetimeout，增加maxclients，合理配置中间件</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
-
-<h3 id="struct2">Struct2</h3>
-
-<p><a href="http://rickgray.me/review-struts2-remote-command-execution-vulnerabilities">Struts2 历史 RCE 漏洞回顾不完全系列</a>
-<a href="http://www.zerokeeper.com/vul-analysis/struts2-command-execution-series-review.html">Struts2 命令执行系列回顾</a></p>
-
-<ul>
-  <li>OGNL表达式:通过简单一致的表达式语法，可以存取对象的任意属性，调用对象的方法，遍历整个对象的结构图，实现字段类型转化等功能。
-    <ul>
-      <li>表达式（Expression）：规定OGNL的操作</li>
-      <li>根对象（Root Object）：OGNL的操作对象</li>
-      <li>上下文环境（Context）：操作在哪里干</li>
-    </ul>
-  </li>
-  <li>成因：用户插入任意OGNL表达式并执行</li>
-</ul>
-
-<h3 id="代码审计">代码审计</h3>
-
-<p><a href="https://xianzhi.aliyun.com/forum/topic/1633/">JAVA代码审计的一些Tips(附脚本)</a></p>
 
 
 
@@ -238,7 +290,7 @@
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/" data-title="安全岗面试相关问题--Javaweb相关" data-url="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/"></div>
+    <div class="ds-thread" data-thread-key="/2018/03/%E9%9D%A2%E8%AF%95_%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/" data-title="安全岗面试相关问题--网络相关" data-url="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/"></div>
 
     <script type="text/javascript">
         var duoshuoQuery = {short_name:"Snowty"};

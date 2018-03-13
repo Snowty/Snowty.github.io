@@ -5,158 +5,9 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 12 Mar 2018 20:58:46 +0800</pubDate>
-    <lastBuildDate>Mon, 12 Mar 2018 20:58:46 +0800</lastBuildDate>
+    <pubDate>Tue, 13 Mar 2018 16:17:20 +0800</pubDate>
+    <lastBuildDate>Tue, 13 Mar 2018 16:17:20 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
-    
-      <item>
-        <title>安全岗面试相关问题--同源策略与跨域</title>
-        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
-&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
-
-&lt;h3 id=&quot;什么是同源策略&quot;&gt;什么是同源策略&lt;/h3&gt;
-
-&lt;p&gt;源就是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，协议，端口名]&lt;/code&gt;的一个三元组。
-（此外，cookie的同源策略是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，端口名]&lt;/code&gt;，不包含协议，因此可以用http的cookie去覆盖https的cookie。）&lt;/p&gt;
-
-&lt;p&gt;同源策略(Same Origin Policy, SOP)：限制了来自不同源的”document“或者脚本，对当前”document“读取或者设置某些属性。&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;、&amp;lt;img&amp;gt;、&amp;lt;iframe&amp;gt;、&amp;lt;link&amp;gt;&lt;/code&gt;等标签都可以跨域加载资源，而不受同源策略的限制，但是浏览器限制了JS的权限，使其不能读、写返回的资源。&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;不可以跨域加载资源，但是可以读写资源。如果可以跨域，则会导致一些敏感数据的泄漏，如CSRF Token。&lt;/p&gt;
-
-&lt;p&gt;XHR需要根据&lt;code class=&quot;highlighter-rouge&quot;&gt;目标域&lt;/code&gt;返回的HTTP头来授权是否允许跨域访问，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;JS无法控制HTTP头&lt;/code&gt;（这点非常重要啊啊啊啊啊啊，👻👽💀🤖👏👏👏）。XSS在没有其他辅助的情况下也无法控制HTTP头啊啊啊啊。&lt;/p&gt;
-
-&lt;p&gt;除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。&lt;/p&gt;
-
-&lt;p&gt;跨域的方式主要有：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CORS
-CSP
-JSONP
-postMessage
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;cross-origin-resource-sharingcors&quot;&gt;Cross-origin Resource Sharing(CORS)&lt;/h3&gt;
-
-&lt;p&gt;例如从&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.a.com/test.html&lt;/code&gt;发起对&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.b.com/test.php&lt;/code&gt;的请求，请求头中包含&lt;code class=&quot;highlighter-rouge&quot;&gt;origin:http://www.a.com&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;（origin header 可以用于防范CSRF，不像Refer那么容易被伪造或清空，此处的referer怎么改？？？？？😱😱😱😱😱😱😱😱😱😱😱）&lt;/p&gt;
-
-&lt;p&gt;如果www.b.com返回的http Header中包含：&lt;code class=&quot;highlighter-rouge&quot;&gt;Access control allow origin:http://www.a.com&lt;/code&gt;,则表示这个跨域请求被通过。（下图是图糙理不糙啊啊啊&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/SOP/ACAO.png&quot; height=&quot;250&quot; width=&quot;450&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;还有很多其他的标准：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Allow-Origin
-Access-Control-Allow-Methods
-Access-Control-Allow-Headers
-Access-Control-Max-Age
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;content-security-policycsp&quot;&gt;Content Security Policy(CSP)&lt;/h3&gt;
-
-&lt;p&gt;由服务器返回一个HTTP头，并在其中描述页面该遵守的安全策略。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;X-Content-Security-Policy:allow 'self' *.mydomain.com    // 浏览器将信任来自mydomain.com及其子域名下面的内容
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;CSP的实质为白名单，在浏览器层面做的防护，是和同源策略同一级别，除非浏览器本身出现漏洞，否则不可能从机制上绕过。
-CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的域发起请求。&lt;/p&gt;
-
-&lt;p&gt;CSP怎么能有这么多姿势…&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.49.ZP8rXN&amp;amp;articleid=518&quot;&gt;Content Security Policy 入门教程&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://paper.seebug.org/423/&quot;&gt;前端防御从入门到弃坑–CSP变迁&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;jsonp只支持get请求&quot;&gt;JSONP(只支持get请求)&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSONP(JSON with Padding)&lt;/code&gt;是一个简单高效的跨域方式，可以简单理解为带callback的json。利用&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。
-参考&lt;a href=&quot;https://www.zhihu.com/question/19966531/answer/13502030&quot;&gt;知乎&lt;/a&gt;。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;当需要通讯时，本站脚本创建一个&amp;lt;script&amp;gt;元素，地址指向第三方的API网址，形如:
-
-    &amp;lt;script src=&quot;http://www.example.net/api?param1=1&amp;amp;param2=2&quot;&amp;gt;&amp;lt;/script&amp;gt;
-
-并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。     
-
-第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如：     
-
-    callback({&quot;name&quot;:&quot;hax&quot;,&quot;gender&quot;:&quot;Male&quot;})     
-
-这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;JSONP是CSP的克星&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script src=&quot;/path/jsonp?callback=alert(document.domain)//&quot;&amp;gt; &amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;postmessage&quot;&gt;postMessage&lt;/h3&gt;
-
-&lt;p&gt;postMessage允许每一个window（包括当前窗口、弹出窗口、iframe等）对象往其他的窗口发送文本消息，从而实现跨窗口的消息传递，不受同源策略限制。&lt;/p&gt;
-
-&lt;h3 id=&quot;同源攻防&quot;&gt;同源攻防&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.anquanke.com/post/id/86078&quot;&gt;漫谈同源策略攻防&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;对URI的解析：&lt;/p&gt;
-
-    &lt;p&gt;在某些浏览器对URI的解释存在漏洞的时候，可以构造相应的攻击连绕过SOP&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;设计缺陷绕过SOP：&lt;/p&gt;
-
-    &lt;p&gt;在Java6，7中，如果两个域名解析到相同的IP，则会认为他们同源。假设我们有attacker.com和victim.com,两者都共享主机123.123.123.123。攻击者attacker.com可以在自己控制的域名下上传一个jar文件来访问victim.com的内容。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;访问本地文件的同源策略&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/dir/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-    &lt;p&gt;1.html与2.html视为同源&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;特立独行的IE：&lt;/p&gt;
-
-    &lt;p&gt;TrustZones（信任域）：当一个URI被加入到了IE的信任网站区域中时，浏览器会无视同源策略。&lt;/p&gt;
-
-    &lt;p&gt;IE在考虑同源策略时不包括端口， 这意味着不同端口上的应用程序可以读取到比如用户的登陆账户密码/cookie等。&lt;/p&gt;
-
-    &lt;p&gt;通过变更自身的源绕过同源策略：IE 6，7版中网页可以通过document.domain设置自身的来源为任意其他来源&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;防御&quot;&gt;防御&lt;/h3&gt;
-&lt;p&gt;最好的防御方式则是设置CORS&lt;/p&gt;
-
-&lt;p&gt;禁止跨域写，引入CSRF令牌，且必须正确的配置同源策略，否则令牌也会被读取。&lt;/p&gt;
-
-&lt;p&gt;禁止跨域读，我们可以通过设置&lt;code class=&quot;highlighter-rouge&quot;&gt;X-Frame-Options&lt;/code&gt;头来禁止该页面被嵌入到恶意页面中&lt;/p&gt;
-
-&lt;p&gt;禁止跨域嵌入，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script data-original=&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;、 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img data-original=x&amp;gt;&amp;lt;/img&amp;gt;&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;svg onload=&amp;gt;&lt;/code&gt;，各种字体加载等等。同时，使用CSRF令牌也可以有效避免被跨域嵌入。&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 11 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</guid>
-        
-        <category>Sec</category>
-        
-        
-      </item>
     
       <item>
         <title>Word2Vec以及tf实现</title>
@@ -483,9 +334,146 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       </item>
     
       <item>
-        <title>安全岗面试相关问题--Javaweb相关</title>
+        <title>安全岗面试相关问题--网络相关</title>
         <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
 &lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
+
+&lt;h3 id=&quot;osi七层模型&quot;&gt;OSI七层模型&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/网络//osi.png&quot; height=&quot;400&quot; width=&quot;700&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tcp&quot;&gt;TCP&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/li_ning_/article/details/52117463&quot;&gt;TCP与UDP的区别&lt;/a&gt;
+&lt;img src=&quot;/images/posts/2018/03/网络//tcpudp.png&quot; height=&quot;250&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/xulu_258/article/details/51146489&quot;&gt;三次握手&lt;/a&gt;
+&lt;img src=&quot;/images/posts/2018/03/网络//三次.jpeg&quot; height=&quot;400&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;四次握手
+&lt;img src=&quot;/images/posts/2018/03/网络//四次.jpeg&quot; height=&quot;500&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;为何连接的时候是三次，关闭的时候是四次
+  因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;dns解析&quot;&gt;DNS解析&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/网络//dns.jpg&quot; height=&quot;500&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/23042131/answer/66571369&quot;&gt;知乎&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在浏览器中输入www  . qq  .com 域名，操作系统会先检查自己本地的hosts文件是否有这个网址映射关系，如果有，就先调用这个IP地址映射，完成域名解析。&lt;/li&gt;
+  &lt;li&gt;如果hosts里没有这个域名的映射，则查找本地DNS解析器缓存，是否有这个网址映射关系，如果有，直接返回，完成域名解析。&lt;/li&gt;
+  &lt;li&gt;如果hosts与本地DNS解析器缓存都没有相应的网址映射关系，首先会找TCP/ip参数中设置的首选DNS服务器，在此我们叫它本地DNS服务器，此服务器收到查询时，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析，此解析具有权威性。&lt;/li&gt;
+  &lt;li&gt;如果要查询的域名，不由本地DNS服务器区域解析，但该服务器已缓存了此网址映射关系，则调用这个IP地址映射，完成域名解析，此解析不具有权威性。&lt;/li&gt;
+  &lt;li&gt;如果本地DNS服务器本地区域文件与缓存解析都失效，则根据本地DNS服务器的设置（是否设置转发器）进行查询，如果未用转发模式，本地DNS就把请求发至13台根DNS，根DNS服务器收到请求后会判断这个域名(.com)是谁来授权管理，并会返回一个负责该顶级域名服务器的一个IP。本地DNS服务器收到IP信息后，将会联系负责.com域的这台服务器。这台负责.com域的服务器收到请求后，如果自己无法解析，它就会找一个管理.com域的下一级DNS服务器地址(http://qq.com)给本地DNS服务器。当本地DNS服务器收到这个地址后，就会找http://qq.com域服务器，重复上面的动作，进行查询，直至找到www  . qq  .com主机。&lt;/li&gt;
+  &lt;li&gt;如果用的是转发模式，此DNS服务器就会把请求转发至上一级DNS服务器，由上一级服务器进行解析，上一级服务器如果不能解析，或找根DNS或把转请求转至上上级，以此循环。不管是本地DNS服务器用是是转发，还是根提示，最后都是把结果返回给本地DNS服务器，由此DNS服务器再返回给客户机。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;https相关&quot;&gt;HTTPS相关&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/kobejayandy/article/details/52433660&quot;&gt;https的原理&lt;/a&gt;
+  &lt;img src=&quot;/images/posts/2018/03/网络//https.jpg&quot; height=&quot;500&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/RIcZNMUWd8P7Quel4vU_Yg&quot;&gt;HTTPS 协议降级攻击原理&lt;/a&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;由客户端（如浏览器）发送第一个数据包 ClientHello，这个数据包中保存着客户端支持的&lt;code class=&quot;highlighter-rouge&quot;&gt;加密协议版本&lt;/code&gt;。&lt;/li&gt;
+      &lt;li&gt;服务器收到这个ClientHello数据包，查看里面客户端支持的加密协议版本，然后匹配服务器自己支持的加密协议版本，从而确认双方应该用的加密协议版本。&lt;/li&gt;
+      &lt;li&gt;服务器发送ServerHello数据包给客户端，告诉客户端要使用什么加密协议版本。&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;如果客户端声称自己只支持某个旧版本有漏洞的加密协议，且服务器支持此协议，则攻击有可能发生。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;https流量如何检测:这个问题是不是类似于用&lt;a href=&quot;http://blog.csdn.net/zyw_anquan/article/details/47904495&quot;&gt;burp&lt;/a&gt;抓包的问题啊，下载CA证书，导入到浏览器，并设置为信任。（待补充吧&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;拒绝服务攻击&quot;&gt;拒绝服务攻击&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/26828198&quot;&gt;浅谈DDoS攻击与防御&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;网络层DDoS攻击
+    &lt;ul&gt;
+      &lt;li&gt;SYN flood:三次握手的缺陷；措施：SYN cookie/SYN Proxy、safereset算法等&lt;/li&gt;
+      &lt;li&gt;UDP flood：UDP是一种无连接的协议，伪造大量的源IP去发送UDP包。但UDP包双向流量基本对等，也会消耗自身资源&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;ICMP flood：不断发送不正常的ICMP包（内容很大，占带宽）。目前很多服务器禁ping(防火墙可以屏蔽)。&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;防御：
+        &lt;ul&gt;
+          &lt;li&gt;网络架构优化，采用负载均衡&lt;/li&gt;
+          &lt;li&gt;添加抗DDoS设备，流量清洗&lt;/li&gt;
+          &lt;li&gt;限制单IP请求频率&lt;/li&gt;
+          &lt;li&gt;防火墙等保护设置禁止icmp包等&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;应用层DDoS
+    &lt;ul&gt;
+      &lt;li&gt;CC攻击：
+        &lt;ul&gt;
+          &lt;li&gt;对一些消耗资源较大的应用页面不断发起正常的请求，如数据库查询；&lt;/li&gt;
+          &lt;li&gt;篡改流量大的A网站页面，加入&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;iframe src = &quot;target&quot;&amp;gt;&lt;/code&gt;，则每当有人访问A，则也会对目标站发起get请求。&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Slowloris攻击：以极低的速度往服务器发送http请求（完整的http头是的结尾是&lt;code class=&quot;highlighter-rouge&quot;&gt;\r\n\r\n&lt;/code&gt;）&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;HTTP POST DoS:发送http post包时，指定一个非常大的content-length值，再以很低的速度发包&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Server Limit DoS:这是由于cookie导致的dos攻击，当然其原理还是基于webserver的特性。apache默认最大的http包头长度为8192字节，如果超出此长度，则会返回4xx错误。如果我们利用存储型xss漏洞，将一个超长的cookie写入客户端页面，则用户再访问此页面后，由于请求头加载了恶意的超长cookie，导致其不能访问该站的页面（除非清空cookie）&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;ReDoS:代码写得有缺陷，导致使用正则时，会出现大量占用资源的情况，导致服务不可用&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;措施：
+        &lt;ul&gt;
+          &lt;li&gt;使用频率高的数据放在memcache中（最近有新闻报道&lt;a href=&quot;http://www.freebuf.com/company-information/163963.html&quot;&gt;Memcached&lt;/a&gt;的安全漏洞导致github被大规模DDoS）&lt;/li&gt;
+          &lt;li&gt;网络架构优化，充分利用好CDN和镜像站点的分流作用&lt;/li&gt;
+          &lt;li&gt;限制请求频率&lt;/li&gt;
+          &lt;li&gt;验证码（验证过程：对比用户提交的明文和服务器端Session里存放的验证码明文是否一致）&lt;/li&gt;
+          &lt;li&gt;判断UA（不可靠）&lt;/li&gt;
+          &lt;li&gt;让客户端解析一段JS（不可靠）（类似于区块链里面的Hashcash）&lt;/li&gt;
+          &lt;li&gt;Apache的配置文件里，调小timeout、keepalivetimeout，增加maxclients，合理配置中间件&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Fri, 09 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/</guid>
+        
+        <category>Sec</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>安全岗面试相关问题--web框架安全</title>
+        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
+&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
+
+&lt;p&gt;这部分我是真的不太懂，待补充&lt;/p&gt;
 
 &lt;h3 id=&quot;java反序列化漏洞&quot;&gt;Java反序列化漏洞&lt;/h3&gt;
 
@@ -551,14 +539,66 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
   &lt;li&gt;成因：用户插入任意OGNL表达式并执行&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h3 id=&quot;spring-mvc&quot;&gt;Spring MVC&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Spring框架允许使用客户端所提供的数据来更新对象属性，这一机制允许攻击者修改class.classloader加载对象的类加载器的属性，可能导致命令执行&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;框架中实现的安全方案&quot;&gt;框架中实现的安全方案&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;MVC：Model-View-Controller,用户提交的数据先后流经了View、Controller、Model层。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;XSS
+    &lt;ul&gt;
+      &lt;li&gt;在View层可以解决XSS问题，使用”输出编码”更加合理&lt;/li&gt;
+      &lt;li&gt;View层常用的技术是使用模板引擎对页面进行渲染，例如在Django Tamplates中，使用filters中的escape作为HtmlEncode的方法，同时支持auto-escape，默认编码了5个字符：&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt; -&amp;gt; &amp;amp;lt&lt;/code&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt; -&amp;gt; &amp;amp;gt&lt;/code&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;' -&amp;gt; &amp;amp;#39&lt;/code&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot; -&amp;gt; &amp;amp;quot&lt;/code&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp; -&amp;gt; &amp;amp;amp&lt;/code&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;其他场景中，需要自定义filter，使得防御功能更加完善&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;CSRF防御:自动的在所有涉及POST的代码中添加token&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;HTTP Header管理
+    &lt;ul&gt;
+      &lt;li&gt;CRLF攻击：编码所有的“\r\n”&lt;/li&gt;
+      &lt;li&gt;30X返回码的跳转，需要管理好跳转地址
+        &lt;ul&gt;
+          &lt;li&gt;web框架提供统一的跳转函数，在函数内部实现一个白名单&lt;/li&gt;
+          &lt;li&gt;控制HTTP的Location字段，限制值只能是哪些地址，也是白名单&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;数据持久层与SQL注入&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;其他：
+    &lt;ul&gt;
+      &lt;li&gt;保存好安全检查日志&lt;/li&gt;
+      &lt;li&gt;及时更新&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;h3 id=&quot;代码审计&quot;&gt;代码审计&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://xianzhi.aliyun.com/forum/topic/1633/&quot;&gt;JAVA代码审计的一些Tips(附脚本)&lt;/a&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 07 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_javaweb%E7%9B%B8%E5%85%B3/</guid>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/</guid>
         
         <category>Sec</category>
         
@@ -568,13 +608,7 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       <item>
         <title>安全岗面试相关问题--web常见漏洞原理与防御</title>
         <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
-&lt;p&gt;上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…&lt;/p&gt;
-
-&lt;p&gt;今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣&lt;/p&gt;
-
 &lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
-
-&lt;p&gt;然后，把CHYbeta大神的&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning&quot;&gt;Web-Security-Learning&lt;/a&gt;过一遍😳？&lt;/p&gt;
 
 &lt;h3 id=&quot;xss&quot;&gt;XSS&lt;/h3&gt;
 
@@ -807,84 +841,156 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       </item>
     
       <item>
-        <title>文字框选相关问题(R-CNN,SPPNET,Fast R-CNN,Faster R-CNN,CTPN,YOLO )</title>
-        <description>&lt;h3 id=&quot;数据集&quot;&gt;数据集&lt;/h3&gt;
+        <title>安全岗面试相关问题--同源策略与跨域</title>
+        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
+&lt;p&gt;上次准备面试还是15年大三的时候啊，真心是什么都不懂（虽然现在也是…会用wamp建个站就投了安全岗啊233…我真是哪里来的勇气…&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/tzutalin/labelImg&quot;&gt;图片框选与标注工具&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;今天看到当年投阿里写的在线简历，真是惨不忍睹，估计当时HR看到了以为我是在搞笑吧🤣&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//1.jpg&quot; height=&quot;350&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
 
-&lt;ol&gt;
+&lt;p&gt;然后，把CHYbeta大神的&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning&quot;&gt;Web-Security-Learning&lt;/a&gt;过一遍😳？&lt;/p&gt;
+
+&lt;h3 id=&quot;什么是同源策略&quot;&gt;什么是同源策略&lt;/h3&gt;
+
+&lt;p&gt;源就是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，协议，端口名]&lt;/code&gt;的一个三元组。
+（此外，cookie的同源策略是&lt;code class=&quot;highlighter-rouge&quot;&gt;[主机，端口名]&lt;/code&gt;，不包含协议，因此可以用http的cookie去覆盖https的cookie。）&lt;/p&gt;
+
+&lt;p&gt;同源策略(Same Origin Policy, SOP)：限制了来自不同源的”document“或者脚本，对当前”document“读取或者设置某些属性。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;、&amp;lt;img&amp;gt;、&amp;lt;iframe&amp;gt;、&amp;lt;link&amp;gt;&lt;/code&gt;等标签都可以跨域加载资源，而不受同源策略的限制，但是浏览器限制了JS的权限，使其不能读、写返回的资源。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;不可以跨域加载资源，但是可以读写资源。如果可以跨域，则会导致一些敏感数据的泄漏，如CSRF Token。&lt;/p&gt;
+
+&lt;p&gt;XHR需要根据&lt;code class=&quot;highlighter-rouge&quot;&gt;目标域&lt;/code&gt;返回的HTTP头来授权是否允许跨域访问，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;JS无法控制HTTP头&lt;/code&gt;（这点非常重要啊啊啊啊啊啊，👻👽💀🤖👏👏👏）。XSS在没有其他辅助的情况下也无法控制HTTP头啊啊啊啊。&lt;/p&gt;
+
+&lt;p&gt;除了DOM、Cookie、XHR受到同源策略的限制，第三方插件如Flash（crossdomain.xml、MIME）、Java、Applet等都有自己的同源策略。&lt;/p&gt;
+
+&lt;p&gt;跨域的方式主要有：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CORS
+CSP
+JSONP
+postMessage
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;cross-origin-resource-sharingcors&quot;&gt;Cross-origin Resource Sharing(CORS)&lt;/h3&gt;
+
+&lt;p&gt;例如从&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.a.com/test.html&lt;/code&gt;发起对&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.b.com/test.php&lt;/code&gt;的请求，请求头中包含&lt;code class=&quot;highlighter-rouge&quot;&gt;origin:http://www.a.com&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;（origin header 可以用于防范CSRF，不像Refer那么容易被伪造或清空，此处的referer怎么改？？？？？😱😱😱😱😱😱😱😱😱😱😱）&lt;/p&gt;
+
+&lt;p&gt;如果www.b.com返回的http Header中包含：&lt;code class=&quot;highlighter-rouge&quot;&gt;Access control allow origin:http://www.a.com&lt;/code&gt;,则表示这个跨域请求被通过。（下图是图糙理不糙啊啊啊&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/SOP/ACAO.png&quot; height=&quot;250&quot; width=&quot;450&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;还有很多其他的标准：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Allow-Origin
+Access-Control-Allow-Methods
+Access-Control-Allow-Headers
+Access-Control-Max-Age
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;content-security-policycsp&quot;&gt;Content Security Policy(CSP)&lt;/h3&gt;
+
+&lt;p&gt;由服务器返回一个HTTP头，并在其中描述页面该遵守的安全策略。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;X-Content-Security-Policy:allow 'self' *.mydomain.com    // 浏览器将信任来自mydomain.com及其子域名下面的内容
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CSP的实质为白名单，在浏览器层面做的防护，是和同源策略同一级别，除非浏览器本身出现漏洞，否则不可能从机制上绕过。
+CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的域发起请求。&lt;/p&gt;
+
+&lt;p&gt;CSP怎么能有这么多姿势…&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.49.ZP8rXN&amp;amp;articleid=518&quot;&gt;Content Security Policy 入门教程&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://paper.seebug.org/423/&quot;&gt;前端防御从入门到弃坑–CSP变迁&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;jsonp只支持get请求&quot;&gt;JSONP(只支持get请求)&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSONP(JSON with Padding)&lt;/code&gt;是一个简单高效的跨域方式，可以简单理解为带callback的json。利用&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。
+参考&lt;a href=&quot;https://www.zhihu.com/question/19966531/answer/13502030&quot;&gt;知乎&lt;/a&gt;。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;当需要通讯时，本站脚本创建一个&amp;lt;script&amp;gt;元素，地址指向第三方的API网址，形如:
+
+    &amp;lt;script src=&quot;http://www.example.net/api?param1=1&amp;amp;param2=2&quot;&amp;gt;&amp;lt;/script&amp;gt;
+
+并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。     
+
+第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如：     
+
+    callback({&quot;name&quot;:&quot;hax&quot;,&quot;gender&quot;:&quot;Male&quot;})     
+
+这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;JSONP是CSP的克星&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script src=&quot;/path/jsonp?callback=alert(document.domain)//&quot;&amp;gt; &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;postmessage&quot;&gt;postMessage&lt;/h3&gt;
+
+&lt;p&gt;postMessage允许每一个window（包括当前窗口、弹出窗口、iframe等）对象往其他的窗口发送文本消息，从而实现跨窗口的消息传递，不受同源策略限制。&lt;/p&gt;
+
+&lt;h3 id=&quot;同源攻防&quot;&gt;同源攻防&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.anquanke.com/post/id/86078&quot;&gt;漫谈同源策略攻防&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;ImageNet ILSVC 2012:    标定每张图片中物体的类别。一千万图像，1000类&lt;/p&gt;
+    &lt;p&gt;对URI的解析：&lt;/p&gt;
 
-    &lt;p&gt;PASCAL VOC 2007:        标定每张图片中，物体的类别和位置，一万图像，20类&lt;/p&gt;
+    &lt;p&gt;在某些浏览器对URI的解释存在漏洞的时候，可以构造相应的攻击连绕过SOP&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;设计缺陷绕过SOP：&lt;/p&gt;
 
-&lt;h3 id=&quot;r-cnn&quot;&gt;R-CNN&lt;/h3&gt;
+    &lt;p&gt;在Java6，7中，如果两个域名解析到相同的IP，则会认为他们同源。假设我们有attacker.com和victim.com,两者都共享主机123.123.123.123。攻击者attacker.com可以在自己控制的域名下上传一个jar文件来访问victim.com的内容。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;访问本地文件的同源策略&lt;/p&gt;
 
-&lt;p&gt;这个博主写的文章，真的是很清晰啊，把所有不清楚的名词都解释好了~&lt;/p&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/dir/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote&quot;&gt;RCNN- 将CNN引入目标检测的开山之作&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;frame src=&quot;/home/user/2.html&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/WoPawn/article/details/52133338&quot;&gt;R-CNN论文详解&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;1.html与2.html视为同源&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;特立独行的IE：&lt;/p&gt;
 
-&lt;p&gt;步骤：&lt;/p&gt;
+    &lt;p&gt;TrustZones（信任域）：当一个URI被加入到了IE的信任网站区域中时，浏览器会无视同源策略。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  候选区域生成： 一张图像生成1K~2K个候选区域 （采用Selective Search 方法）
+    &lt;p&gt;IE在考虑同源策略时不包括端口， 这意味着不同端口上的应用程序可以读取到比如用户的登陆账户密码/cookie等。&lt;/p&gt;
 
-2.  特征提取： 对每个候选区域，使用深度卷积网络提取特征 （CNN） 
+    &lt;p&gt;通过变更自身的源绕过同源策略：IE 6，7版中网页可以通过document.domain设置自身的来源为任意其他来源&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-3.  类别判断： 特征送入每一类的SVM 分类器，判别是否属于该类 
+&lt;h3 id=&quot;防御&quot;&gt;防御&lt;/h3&gt;
+&lt;p&gt;最好的防御方式则是设置CORS&lt;/p&gt;
 
-4.  位置精修： 使用回归器精细修正候选框位置 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;禁止跨域写，引入CSRF令牌，且必须正确的配置同源策略，否则令牌也会被读取。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//RCNN.png&quot; height=&quot;200&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;禁止跨域读，我们可以通过设置&lt;code class=&quot;highlighter-rouge&quot;&gt;X-Frame-Options&lt;/code&gt;头来禁止该页面被嵌入到恶意页面中&lt;/p&gt;
 
-&lt;p&gt;相关的知识点：&lt;/p&gt;
+&lt;p&gt;禁止跨域嵌入，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script data-original=&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;、 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img data-original=x&amp;gt;&amp;lt;/img&amp;gt;&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;svg onload=&amp;gt;&lt;/code&gt;，各种字体加载等等。同时，使用CSRF令牌也可以有效避免被跨域嵌入。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;selective search：根据一定的规则选出候选区域
-
-重叠度（IOU）：两个BBX的重叠度，即矩形框A、B的重叠面积占A、B并集的面积比例
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/框选//IOU.png&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;非极大值抑制（NMS）：一张图片中找出N个可能是同一物体的矩形框，需要判别哪些框是没有用的
-
-VOC物体检测任务：如果某数据集包含了20个物体类别，则还需要加上背景类，总共21类
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;sppnet&quot;&gt;SPPNet&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24774302?refer=xiaoleimlnote&quot;&gt;SPPNet-引入空间金字塔池化改进RCNN&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;fast-r-cnn&quot;&gt;Fast R-CNN&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24780395?refer=xiaoleimlnote&quot;&gt;Fast R-CNN&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;faster-r-cnn&quot;&gt;Faster R-CNN&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote&quot;&gt;Faster R-CNN&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;对比与小结&quot;&gt;对比与小结&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/35887527/answer/73048322&quot;&gt;知乎&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mapmean-average-precision&quot;&gt;mAP(mean average precision)&lt;/h3&gt;
 </description>
-        <pubDate>Tue, 06 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E6%96%87%E5%AD%97%E6%A1%86%E9%80%89/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E6%96%87%E5%AD%97%E6%A1%86%E9%80%89/</guid>
+        <pubDate>Mon, 05 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/</guid>
         
-        <category>AI</category>
+        <category>Sec</category>
         
         
       </item>
@@ -897,7 +1003,9 @@ VOC物体检测任务：如果某数据集包含了20个物体类别，则还需
 
 &lt;h3 id=&quot;rnn-与-lstm-相关基础&quot;&gt;RNN 与 LSTM 相关基础&lt;/h3&gt;
 
-&lt;p&gt;网上看到的RNN的网络图如下：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;网上看到的RNN的网络图如下：&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM//RNN-shorttermdepdencies.png&quot; height=&quot;280&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
 
@@ -907,21 +1015,30 @@ VOC物体检测任务：如果某数据集包含了20个物体类别，则还需
 
 &lt;p&gt;是不是很眼熟！对，LSTM只是在RNN的基础上进行了扩展，添加了很多gate来控制之前的记忆，以解决RNN可能引起的梯度弥散与梯度爆炸(这里可以参考&lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;)的问题。&lt;/p&gt;
 
-&lt;p&gt;传统的LSTM的网络图看上去特别复杂:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;传统的LSTM的网络图看上去特别复杂:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM//LSTM3-chain.png&quot; height=&quot;280&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM//LSTM3-chain.png&quot; height=&quot;280&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;但是只要清楚一点，就是里面那么多的gate只是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。具体可以参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://colah.github.io/posts/2015-08-Understanding-LSTMs/&quot;&gt;Understanding LSTM Networks&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;小圆圈是point-wise的操作，比如向量加法、点乘等&lt;/li&gt;
+      &lt;li&gt;小矩形代表一层可学习参数的神经网络（重点啊！！！！！！！！&lt;/li&gt;
+      &lt;li&gt;上面的一条直线代表了LSTM的状态state，贯穿所有LSTM单元，gate控制对其添加或删除信息&lt;/li&gt;
+      &lt;li&gt;gate只是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。具体可以参考：
+  &lt;a href=&quot;http://colah.github.io/posts/2015-08-Understanding-LSTMs/&quot;&gt;Understanding LSTM Networks&lt;/a&gt;，
+  &lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~&lt;/p&gt;
 
 &lt;h3 id=&quot;lstm的输入与输出&quot;&gt;LSTM的输入与输出&lt;/h3&gt;
 
-&lt;p&gt;首先还是看下RNN的输入与输出吧(摘自&lt;a href=&quot;http://karpathy.github.io/2015/05/21/rnn-effectiveness/&quot;&gt;The Unreasonable Effectiveness of Recurrent Neural Networks&lt;/a&gt;)：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;首先还是看下RNN的输入与输出吧(摘自&lt;a href=&quot;http://karpathy.github.io/2015/05/21/rnn-effectiveness/&quot;&gt;The Unreasonable Effectiveness of Recurrent Neural Networks&lt;/a&gt;)：&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM/charseq.jpeg&quot; height=&quot;400&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
 
@@ -962,7 +1079,9 @@ We want the green numbers to be high and red numbers to be low.
 
 &lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/41949741/answer/318771336&quot;&gt;作者：Scofield&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;所以，LSTM的输入与输出是怎样的呢？可以完全类比RNN的输入与输出。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;所以，LSTM的输入与输出是怎样的呢？可以完全类比RNN的输入与输出。&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/LSTM/myLSTM.jpg&quot; height=&quot;600&quot; width=&quot;850&quot; /&gt;&lt;/p&gt;
 

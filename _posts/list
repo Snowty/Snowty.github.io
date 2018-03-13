@@ -1,14 +1,7 @@
-2.  拒绝服务攻击
-
-    https://zhuanlan.zhihu.com/p/26828198
 
 3.  如何加载Mimikatz抓hash
 
-4.  同源策略，跨域有几种方式
 
-5.  防火墙原理
-
-http://blog.csdn.net/sdgihshdv/article/details/78163591
 
 6.  如何设计一个安全的web网站
 
@@ -22,7 +15,7 @@ http://blog.csdn.net/sdgihshdv/article/details/78163591
 
 https://www.zhihu.com/question/19583776
 
-10. 云waf如何实现
+
 
 11. 链路劫持，如何检测与防范
 
@@ -43,9 +36,9 @@ https://security.tencent.com/index.php/blog/msg/10
 3.  病毒一般防护或查杀原理
 
 ### 基础知识
-1.  TCP与UDP的区别，三次握手和四次握手
 
-2.  https流量如何检测，https的原理是什么,http协议细节
+
+2.  
 
 http://blog.csdn.net/kobejayandy/article/details/52433660
 
@@ -61,12 +54,63 @@ https://www.zhihu.com/question/32212996
 
 ### 其他
 
-1.  xmlhttprequest（XHR）:
-
-        是Ajax的基础，用于在后台与服务器交换数据。
-    
-        可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
-
-        Get / Post
 
 2.  定位内网IP
+
+
+讲讲web安全经历
+挖洞怎么挖的 具体
+sql分为几种类型 注入怎么测试
+sql能用来干什么
+写shell条件
+sleep能不能写shell
+sqlmap给出类型对安全研究有什么帮助（区别有、无）
+用什么扫描器
+什么漏洞扫不出来
+验证码逻辑问题
+找回密码逻辑问题
+分析找回密码连接
+发展方向
+
+
+
+自我介绍
+ctf干啥
+sqli测试思路
+黑帽子怎么用sqli
+拿到权限的方式
+有IDS怎么绕
+webshell检测 反弹shell 一句话shell？？？ http://blog.csdn.net/u011066706/article/details/51175971
+对waf有什么了解
+log清理
+扫描器 微内核方式 事件驱动 微服务 分层
+爬虫 phantomjs特点 弱点
+爬虫登录问题
+爬虫相似页面参数变化页面去重
+爬取和测试间隔时间长，导致cookie失效
+写不写c和c++
+堆栈反转，只能用不超过堆栈空间一半的额外空间 二分 边界 重复数
+celery干啥 redis防护
+cso注意事项 企业安全内部外部 协议分层
+如何抓到运营商劫持的证据 防护运营商劫持 dns劫持
+web安全以后和什么技术结合
+在学校干啥
+HTTP流量分析能得到啥
+
+
+大流量审计，取证溯源，企业安全，游戏安全，业务安全，挖洞，写扫描器，协议，规划
+
+爬虫技术、指纹识别技术、扫描器识别
+
+爬虫的问题，比如多进程多线程爬虫怎么去重之类
+
+
+Redis Celery问了具体作用原理，要求一句话描述，顺便问了业务为什么用这个，Redis考虑持久化
+
+Dns顺便问了下过程，被问传送方式，不是UDP、TCP那个
+
+爬虫问了下反爬机制，有没有写过代理池，怎么应对网上公开代理缓慢问题
+
+MySQL问了乐观锁悲观锁
+
+Nginx问了负载均衡和反代
