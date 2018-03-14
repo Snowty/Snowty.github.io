@@ -58,59 +58,108 @@ https://www.zhihu.com/question/32212996
 2.  定位内网IP
 
 
-讲讲web安全经历
-挖洞怎么挖的 具体
-sql分为几种类型 注入怎么测试
-sql能用来干什么
+
+
+
 写shell条件
 sleep能不能写shell
 sqlmap给出类型对安全研究有什么帮助（区别有、无）
-用什么扫描器
-什么漏洞扫不出来
+
+
 验证码逻辑问题
 找回密码逻辑问题
 分析找回密码连接
-发展方向
 
 
 
-自我介绍
-ctf干啥
 sqli测试思路
 黑帽子怎么用sqli
 拿到权限的方式
 有IDS怎么绕
 webshell检测 反弹shell 一句话shell？？？ http://blog.csdn.net/u011066706/article/details/51175971
-对waf有什么了解
+
 log清理
-扫描器 微内核方式 事件驱动 微服务 分层
-爬虫 phantomjs特点 弱点
-爬虫登录问题
-爬虫相似页面参数变化页面去重
-爬取和测试间隔时间长，导致cookie失效
-写不写c和c++
+
+
 堆栈反转，只能用不超过堆栈空间一半的额外空间 二分 边界 重复数
-celery干啥 redis防护
+
 cso注意事项 企业安全内部外部 协议分层
 如何抓到运营商劫持的证据 防护运营商劫持 dns劫持
-web安全以后和什么技术结合
-在学校干啥
+
 HTTP流量分析能得到啥
 
 
 大流量审计，取证溯源，企业安全，游戏安全，业务安全，挖洞，写扫描器，协议，规划
 
-爬虫技术、指纹识别技术、扫描器识别
-
-爬虫的问题，比如多进程多线程爬虫怎么去重之类
 
 
 Redis Celery问了具体作用原理，要求一句话描述，顺便问了业务为什么用这个，Redis考虑持久化
+celery干啥 redis防护
 
-Dns顺便问了下过程，被问传送方式，不是UDP、TCP那个
+MySQL乐观锁悲观锁:http://www.hollischuang.com/archives/934
 
-爬虫问了下反爬机制，有没有写过代理池，怎么应对网上公开代理缓慢问题
 
-MySQL问了乐观锁悲观锁
+指纹识别技术：
 
-Nginx问了负载均衡和反代
+
+扫描器识别：http://www.freebuf.com/articles/web/16806.html 
+    1、扫描器指纹(head字段/请求参数值等)
+    2、单IP+ cookie某时间段内触发规则次数
+    3、隐藏的链接标签(<a>)
+    4、Cookie植入：当某一个IP+UA超过阈值，则植入cookie，如果下次请求没有携带这个cookie则是扫描器
+    5、验证码验证
+    6、单IP请求时间段内Webserver返回http状态404比例
+
+
+waf识别：http://www.freebuf.com/articles/web/21744.html
+    1.waf指纹：在cookie里面加一些标识，mod security返回头加入"406 Not acceptable"
+    （http response里面的server,ping ip,尝试攻击会报错)
+    
+waf绕过：http://www.freebuf.com/articles/web/36683.html
+        http://www.freebuf.com/articles/web/155570.html
+    1.注释符：//, -- , /**/, #, --+, -- -, ;%00
+    2.大小写：id=1+UnIoN/**/SeLeCT
+    3.内联注释：1/*!UnIoN*/SeLeCT
+    4.缓冲区溢出，很多的WAFS都是C
+    5.替换关键字，id=1+UNIunionON+SeLselectECT+1,2,3–
+    6.Character编码，多重编码
+
+
+
+
+CDN后面的IP:
+    https://www.t00ls.net/viewthread.php?tid=36160&highlight=CDN
+    https://www.t00ls.net/viewthread.php?tid=34467&highlight=CDN
+     第一种我所了解到的就是查找二级域名，估计二级域名没有做cdn，运气好的话正好在同一个
+     第二种就是查历史解析记录http://toolbar.netcraft.com/
+     第三种如果是国外的cloudflare，可以在http://www.crimeflare.com/cfssl.html这个网站碰碰运气
+     第四种查找dns记录，http://whoisrequest.com/history/
+     第五种站长网的超级ping，感觉现在没有用了
+     第六种邮箱返回的文件头里面包含了服务器的IP，但是一般邮件服务器和网站是分开的，rss订阅
+     第七种插远程图片的方法，查看服务器的来源
+     第八种这个办法没有试过，大概思路收集全球的IP，然后一个一个的验证
+
+
+
+
+负载均衡：
+    七层：nginx，https://www.cnblogs.com/microtiger/p/7623858.html
+    四层：lvs，https://www.linuxidc.com/Linux/2017-03/141929.htm
+            http://blog.csdn.net/yinzhipeng123/article/details/52945506
+
+
+爬虫：
+    写爬虫：用scrapy这个库，xpath获取DOM
+    反爬机制：限制单个IP请求频率，检查UA，需要JS进行计算，验证码
+    代理池：https://www.cnblogs.com/qiyeboy/p/5693128.html
+    
+
+文件包含：https://www.anquanke.com/post/id/86123
+
+
+绕过IDS：http://www.hackdig.com/?01/hack-17198.htm
+        http://www.jb51.net/hack/408386.html
+        http://www.sohu.com/a/205648620_490113
+        https://www.0dayhack.com/post-483.html
+
+        

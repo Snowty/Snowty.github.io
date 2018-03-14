@@ -5,8 +5,8 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 13 Mar 2018 16:17:20 +0800</pubDate>
-    <lastBuildDate>Tue, 13 Mar 2018 16:17:20 +0800</lastBuildDate>
+    <pubDate>Wed, 14 Mar 2018 17:26:25 +0800</pubDate>
+    <lastBuildDate>Wed, 14 Mar 2018 17:26:25 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -469,143 +469,6 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       </item>
     
       <item>
-        <title>安全岗面试相关问题--web框架安全</title>
-        <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
-&lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
-
-&lt;p&gt;这部分我是真的不太懂，待补充&lt;/p&gt;
-
-&lt;h3 id=&quot;java反序列化漏洞&quot;&gt;Java反序列化漏洞&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.vulbox.com/knowledge/detail/?id=11&quot;&gt;深入理解JAVA反序列化漏洞&lt;/a&gt;
-&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;amp;mid=2247484200&amp;amp;idx=1&amp;amp;sn=8f3201f44e6374d65589d00d91f7148e&quot;&gt;Java安全之反序列化漏洞分析&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Java序列化与反序列化
-    &lt;ul&gt;
-      &lt;li&gt;序列化：把Java对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的writeObject()方法可以实现序列化。&lt;/li&gt;
-      &lt;li&gt;反序列化：是指把字节序列恢复为Java对象的过程，ObjectInputStream类的readObject()方法用于反序列化。&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ac ed 00 05&lt;/code&gt;是java序列化内容的特征，如果经过base64编码，那么相对应的是&lt;code class=&quot;highlighter-rouge&quot;&gt;rO0AB&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;成因
-    &lt;ul&gt;
-      &lt;li&gt;暴露或间接暴露反序列化API，导致用户可以操作传入数据，攻击者可以精心构造反序列化对象并执行恶意代码&lt;/li&gt;
-      &lt;li&gt;反序列化时没有进行校验，或者有些校验使用黑名单方式又被绕过，最终使得包含恶意代码的序列化对象在服务器端被反序列化执行。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;风险
-    &lt;ul&gt;
-      &lt;li&gt;信息泄露&lt;/li&gt;
-      &lt;li&gt;数据篡改
-        &lt;ul&gt;
-          &lt;li&gt;数据伪造&lt;/li&gt;
-          &lt;li&gt;拒绝服务：当篡改的数据不符合序列化对象的格式要求时候，可能会导致在反序列化对象的过程中抛出异常，从而拒绝服务&lt;/li&gt;
-          &lt;li&gt;命令执行：反序列化对象时的运行环境中存在有漏洞的jar包&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;如何发现反序列化漏洞：&lt;a href=&quot;https://github.com/frohoff/ysoserial&quot;&gt;ysoserial&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;从流量中发现序列化的痕迹，关键字：ac ed 00 05，rO0AB&lt;/li&gt;
-      &lt;li&gt;Java RMI的传输100%基于反序列化，Java RMI的默认端口是1099端口&lt;/li&gt;
-      &lt;li&gt;从源码入手，可以被序列化的类一定实现了Serializable接口&lt;/li&gt;
-      &lt;li&gt;观察反序列化时的readObject()方法是否重写，重写中是否有设计不合理，可以被利用之处&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;防范
-    &lt;ul&gt;
-      &lt;li&gt;对序列化的数据进行加密，传输过程使用TLS，进行完整性校验&lt;/li&gt;
-      &lt;li&gt;类白名单校验&lt;/li&gt;
-      &lt;li&gt;禁止JVM执行外部命令Runtime.exec&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;struct2&quot;&gt;Struct2&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://rickgray.me/review-struts2-remote-command-execution-vulnerabilities&quot;&gt;Struts2 历史 RCE 漏洞回顾不完全系列&lt;/a&gt;
-&lt;a href=&quot;http://www.zerokeeper.com/vul-analysis/struts2-command-execution-series-review.html&quot;&gt;Struts2 命令执行系列回顾&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;OGNL表达式:通过简单一致的表达式语法，可以存取对象的任意属性，调用对象的方法，遍历整个对象的结构图，实现字段类型转化等功能。
-    &lt;ul&gt;
-      &lt;li&gt;表达式（Expression）：规定OGNL的操作&lt;/li&gt;
-      &lt;li&gt;根对象（Root Object）：OGNL的操作对象&lt;/li&gt;
-      &lt;li&gt;上下文环境（Context）：操作在哪里干&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;成因：用户插入任意OGNL表达式并执行&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;spring-mvc&quot;&gt;Spring MVC&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Spring框架允许使用客户端所提供的数据来更新对象属性，这一机制允许攻击者修改class.classloader加载对象的类加载器的属性，可能导致命令执行&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;框架中实现的安全方案&quot;&gt;框架中实现的安全方案&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;MVC：Model-View-Controller,用户提交的数据先后流经了View、Controller、Model层。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;XSS
-    &lt;ul&gt;
-      &lt;li&gt;在View层可以解决XSS问题，使用”输出编码”更加合理&lt;/li&gt;
-      &lt;li&gt;View层常用的技术是使用模板引擎对页面进行渲染，例如在Django Tamplates中，使用filters中的escape作为HtmlEncode的方法，同时支持auto-escape，默认编码了5个字符：&lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt; -&amp;gt; &amp;amp;lt&lt;/code&gt;
-  &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt; -&amp;gt; &amp;amp;gt&lt;/code&gt;
-  &lt;code class=&quot;highlighter-rouge&quot;&gt;' -&amp;gt; &amp;amp;#39&lt;/code&gt;
-  &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot; -&amp;gt; &amp;amp;quot&lt;/code&gt;
-  &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp; -&amp;gt; &amp;amp;amp&lt;/code&gt;&lt;/p&gt;
-    &lt;ul&gt;
-      &lt;li&gt;其他场景中，需要自定义filter，使得防御功能更加完善&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;CSRF防御:自动的在所有涉及POST的代码中添加token&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;HTTP Header管理
-    &lt;ul&gt;
-      &lt;li&gt;CRLF攻击：编码所有的“\r\n”&lt;/li&gt;
-      &lt;li&gt;30X返回码的跳转，需要管理好跳转地址
-        &lt;ul&gt;
-          &lt;li&gt;web框架提供统一的跳转函数，在函数内部实现一个白名单&lt;/li&gt;
-          &lt;li&gt;控制HTTP的Location字段，限制值只能是哪些地址，也是白名单&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;数据持久层与SQL注入&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;其他：
-    &lt;ul&gt;
-      &lt;li&gt;保存好安全检查日志&lt;/li&gt;
-      &lt;li&gt;及时更新&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;代码审计&quot;&gt;代码审计&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://xianzhi.aliyun.com/forum/topic/1633/&quot;&gt;JAVA代码审计的一些Tips(附脚本)&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Wed, 07 Mar 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/</guid>
-        
-        <category>Sec</category>
-        
-        
-      </item>
-    
-      <item>
         <title>安全岗面试相关问题--web常见漏洞原理与防御</title>
         <description>&lt;h3 id=&quot;怎么又要开始准备面试了&quot;&gt;怎么又要开始准备面试了&lt;/h3&gt;
 &lt;p&gt;下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口&lt;/p&gt;
@@ -722,7 +585,7 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
         &lt;/ul&gt;
       &lt;/li&gt;
       &lt;li&gt;基于user-agent&lt;/li&gt;
-      &lt;li&gt;基于feferer&lt;/li&gt;
+      &lt;li&gt;基于referer&lt;/li&gt;
       &lt;li&gt;基于cookie&lt;/li&gt;
       &lt;li&gt;二次注入:分为语句插入和语句执行&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;http://www.91ri.org/8611.html&quot;&gt;宽字节注入&lt;/a&gt;:  （字符集好方啊，我得专门总结一篇啊😂
@@ -1306,6 +1169,172 @@ We want the green numbers to be high and red numbers to be low.
         <guid isPermaLink="true">http://localhost:4000/2017/09/unsigned/</guid>
         
         <category>Sec</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>MFC查询注册表数据</title>
+        <description>&lt;h3 id=&quot;相关注册表数据&quot;&gt;相关注册表数据&lt;/h3&gt;
+
+&lt;p&gt;想要通过查询注册表，收集一些系统信息。&lt;/p&gt;
+
+&lt;p&gt;1.系统版本信息:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ProductName:Windows 10 Enterprise 2015 LTSB
+
+RegisteredOwner:Snowty
+
+SystemRoot:C:\WINDOWS
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2.是否为虚拟机：	HKEY_LOCAL_MACHINE/HARDWARE/DESCRIPTION/System/BIOS/&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SystemProductName:VMware Virtual Platform
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3.电脑位数：	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PROCESSOR_ARCHITECTURE:
+	
+    x86　　→32位操作系统
+	
+    AMD64 →64位操作系统
+	
+    IA64　→64位操作系统（for Itanium-based）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;4.office版本：	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Office\&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;office2003:11.0
+office2007:12.0
+office2010:14.0
+office2013:15.0
+office2016:16.0
+office2017:17.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;5.国家/时区：	HKEY_CURRENT_USER\Control Panel\International\&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sCountry:中华人民共和国
+
+LocalName:zh-CN
+
+sLanguage:CHS
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mfc查询注册表信息&quot;&gt;MFC查询注册表信息&lt;/h3&gt;
+
+&lt;p&gt;代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。&lt;/p&gt;
+
+&lt;p&gt;整体来说代码很简单，通俗易懂。但是其间出现了宽字节&lt;code class=&quot;highlighter-rouge&quot;&gt;\0&lt;/code&gt;截断的问题，真心是折腾了好久🙄&lt;/p&gt;
+
+&lt;p&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;RegGetValue&lt;/code&gt;进行查询，详细用法可以查看&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx&quot;&gt;MSDN&lt;/a&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;n&quot;&gt;LONG&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WINAPI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegGetValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_In_&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;HKEY&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;hkey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_In_opt_&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lpSubKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_In_opt_&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lpValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_In_opt_&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;dwFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_Out_opt_&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;LPDWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pdwType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_Out_opt_&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;PVOID&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;pvData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_Inout_opt_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LPDWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pcbData&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;以查询ProductName为例，全部工程代码见&lt;a href=&quot;https://github.com/Snowty/MFC_RegData&quot;&gt;Git&lt;/a&gt;。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CRegDataDlg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OnClickedQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// TODO: Add your control notification handler code here
+&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//--------------------------------查询系统版本信息--------------------------
+&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//查询ProductName
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cdData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//预设置的数据长度
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;LPDWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cdData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;LPBYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//保存查询的数据
+&lt;/span&gt;	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegGetValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HKEY_LOCAL_MACHINE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Software&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Microsoft&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Windows NT&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CurrentVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ProductName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RRF_RT_REG_SZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//注册表查询，将结果保存在ProductName_Get中
+&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;//将unicode转换为ASCII
+&lt;/span&gt;	&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get_Buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;WideCharToMultiByte&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP_UTF8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LPCWCH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get_Buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//转换后的结果保存在ProductName_Get_Buf中
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;m_ProductName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProductName_Get_Buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//显示在界面上
+&lt;/span&gt;    
+        &lt;span class=&quot;n&quot;&gt;UpdateData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//将值赋给控件
+&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;如果使用&lt;code class=&quot;highlighter-rouge&quot;&gt;RegQueryValueEx&lt;/code&gt;进行查询，则需要先使用&lt;code class=&quot;highlighter-rouge&quot;&gt;RegOpenKeyEx&lt;/code&gt;打开注册表：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CRegDataDlg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OnClickedQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;HKEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//handler
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;banner_Set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Software&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Microsoft&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Windows NT&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CurrentVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//子健目录
+&lt;/span&gt;	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retopen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegOpenKeyEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HKEY_LOCAL_MACHINE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;banner_Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KEY_READ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//打开系统版本注册表
+&lt;/span&gt;	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retopen&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ERROR_SUCCESS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;MessageBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR:Can not open the hKEY!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//查询RegisteredOwner
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;LPBYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;type_2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;REG_SZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cdData_2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegQueryValueEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;RegisteredOwner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type_2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cdData_2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ret2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ERROR_SUCCESS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;MessageBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Can not query the Reg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBuf2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;WideCharToMultiByte&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP_UTF8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LPCWCH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBuf2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;m_RegisteredOwner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dBuf2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegCloseKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;宽字节转换&quot;&gt;宽字节转换&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，与此对应的是`MultiByteToWideChar`
+
+`ASCII`：7位，1 byte。
+
+`Unicode`：16位，2 byte，所以称为宽字节，将7位的ASCII扩充为16位(0来填充)。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;书上的源码没有使用这个函数进行转换，所以导致我的输出只有字符串的第一个字符，例如本来应该输出&lt;code class=&quot;highlighter-rouge&quot;&gt;Windows 10 Enterprise 2015 LTSB&lt;/code&gt;,但只输出了&lt;code class=&quot;highlighter-rouge&quot;&gt;W&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;后来经彬彬大神的点拨，让我对&lt;code class=&quot;highlighter-rouge&quot;&gt;ProductName_Get&lt;/code&gt;的字符串进行逐个输出，然后看到了&lt;code class=&quot;highlighter-rouge&quot;&gt;\0&lt;/code&gt;的bug。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;putchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;可以看到，ProductName_Get[0]=’W’,ProductName_Get[1]=’\0’,直接把字符串截断了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Sep 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/09/MFCRegData/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/MFCRegData/</guid>
+        
+        <category>Coding</category>
         
         
       </item>
