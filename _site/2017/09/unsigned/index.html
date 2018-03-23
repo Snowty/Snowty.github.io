@@ -215,19 +215,23 @@
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2017/09/unsigned/" data-title="unsigned int 与 signed int" data-url="http://localhost:4000/2017/09/unsigned/"></div>
 
-    <script type="text/javascript">
-        var duoshuoQuery = {short_name:"Snowty"};
-        (function() {
-            var ds = document.createElement('script');
-            ds.type = 'text/javascript';ds.async = true;
-            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            ds.charset = 'UTF-8';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-        })();
-    </script>
-  
+
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id: 'location.href', // 可选。默认为 location.href
+    owner: 'Snowty',
+    repo: 'Snowty.github.io',
+    oauth: {
+      client_id: '1c6bdb0a02ec35d98436',
+      client_secret: 'd22a904bbaff6e64cc5ab9ea286573ebc448ae3c',
+    },
+  })
+  gitment.render('container')
+  </script>
   
   
   

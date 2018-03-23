@@ -310,19 +310,23 @@ CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的�
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/" data-title="安全岗面试相关问题--同源策略与跨域" data-url="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3/"></div>
 
-    <script type="text/javascript">
-        var duoshuoQuery = {short_name:"Snowty"};
-        (function() {
-            var ds = document.createElement('script');
-            ds.type = 'text/javascript';ds.async = true;
-            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            ds.charset = 'UTF-8';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-        })();
-    </script>
-  
+
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id: 'location.href', // 可选。默认为 location.href
+    owner: 'Snowty',
+    repo: 'Snowty.github.io',
+    oauth: {
+      client_id: '1c6bdb0a02ec35d98436',
+      client_secret: 'd22a904bbaff6e64cc5ab9ea286573ebc448ae3c',
+    },
+  })
+  gitment.render('container')
+  </script>
   
   
   

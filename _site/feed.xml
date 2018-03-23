@@ -5,9 +5,104 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 16 Mar 2018 19:51:43 +0800</pubDate>
-    <lastBuildDate>Fri, 16 Mar 2018 19:51:43 +0800</lastBuildDate>
+    <pubDate>Fri, 23 Mar 2018 15:18:34 +0800</pubDate>
+    <lastBuildDate>Fri, 23 Mar 2018 15:18:34 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Java反序列化</title>
+        <description>&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.vulbox.com/knowledge/detail/?id=11&quot;&gt;深入理解JAVA反序列化漏洞&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;序列化  ：把Java对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的writeObject()方法可以实现序列化。&lt;/li&gt;
+  &lt;li&gt;反序列化：是指把字节序列恢复为Java对象的过程，ObjectInputStream类的readObject()方法用于反序列化。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/java//definition.png&quot; height=&quot;150&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;序列化与反序列化是让Java对象脱离Java运行环境的一种手段，可以有效的实现多平台之间的通信、对象持久化存储。主要应用在以下场景：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HTTP：多平台之间的通信，管理等
+
+RMI：远程方法调用(Remote Method Invocation),让在某个java虚拟机上的对象像调用本地对象一样调用另一个java虚拟机中的对象上的方法。RMI的传输100%基于反序列化,默认端口是1099。
+
+JMX：Java Management Extensions,让程序有被管理的功能，中间件软件WebLogic的管理页面就是基于JMX开发的，而JBoss则整个系统都基于JMX构架。 ​
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/java//rmi.png&quot; height=&quot;500&quot; width=&quot;400&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;漏洞历史&quot;&gt;漏洞历史&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;15年的Apache Commons Collections 反序列化远程命令执行漏洞，其当初影响范围包括：WebSphere、JBoss、Jenkins、WebLogic 和 OpenNMSd等。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2016年Spring RMI反序列化漏洞今年比较出名的：Jackson，FastJson&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;漏洞成因&quot;&gt;漏洞成因&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;POP(property-oriented programming): 控制对象属性然后用它们去影响代码的运行流程。POP gadget就像是高级的ROP，POP组件是在文件中写入数据。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;反序列化的exp并不会直接发送代码让服务器去执行，只是发送&lt;code class=&quot;highlighter-rouge&quot;&gt;服务器已知的类的属性&lt;/code&gt;，然后去操纵那些已经存在的代码以处理这些恶意属性。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;入口点&quot;&gt;入口点&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;序列化对象以&lt;code class=&quot;highlighter-rouge&quot;&gt;ac ed&lt;/code&gt;开始，是magic number。接下来是&lt;code class=&quot;highlighter-rouge&quot;&gt;00 05&lt;/code&gt;，为版本号。接下来应该是0x70到0x7E之间的数，用于描述内容元素的类型，详情见&lt;a href=&quot;https://docs.oracle.com/javase/7/docs/platform/serialization/spec/protocol.html&quot;&gt;Object Serialization Stream Protocol&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;很多IDS靠&lt;code class=&quot;highlighter-rouge&quot;&gt;0xAC ED 00 05&lt;/code&gt;为特征码来判断序列化数据流，但是这几个字节仅出现在最初的序列化传输流里面。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;最显著的特征是在数据流里面会有java的类名，如&lt;code class=&quot;highlighter-rouge&quot;&gt;java.rmi.dgc.Lease&lt;/code&gt;，有的形式可能是&lt;code class=&quot;highlighter-rouge&quot;&gt;Ljava/rmi/dgc/VMID;’&lt;/code&gt;。除了类名，还有一些常见的字符串，如&lt;code class=&quot;highlighter-rouge&quot;&gt;sr&lt;/code&gt;可能会代表一个对象（TC_OBJECT）,紧跟着对应的类描述（TC_CLASSDESC）。&lt;code class=&quot;highlighter-rouge&quot;&gt;xp&lt;/code&gt;代表类注释的结束（TC_ENDBLOCKDATA），并且此类没有super class（TC_NULL）。（不太懂，我得再想想）&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/java//Serialization-oi.png&quot; height=&quot;200&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;序列化对象读取工具：&lt;a href=&quot;https://github.com/NickstaDB/SerializationDumper&quot;&gt;SerializationDumper&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pop-gadgets&quot;&gt;POP Gadgets&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/frohoff/ysoserial/&quot;&gt;ysoserial&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://jackson.thuraisamy.me/runtime-exec-payloads.html&quot;&gt;java.lang.Runtime.exec() Payload Workarounds&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;实验&quot;&gt;实验&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;抓取序列化对象入口点，握手包之后就开始发送了，&lt;code class=&quot;highlighter-rouge&quot;&gt;aced0005&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/java//aced0005.png&quot; height=&quot;400&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 17 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</guid>
+        
+        <category>sec</category>
+        
+        
+      </item>
     
       <item>
         <title>面试问题总结</title>
@@ -77,6 +172,52 @@ Memcached的key-value功能。前文提到key-value的作用是决定存储容�
 &lt;p&gt;10.平时会看书吗？我说了在看兜哥的《web安全深度学习实战》，问我具体的章节问题，里面的demo我都还没试啊，懒惰如我…&lt;/p&gt;
 
 &lt;p&gt;11.做过渗透测试吗：准备做一些 &lt;a href=&quot;hackthebox.eu&quot;&gt;hackbox&lt;/a&gt;上面的题目弥补无渗透经验的缺陷T.T&lt;/p&gt;
+
+&lt;h3 id=&quot;腾讯二面-2018-03-20&quot;&gt;腾讯二面 2018-03-20&lt;/h3&gt;
+
+&lt;p&gt;好像被分到支付反欺诈的部门了…小哥哥一直在问机器学习相关的东西…&lt;/p&gt;
+
+&lt;p&gt;搜了下支付安全，没有搜到很多技术文，&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24882985&quot;&gt;从支付宝安全漏洞开始，谈谈机器学习与业务规则，再八卦下人工智能&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;我们来做一个模型，来判断一下当前这个想登录支付宝的用户是不是账号的本人。那么特征工程怎么做呢？考虑的并非仅仅是用户通过了几个安全问题的回答（这个仅仅是实时特征），还有用户基础属性和长期积累的行为。
+
+先不说用户能通过哪几个安全问题，仅仅从用户基础属性和长期行为观察，都可以推测出用户被盗的风险。
+
+举个简单的例子，文化水平低的用户账号容易被盗，在淘宝上经常购买XX商品的用户账号容易被盗，经常在外面开房的用户账号容易被盗等等。
+
+于是乎，提取一堆离线特征，性别，文化水平，区域，购物偏好，酒店订单次数等等.
+
+训练样本也是有的，用户投诉反馈被盗的用户作为正样本，随机挑一些其他用户作为负样本.
+
+然后开始上机器学习算法，贝叶斯，决策树，逻辑回归，gbdt等等，挑挑参，看看ROC和AUC，选择一个最好的上线。
+
+听说做风控的要求变量的可解释性，因此会做一些特征选择方面的工作，比如相关性过高的特征只保留一个。
+
+于是，线上的安全策略模型就是通过账号被盗风险+实时特征（当前网络环境和通过的安全问题）来判断当前用户是账号本人。
+
+比如你的账号被盗风险是0.3，在之前的WIFI下登录，通过了2个安全问题，那么你很可能通过了。
+
+再比如你的账号被盗风险是0.9，在一个全新的WIFI下登录，也许你连回答安全问题的资格都没有。所以，并不是所有人都可以绕过手机验证码，通过回答安全问题进行密码修改的。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;得把机器学习相关的基础知识点好好看看，一个机器学习的具体过程是什么，如何选模型&lt;/p&gt;
+
+&lt;p&gt;审计规则怎么定&lt;/p&gt;
+
+&lt;p&gt;基础算法还是得看看啊，快排什么的&lt;/p&gt;
+
+&lt;p&gt;态势感知到底在做什么&lt;/p&gt;
+
+&lt;p&gt;自己到底擅长什么&lt;/p&gt;
+
+&lt;h3 id=&quot;腾讯-2018-03-22&quot;&gt;腾讯 2018-03-22&lt;/h3&gt;
+
+&lt;p&gt;TEG部门的小哥哥，问的都是我简历上面的东西，但是想要深入问下去我就都不会了&lt;/p&gt;
+
+&lt;p&gt;最近准备分析个office的宏病毒&lt;/p&gt;
+
+&lt;p&gt;做几个waf绕过的实验&lt;/p&gt;
 </description>
         <pubDate>Fri, 16 Mar 2018 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E9%9B%86%E9%94%A6/</link>
@@ -1031,14 +1172,16 @@ CSP只允许被认可的JS块、JS文件、CSS等解析，只允许向指定的�
       &lt;li&gt;小圆圈是point-wise的操作，比如向量加法、点乘等&lt;/li&gt;
       &lt;li&gt;小矩形代表一层可学习参数的神经网络（重点啊！！！！！！！！&lt;/li&gt;
       &lt;li&gt;上面的一条直线代表了LSTM的状态state，贯穿所有LSTM单元，gate控制对其添加或删除信息&lt;/li&gt;
-      &lt;li&gt;gate只是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。具体可以参考：
+      &lt;li&gt;门（gate）是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。&lt;/li&gt;
+      &lt;li&gt;遗忘们（forget gate）决定上一时刻的单元状态Ct-1有多少保留到当前时刻Ct；输入门（input gate）决定当前时刻网络的输入Xt有多少保留到单元状态Ct；输出门（output gate）来控制单元状态Ct有多少输出到LSTM的当前输出值ht。
+  具体可以参考：
   &lt;a href=&quot;http://colah.github.io/posts/2015-08-Understanding-LSTMs/&quot;&gt;Understanding LSTM Networks&lt;/a&gt;，
-  &lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;&lt;/li&gt;
+  &lt;a href=&quot;https://zhuanlan.zhihu.com/p/25518711&quot;&gt;YJango的循环神经网络——实现LSTM&lt;/a&gt;
+  &lt;a href=&quot;https://www.zybuluo.com/hanbingtao/note/581764&quot;&gt;长短时记忆网络(LSTM)&lt;/a&gt;
+因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~&lt;/p&gt;
 
 &lt;h3 id=&quot;lstm的输入与输出&quot;&gt;LSTM的输入与输出&lt;/h3&gt;
 
@@ -1252,66 +1395,6 @@ We want the green numbers to be high and red numbers to be low.
         <guid isPermaLink="true">http://localhost:4000/2018/01/2018Boom/</guid>
         
         <category>碎碎念</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>unsigned int 与 signed int</title>
-        <description>&lt;h3 id=&quot;unsigned-int&quot;&gt;unsigned int&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;unsigned int&lt;/code&gt; : 无符号数，0~2^n - 1。遇到负数，则以&lt;strong&gt;补码&lt;/strong&gt;形式存储。&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(signed) int&lt;/code&gt; : 有符号数，-2^(n-1)~2^(n-1) - 1&lt;/p&gt;
-
-&lt;h3 id=&quot;简单的循环问题&quot;&gt;简单的循环问题&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;signed&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;//有符号数
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;此处的i&amp;lt;0.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;//无符号数，此处将i初始化为负数，以补码形式存储，在计算机中是一个很大的数
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;此处的i&amp;gt;0.&lt;/p&gt;
-
-&lt;h3 id=&quot;溢出问题&quot;&gt;溢出问题&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/* Kernel memory region holding user-accessible data */&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define KSIZE 1024
-&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kbuf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KSIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/* Copy at most maxlen bytes from kernel region to user buffer */&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;copy_from_kernel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user_dest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxlen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/* Byte count len is minimum of buffer size and maxlen */&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KSIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxlen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KSIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxlen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;memcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user_dest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kbuf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;此处的&lt;strong&gt;len&lt;/strong&gt;选择 &lt;code class=&quot;highlighter-rouge&quot;&gt;KSIZE&lt;/code&gt;与&lt;code class=&quot;highlighter-rouge&quot;&gt;maxlen&lt;/code&gt;中长度较短的。&lt;/p&gt;
-
-&lt;p&gt;但是如果此时&lt;code class=&quot;highlighter-rouge&quot;&gt;maxlen&lt;/code&gt;为&lt;strong&gt;负数&lt;/strong&gt;，以补码形式存储，即为一个很大的数。&lt;/p&gt;
-
-&lt;p&gt;再结合&lt;code class=&quot;highlighter-rouge&quot;&gt;memcpy&lt;/code&gt;会造成缓冲区溢出。&lt;/p&gt;
-</description>
-        <pubDate>Thu, 28 Sep 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/09/unsigned/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/unsigned/</guid>
-        
-        <category>Sec</category>
         
         
       </item>

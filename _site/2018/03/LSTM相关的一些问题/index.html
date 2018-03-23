@@ -187,14 +187,16 @@
       <li>小圆圈是point-wise的操作，比如向量加法、点乘等</li>
       <li>小矩形代表一层可学习参数的神经网络（重点啊！！！！！！！！</li>
       <li>上面的一条直线代表了LSTM的状态state，贯穿所有LSTM单元，gate控制对其添加或删除信息</li>
-      <li>gate只是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。具体可以参考：
+      <li>门（gate）是为了控制每次输入多少、遗忘多少、输出多少信息。通过学习和训练，来调节这个gate的值，以达到最好的效果。类似于一个阀门控制水流的多少，具体阀门的松紧即gate的值，需要通过反复学习训练来得到。</li>
+      <li>遗忘们（forget gate）决定上一时刻的单元状态Ct-1有多少保留到当前时刻Ct；输入门（input gate）决定当前时刻网络的输入Xt有多少保留到单元状态Ct；输出门（output gate）来控制单元状态Ct有多少输出到LSTM的当前输出值ht。
+  具体可以参考：
   <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a>，
-  <a href="https://zhuanlan.zhihu.com/p/25518711">YJango的循环神经网络——实现LSTM</a></li>
+  <a href="https://zhuanlan.zhihu.com/p/25518711">YJango的循环神经网络——实现LSTM</a>
+  <a href="https://www.zybuluo.com/hanbingtao/note/581764">长短时记忆网络(LSTM)</a>
+因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~</li>
     </ul>
   </li>
 </ul>
-
-<p>因此，很多LSTM想不清楚的问题，可以直接用RNN来类比啦🤗~</p>
 
 <h3 id="lstm的输入与输出">LSTM的输入与输出</h3>
 
@@ -285,19 +287,23 @@ We want the green numbers to be high and red numbers to be low.
 <section class="post-comments">
 
   
-    <div class="ds-thread" data-thread-key="/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" data-title="LSTM相关的一些问题" data-url="http://localhost:4000/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"></div>
 
-    <script type="text/javascript">
-        var duoshuoQuery = {short_name:"Snowty"};
-        (function() {
-            var ds = document.createElement('script');
-            ds.type = 'text/javascript';ds.async = true;
-            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            ds.charset = 'UTF-8';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-        })();
-    </script>
-  
+
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id: 'location.href', // 可选。默认为 location.href
+    owner: 'Snowty',
+    repo: 'Snowty.github.io',
+    oauth: {
+      client_id: '1c6bdb0a02ec35d98436',
+      client_secret: 'd22a904bbaff6e64cc5ab9ea286573ebc448ae3c',
+    },
+  })
+  gitment.render('container')
+  </script>
   
   
   

@@ -1,0 +1,60 @@
+---
+layout: post
+title: CTPN的理解与学习
+date: 2018-03-21
+tags: sec
+---
+
+### 简介
+
+CTPN（Connectionist Text Proposal Network）是一个文字框选的模型，在线的[Demo](http://textdet.com)，[论文](https://arxiv.org/abs/1609.03605),[Git](https://github.com/tianzhi0549/CTPN)
+
+一些别人的博客：
+
+[论文阅读与实现--CTPN](http://slade-ruan.me/2017/10/22/text-detection-ctpn/)，[tf版本代码](https://github.com/eragonruan/text-detection-ctpn)
+
+### detecting text in ﬁne-scale proposals
+
+<img src="/images/posts/2018/03/ctpn//1.png" height="280" width="800">
+
++ 与RPN相类似，CTPN可以接受任何尺寸的图片。
+
++ 它通过在卷积的feature map上进行密集的滑动小窗口来检测文本行，并输出一系列精细的（例如固定的16像素宽度）的文本提议，如上图(b)
+
++ 使用VGG16模型
+
++ 在`最后一个卷积层`上面进行`3x3`的划窗
+
++ 固定水平位置，预测垂直位置。可以同时预测文本与非文本的分数，每个位置精修的y轴位置
+
++ 设计了K个垂直的anchor来预测y坐标，这k个anchor有相同的宽度（均为16像素），但是有k种不同的高度。实验中的k=10，数值从11到273。
+
++ 明确的垂直坐标，是通过bounding box的宽度与中心点的y坐标来确定的
+
+### recurrent connectionist text proposals
+
+### side-reﬁnement
+
+
+### 名词解释
+
+1.  `F-measure`
+
+2.  特征提取`SWT`、`MSER`、`HoG`
+
+3.  `RPN`: Region Proposal Network
+
+4.  [Wolf’s standard](https://www.semanticscholar.org/paper/Object-count%2Farea-graphs-for-the-evaluation-of-and-Wolf-Jolion/03f8124a4cb74a347735fc0aac0984903d2976e1) 文字框选的标准
+
+5.  Selective Search，R-CNN中使用
+
+6.  Region Proposal Network（RPN），Faster R-CNN
+
+7.  
+
+
+
+
+
+
+

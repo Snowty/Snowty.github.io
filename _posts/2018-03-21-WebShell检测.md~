@@ -1,0 +1,13 @@
+---
+layout: post
+title: Webshell检测
+date: 2018-03-21
+tags: sec
+---
+
+### 前言
+
+《Web安全深度学习实战》的读书笔记。
+
+WebShell是以ASP、PHP、JSP、或者CGI等文件形式存在的一种命令执行环境。
+
