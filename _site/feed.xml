@@ -5,8 +5,8 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 24 Mar 2018 11:27:01 +0800</pubDate>
-    <lastBuildDate>Sat, 24 Mar 2018 11:27:01 +0800</lastBuildDate>
+    <pubDate>Sat, 24 Mar 2018 11:32:35 +0800</pubDate>
+    <lastBuildDate>Sat, 24 Mar 2018 11:32:35 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -112,11 +112,11 @@
 &lt;h3 id=&quot;sppnet&quot;&gt;SPPNet&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24774302?refer=xiaoleimlnote&quot;&gt;SPPNet-引入空间金字塔池化改进RCNN&lt;/a&gt;
-&lt;img src=&quot;/images/posts/2018/03/ctpn//4.jpg&quot; height=&quot;280&quot; width=&quot;400&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/images/posts/2018/03/CTPN//4.jpg&quot; height=&quot;280&quot; width=&quot;400&quot; /&gt;&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;总体流程依旧是： Selective Search得到候选区域-&amp;gt;CNN提取RoI特征-&amp;gt;类别判断-&amp;gt;位置精修&lt;/li&gt;
   &lt;li&gt;但是在faeture map上提取ROI特征，只需要在整张图像上做一次卷积，提高了效率
-&lt;img src=&quot;/images/posts/2018/03/ctpn//5.jpg&quot; height=&quot;80&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;/images/posts/2018/03/CTPN//5.jpg&quot; height=&quot;80&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
   &lt;li&gt;原始图像的RoI如何映射到特征图：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24780433&quot;&gt;原始图片中的ROI如何映射到到feature map?&lt;/a&gt;
     &lt;ul&gt;
       &lt;li&gt;感受野(receptive field,某一层&lt;code class=&quot;highlighter-rouge&quot;&gt;输出结果&lt;/code&gt;中一个元素所对应的&lt;code class=&quot;highlighter-rouge&quot;&gt;输入层&lt;/code&gt;的区域大小)的计算：
@@ -125,18 +125,18 @@
   &lt;code class=&quot;highlighter-rouge&quot;&gt;output= ( input - kernel size + 2*padding ) / stride + 1&lt;/code&gt;&lt;/li&gt;
           &lt;li&gt;卷积层的输入：
   &lt;code class=&quot;highlighter-rouge&quot;&gt;input = （output  - 1）* stride - 2*padding + kernel size&lt;/code&gt;
-  &lt;img src=&quot;/images/posts/2018/03/ctpn//6.jpg&quot; height=&quot;400&quot; width=&quot;500&quot; /&gt;&lt;/li&gt;
+  &lt;img src=&quot;/images/posts/2018/03/CTPN//6.jpg&quot; height=&quot;400&quot; width=&quot;500&quot; /&gt;&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
       &lt;li&gt;上面只是给出了 前一层在后一层的感受野，如何计算最后一层在原始图片上的感受野呢？ 从后向前级联一下就可以了（先计算最后一层到倒数第二层的感受野，再计算倒数第二层到倒数第三层的感受野，依次从后往前推导就可以了）&lt;/li&gt;
       &lt;li&gt;SPP-net 是把原始ROI的左上角和右下角 映射到 feature map上的两个对应点。 有了feature map上的两队角点就确定了 对应的 feature map 区域(下图中橙色)。 
-  &lt;img src=&quot;/images/posts/2018/03/ctpn//7.jpg&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/li&gt;
+  &lt;img src=&quot;/images/posts/2018/03/CTPN//7.jpg&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;RoI在特征图上对应的特征区域的维度不满足全连接层的输入要求
     &lt;ul&gt;
       &lt;li&gt;空间金字塔池化：假设原图输入是224x224，对于conv5出来后的输出是13x13x256的，可以理解成有256个这样的filter，每个filter对应一张13x13的reponse map。如果像下图那样将reponse map分成1x1(金字塔底座)，2x2(金字塔中间)，4x4（金字塔顶座）三张子图，分别做&lt;code class=&quot;highlighter-rouge&quot;&gt;max pooling&lt;/code&gt;后，出来的特征就是(16+4+1)x256 维度。如果原图的输入不是224x224，出来的特征依然是(16+4+1)x256维度。这样就实现了不管图像尺寸如何 池化n 的输出永远是 （16+4+1）x256 维度。 
-&lt;img src=&quot;/images/posts/2018/03/ctpn//3.jpg&quot; height=&quot;280&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;/images/posts/2018/03/CTPN//3.jpg&quot; height=&quot;280&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -144,7 +144,7 @@
 &lt;h3 id=&quot;fast-r-cnn&quot;&gt;Fast R-CNN&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24780395?refer=xiaoleimlnote&quot;&gt;Fast R-CNN&lt;/a&gt;
-&lt;img src=&quot;/images/posts/2018/03/ctpn//8.jpg&quot; height=&quot;600&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/images/posts/2018/03/CTPN//8.jpg&quot; height=&quot;600&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;joint training （SVM分类，bbox回归 联合起来在CNN阶段训练）把最后一层的Softmax换成两个，一个是对区域的分类Softmax（包括背景），另一个是对bounding box的微调。这个网络有两个输入，一个是整张图片，另一个是候选proposals算法产生的可能proposals的坐标。&lt;/li&gt;
   &lt;li&gt;提出了一个RoI层，算是SPP的变种，SPP是pooling成多个固定尺度，RoI只pooling到单个固定的尺度 （论文通过实验得到的结论是多尺度学习能提高一点点mAP，不过计算量成倍的增加，故单尺度训练的效果更好。）&lt;/li&gt;
@@ -155,17 +155,17 @@
 &lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote&quot;&gt;Faster R-CNN&lt;/a&gt;
 &lt;a href=&quot;https://zhuanlan.zhihu.com/p/31426458&quot;&gt;一文读懂Faster R-CNN&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/ctpn//10.jpg&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/CTPN//10.jpg&quot; height=&quot;300&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;将特征抽取(feature extraction)，proposal提取，bounding box regression(rect refine)，classification都整合在了一个网络中
-&lt;img src=&quot;/images/posts/2018/03/ctpn//9.jpg&quot; height=&quot;600&quot; width=&quot;800&quot; /&gt;
+&lt;img src=&quot;/images/posts/2018/03/CTPN//9.jpg&quot; height=&quot;600&quot; width=&quot;800&quot; /&gt;
 分为以下四步：&lt;/li&gt;
   &lt;li&gt;Conv layers。作为一种CNN网络目标检测方法，Faster R-CNN首先使用一组基础的conv+relu+pooling层提取image的feature maps。该feature maps被共享用于后续RPN层和全连接层。&lt;/li&gt;
   &lt;li&gt;Region Proposal Networks。RPN网络用于生成region proposals。该层通过softmax判断anchors属于foreground或者background，再利用bounding box regression修正anchors获得精确的proposals。&lt;/li&gt;
   &lt;li&gt;Roi Pooling。该层收集输入的feature maps和proposals，综合这些信息后提取proposal feature maps，送入后续全连接层判定目标类别。&lt;/li&gt;
   &lt;li&gt;Classification。利用proposal feature maps计算proposal的类别，同时再次bounding box regression获得检测框最终的精确位置。
-&lt;img src=&quot;/images/posts/2018/03/ctpn/11.jpg&quot; height=&quot;400&quot; width=&quot;800&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;/images/posts/2018/03/CTPN/11.jpg&quot; height=&quot;400&quot; width=&quot;800&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;yolo&quot;&gt;YOLO&lt;/h3&gt;
