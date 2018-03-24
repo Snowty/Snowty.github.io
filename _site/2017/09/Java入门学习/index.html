@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>Java反序列化</title>
-  <meta name="description" content="定义">
+  <title>Java入门</title>
+  <meta name="description" content="Hello world">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Java反序列化">
-  <meta name="twitter:description" content="定义">
+  <meta name="twitter:title" content="Java入门">
+  <meta name="twitter:description" content="Hello world">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Java反序列化">
-  <meta property="og:description" content="定义">
+  <meta property="og:title" content="Java入门">
+  <meta property="og:description" content="Hello world">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2018/03/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+  <link rel="canonical" href="http://localhost:4000/2017/09/Java%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,10 +148,10 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">Java反序列化</h1>
+    <h1 class="post-title">Java入门</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
-      <time datetime="2018-03-17 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-17</time>  
+      <time datetime="2017-09-25 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-09-25</time>  
          
       <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
     </p>
@@ -159,89 +159,64 @@
   </header>
 
   <section class="post">
-    <h3 id="定义">定义</h3>
+    <h3 id="hello-world">Hello world</h3>
 
-<p><a href="https://www.vulbox.com/knowledge/detail/?id=11">深入理解JAVA反序列化漏洞</a></p>
+<p>根据<a href="http://www.runoob.com/java/java-tutorial.html">runoob</a>网站上的教程进行学习。</p>
 
-<ul>
-  <li>序列化  ：把Java对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的writeObject()方法可以实现序列化。</li>
-  <li>反序列化：是指把字节序列恢复为Java对象的过程，ObjectInputStream类的readObject()方法用于反序列化。</li>
-</ul>
+<p>文件名为HelloWorld.java</p>
 
-<p><img src="/images/posts/2018/03/java//definition.png" height="150" width="500" /></p>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span><span class="o">{</span>
+     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello World"</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span></code></pre></figure>
 
-<p>序列化与反序列化是让Java对象脱离Java运行环境的一种手段，可以有效的实现多平台之间的通信、对象持久化存储。主要应用在以下场景：</p>
+<p>运行：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP：多平台之间的通信，管理等
-
-RMI：远程方法调用(Remote Method Invocation),让在某个java虚拟机上的对象像调用本地对象一样调用另一个java虚拟机中的对象上的方法。RMI的传输100%基于反序列化,默认端口是1099。
-
-JMX：Java Management Extensions,让程序有被管理的功能，中间件软件WebLogic的管理页面就是基于JMX开发的，而JBoss则整个系统都基于JMX构架。 ​
+<div class="highlighter-rouge"><pre class="highlight"><code>$ javac HelloWorld.java
+$ java HelloWorld
+Hello World
 </code></pre>
 </div>
 
-<p><img src="/images/posts/2018/03/java//rmi.png" height="500" width="400" /></p>
+<p>String[] args是什么？可以传入参数。</p>
 
-<h3 id="漏洞历史">漏洞历史</h3>
+<p>文件名为Test.java</p>
 
-<ul>
-  <li>
-    <p>15年的Apache Commons Collections 反序列化远程命令执行漏洞，其当初影响范围包括：WebSphere、JBoss、Jenkins、WebLogic 和 OpenNMSd等。</p>
-  </li>
-  <li>
-    <p>2016年Spring RMI反序列化漏洞今年比较出名的：Jackson，FastJson</p>
-  </li>
-</ul>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span><span class="o">{</span>
+     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+     <span class="o">}</span>
+ <span class="o">}</span></code></pre></figure>
 
-<h3 id="漏洞成因">漏洞成因</h3>
+<p>运行：</p>
 
-<ul>
-  <li>
-    <p>POP(property-oriented programming): 控制对象属性然后用它们去影响代码的运行流程。POP gadget就像是高级的ROP，POP组件是在文件中写入数据。</p>
-  </li>
-  <li>
-    <p>反序列化的exp并不会直接发送代码让服务器去执行，只是发送<code class="highlighter-rouge">服务器已知的类的属性</code>，然后去操纵那些已经存在的代码以处理这些恶意属性。</p>
-  </li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ javac Test.java
+$ java Test Snowty
+Snowty
+</code></pre>
+</div>
 
-<h3 id="入口点">入口点</h3>
+<p><code class="highlighter-rouge">String[] args</code> 还有一种等价的写法： <code class="highlighter-rouge">String... args</code></p>
 
-<ul>
-  <li>
-    <p>序列化对象以<code class="highlighter-rouge">ac ed</code>开始，是magic number。接下来是<code class="highlighter-rouge">00 05</code>，为版本号。接下来应该是0x70到0x7E之间的数，用于描述内容元素的类型，详情见<a href="https://docs.oracle.com/javase/7/docs/platform/serialization/spec/protocol.html">Object Serialization Stream Protocol</a></p>
-  </li>
-  <li>
-    <p>很多IDS靠<code class="highlighter-rouge">0xAC ED 00 05</code>为特征码来判断序列化数据流，但是这几个字节仅出现在最初的序列化传输流里面。</p>
-  </li>
-  <li>
-    <p>最显著的特征是在数据流里面会有java的类名，如<code class="highlighter-rouge">java.rmi.dgc.Lease</code>，有的形式可能是<code class="highlighter-rouge">Ljava/rmi/dgc/VMID;’</code>。除了类名，还有一些常见的字符串，如<code class="highlighter-rouge">sr</code>可能会代表一个对象（TC_OBJECT）,紧跟着对应的类描述（TC_CLASSDESC）。<code class="highlighter-rouge">xp</code>代表类注释的结束（TC_ENDBLOCKDATA），并且此类没有super class（TC_NULL）。（不太懂，我得再想想）</p>
-  </li>
-</ul>
+<p>前者为数组形式, 后者为可变参数形式。</p>
 
-<p><img src="/images/posts/2018/03/java//Serialization-oi.png" height="200" width="600" /></p>
+<h3 id="基础语法">基础语法</h3>
 
-<ul>
-  <li>序列化对象读取工具：<a href="https://github.com/NickstaDB/SerializationDumper">SerializationDumper</a></li>
-</ul>
+<p><strong>对象</strong>：对象是类的一个实例，有状态和行为。例如，一条狗是一个对象，它的状态有：颜色、名字、品种；行为有：摇尾巴、叫、吃等。</p>
 
-<h3 id="pop-gadgets">POP Gadgets</h3>
+<p><strong>类</strong>：类是一个模板，它描述一类对象的行为和状态。</p>
 
-<ul>
-  <li>
-    <p><a href="https://github.com/frohoff/ysoserial/">ysoserial</a></p>
-  </li>
-  <li>
-    <p><a href="http://jackson.thuraisamy.me/runtime-exec-payloads.html">java.lang.Runtime.exec() Payload Workarounds</a></p>
-  </li>
-</ul>
+<p><strong>方法</strong>：方法就是行为，一个类可以有很多方法。逻辑运算、数据修改以及所有动作都是在方法中完成的。</p>
 
-<h3 id="实验">实验</h3>
+<p><strong>实例变量</strong>：每个对象都有独特的实例变量，对象的状态由这些实例变量的值决定。</p>
 
-<ul>
-  <li>抓取序列化对象入口点，握手包之后就开始发送了，<code class="highlighter-rouge">aced0005</code></li>
-</ul>
+<p><strong>方法名</strong>：所有的方法名都应该以小写字母开头。如果方法名含有若干单词，则后面的每个单词首字母大写。</p>
 
-<p><img src="/images/posts/2018/03/java//aced0005.png" height="400" width="800" /></p>
+<p><strong>源文件名</strong>：源文件名必须和类名相同。当保存文件的时候，你应该使用类名作为文件名保存（切记Java是大小写敏感的），文件名的后缀为.java。（如果文件名和类名不相同则会导致编译错误）。</p>
+
+<p><strong>主方法入口</strong>：所有的Java 程序由public static void main(String []args)方法开始执行。</p>
+
 
 
   </section>
