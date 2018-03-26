@@ -392,7 +392,8 @@
 
 <h3 id="ssrfserver-side-request-forgery">SSRF（Server-Side Request Forgery）</h3>
 
-<p><a href="https://www.cnblogs.com/s0ky1xd/p/5859049.html">浅谈SSRF漏洞</a>
+<p><a href="./images/others/1Build+Your+SSRF+Exploit+Framework+——+一个只影响有钱人的漏洞·猪猪侠.pdf">猪猪侠的ppt</a>
+<a href="https://www.cnblogs.com/s0ky1xd/p/5859049.html">浅谈SSRF漏洞</a>
 <a href="http://www.91ri.org/17111.html">SSRF漏洞分析与利用</a>
 <a href="https://joychou.org/web/phpssrf.html">SSRF in PHP</a></p>
 
@@ -400,9 +401,21 @@
   <li>
     <p>原理：利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据限制，一般用来在外网探测或攻击内网服务</p>
   </li>
-  <li>
-    <p>可利用的伪协议：<code class="highlighter-rouge">dict file ftp ftps gopher http https imap imaps pop3 pop3s rtsp smb smbs smtp smtps telnet tftp </code></p>
+  <li>SSRF可以做什么：
+    <ul>
+      <li>扫描内部网络（FingerPrint）</li>
+      <li>向内部<code class="highlighter-rouge">任意主机</code>的<code class="highlighter-rouge">任意端口</code>发送精心构造的数据{Payload}</li>
+      <li>DoS（请求大文件，始终保持连接 keep-alive always）</li>
+      <li>暴力穷举（users/dirs/files）</li>
+    </ul>
   </li>
+  <li>阻碍：
+    <ul>
+      <li>服务器开启OpenSSL</li>
+      <li>服务器需要鉴权信息（Cookies &amp; User：Pass）</li>
+    </ul>
+  </li>
+  <li>可利用的伪协议：<code class="highlighter-rouge">dict file ftp ftps gopher http https imap imaps pop3 pop3s rtsp smb smbs smtp smtps telnet tftp </code></li>
 </ul>
 
 <p><img src="/images/posts/2018/03/web//ssrf.png" height="400" width="800" /></p>
