@@ -392,7 +392,7 @@
 
 <h3 id="ssrfserver-side-request-forgery">SSRF（Server-Side Request Forgery）</h3>
 
-<p><a href="./images/others/1Build+Your+SSRF+Exploit+Framework+——+一个只影响有钱人的漏洞·猪猪侠.pdf">猪猪侠的ppt</a>
+<p><a href="https://github.com/Snowty/Snowty.github.io/blob/master/images/others/1Build%2BYour%2BSSRF%2BExploit%2BFramework%2B%E2%80%94%E2%80%94%2B%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%BD%B1%E5%93%8D%E6%9C%89%E9%92%B1%E4%BA%BA%E7%9A%84%E6%BC%8F%E6%B4%9E%C2%B7%E7%8C%AA%E7%8C%AA%E4%BE%A0.pdf">猪猪侠的ppt</a>
 <a href="https://www.cnblogs.com/s0ky1xd/p/5859049.html">浅谈SSRF漏洞</a>
 <a href="http://www.91ri.org/17111.html">SSRF漏洞分析与利用</a>
 <a href="https://joychou.org/web/phpssrf.html">SSRF in PHP</a></p>
@@ -406,7 +406,7 @@
       <li>扫描内部网络（FingerPrint）</li>
       <li>向内部<code class="highlighter-rouge">任意主机</code>的<code class="highlighter-rouge">任意端口</code>发送精心构造的数据{Payload}</li>
       <li>DoS（请求大文件，始终保持连接 keep-alive always）</li>
-      <li>暴力穷举（users/dirs/files）</li>
+      <li>暴力穷举（users/dirs/files）,利用File协议读取本地文件。</li>
     </ul>
   </li>
   <li>阻碍：
@@ -421,9 +421,33 @@
 <p><img src="/images/posts/2018/03/web//ssrf.png" height="400" width="800" /></p>
 
 <ul>
+  <li>绕过:<a href="http://www.freebuf.com/articles/web/135342.html">SSRF漏洞中绕过IP限制的几种方法总结</a>， <a href="http://www.runoob.com/regexp/regexp-syntax.html">正则语法</a>
+    <ul>
+      <li>将IP改写为8、16进制，10、16进制整数格式，以绕过正则</li>
+      <li><code class="highlighter-rouge">http://xip.io</code>,访问这个网站的子域名<code class="highlighter-rouge">192.168.0.1.xip.io</code>，就会自动重定向到192.168.0.1，使用<code class="highlighter-rouge">http://tinyurl.com</code>变短地址</li>
+      <li>利用解析URL所出现的问题，<code class="highlighter-rouge">http://www.baidu.com@192.168.0.1/</code>
+        <ul>
+          <li>Redirect：302跳转绕过http协议限制，如在302.php里面写入<code class="highlighter-rouge">dict</code>、<code class="highlighter-rouge">file</code>等</li>
+          <li>CRLF注入：WebLogic SSRF HTTP头注入（这个还不太懂，先马住👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀）</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="/images/posts/2018/03/web//wb1.png" height="300" width="800" />
+  <img src="/images/posts/2018/03/web//wb2.png" height="300" width="800" />
+  <img src="/images/posts/2018/03/web//wb3.png" height="300" width="800" />
+  <img src="/images/posts/2018/03/web//we4.png" height="300" width="800" /></p>
+
+    <ul>
+      <li>通过各种非HTTP协议:<code class="highlighter-rouge">gopher</code>、<code class="highlighter-rouge">file</code></li>
+      <li>DNS Rebinding:第一次去请求DNS服务进行域名解析到第二次服务端去请求URL之间存在一个时间查，利用这个时间差，我们可以进行DNS 重绑定攻击。
+  <img src="/images/posts/2018/03/web/dnsrebinding.png" height="400" width="600" /> 
+  <img src="/images/posts/2018/03/web/dns.png" height="150" width="500" /></li>
+    </ul>
+  </li>
   <li>防御：
     <ul>
-      <li>过滤返回信息</li>
+      <li>对url参数进行过滤，过滤返回信息</li>
       <li>限制请求端口为http常用的端口</li>
       <li>内网IP黑名单</li>
       <li>禁用不需要的协议</li>
@@ -435,15 +459,54 @@
 <p><a href="https://thief.one/2017/06/20/1/">浅谈XXE漏洞攻击与防御</a></p>
 
 <ul>
-  <li>原理：应用程序解析XML输入时，没有禁止外部实体的加载，导致可加载恶意外部文件，造成文件读取、命令执行、内网端口扫描、攻击内网网站、发起dos攻击等危害。
+  <li>XML基础：
+    <ul>
+      <li>XML声明、文档元素</li>
+      <li><a href="https://blog.csdn.net/u011479875/article/details/49637893">DTD</a>（Document Type Definitions）文档类型定义，为漏洞根源
+        <ul>
+          <li>内部声明：<code class="highlighter-rouge"><span class="cp">&lt;!DOCTYPE 根元素 [元素声明]&gt;</span></code></li>
+          <li>引用外部：<code class="highlighter-rouge"><span class="cp">&lt;!DOCTYPE 根元素 SYSTEM "文件名"&gt;</span></code></li>
+          <li>关键字如下：
+            <ul>
+              <li>DOCTYPE（DTD的声明）</li>
+              <li>SYSTEM、PUBLIC（外部资源申请）</li>
+              <li>ENTITY（实体的声明）：
+                <ul>
+                  <li>分类：内置实体、字符实体、通用实体、参数实体、外部实体</li>
+                  <li>外部实体：<code class="highlighter-rouge">&lt;!ENTITY 实体名称 SYSTEM "URI"&gt;</code>,url中可用file、http、https、ftp等
+  <img src="/images/posts/2018/03/web/dtdentity.png" height="200" width="400" /></li>
+                </ul>
+
+                <div class="highlighter-rouge"><pre class="highlight"><code>  <span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+  <span class="cp">&lt;!DOCTYPE a [
+      &lt;!ENTITY content SYSTEM "file:///etc/passwd"&gt;</span>]&gt;
+  <span class="nt">&lt;foo&gt;</span>
+      <span class="nt">&lt;value&gt;</span><span class="ni">&amp;content;</span><span class="nt">&lt;/value&gt;</span> 
+  <span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>原理：应用程序解析XML输入时，没有禁止DTD引用外部实体的加载，导致可加载恶意外部文件，造成文件读取、命令执行、内网端口扫描、攻击内网网站、发起dos攻击等危害。
     <ul>
       <li><code class="highlighter-rouge">&lt;!ENTITY 实体名称 SYSTEM "URI"&gt;</code>,支持file、http、https、ftp等</li>
       <li>触发的点往往是可以上传xml文件的位置，没有对上传的xml文件进行过滤，导致可上传恶意xml文件</li>
     </ul>
   </li>
+  <li>利用：
+    <ul>
+      <li>任意文件读取（有回显）</li>
+      <li>blind xxe（无回显）：构建一条带外信道提取数据</li>
+    </ul>
+  </li>
   <li>防御：
     <ul>
-      <li>使用开发语言提供的禁用外部实体的方法</li>
+      <li>使用开发语言提供的<code class="highlighter-rouge">禁用外部实体</code>的方法</li>
       <li>过滤用户提交的XML数据，过滤关键词：&lt;!DOCTYPE和&lt;!ENTITY，或者SYSTEM和PUBLIC。</li>
     </ul>
   </li>

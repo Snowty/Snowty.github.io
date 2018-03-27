@@ -5,8 +5,8 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 26 Mar 2018 20:35:39 +0800</pubDate>
-    <lastBuildDate>Mon, 26 Mar 2018 20:35:39 +0800</lastBuildDate>
+    <pubDate>Tue, 27 Mar 2018 11:07:34 +0800</pubDate>
+    <lastBuildDate>Tue, 27 Mar 2018 11:07:34 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -1269,7 +1269,7 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
 
 &lt;h3 id=&quot;ssrfserver-side-request-forgery&quot;&gt;SSRF（Server-Side Request Forgery）&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;./images/others/1Build+Your+SSRF+Exploit+Framework+——+一个只影响有钱人的漏洞·猪猪侠.pdf&quot;&gt;猪猪侠的ppt&lt;/a&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Snowty/Snowty.github.io/blob/master/images/others/1Build%2BYour%2BSSRF%2BExploit%2BFramework%2B%E2%80%94%E2%80%94%2B%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%BD%B1%E5%93%8D%E6%9C%89%E9%92%B1%E4%BA%BA%E7%9A%84%E6%BC%8F%E6%B4%9E%C2%B7%E7%8C%AA%E7%8C%AA%E4%BE%A0.pdf&quot;&gt;猪猪侠的ppt&lt;/a&gt;
 &lt;a href=&quot;https://www.cnblogs.com/s0ky1xd/p/5859049.html&quot;&gt;浅谈SSRF漏洞&lt;/a&gt;
 &lt;a href=&quot;http://www.91ri.org/17111.html&quot;&gt;SSRF漏洞分析与利用&lt;/a&gt;
 &lt;a href=&quot;https://joychou.org/web/phpssrf.html&quot;&gt;SSRF in PHP&lt;/a&gt;&lt;/p&gt;
@@ -1283,7 +1283,7 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
       &lt;li&gt;扫描内部网络（FingerPrint）&lt;/li&gt;
       &lt;li&gt;向内部&lt;code class=&quot;highlighter-rouge&quot;&gt;任意主机&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;任意端口&lt;/code&gt;发送精心构造的数据{Payload}&lt;/li&gt;
       &lt;li&gt;DoS（请求大文件，始终保持连接 keep-alive always）&lt;/li&gt;
-      &lt;li&gt;暴力穷举（users/dirs/files）&lt;/li&gt;
+      &lt;li&gt;暴力穷举（users/dirs/files）,利用File协议读取本地文件。&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;阻碍：
@@ -1298,9 +1298,33 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
 &lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/web//ssrf.png&quot; height=&quot;400&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
+  &lt;li&gt;绕过:&lt;a href=&quot;http://www.freebuf.com/articles/web/135342.html&quot;&gt;SSRF漏洞中绕过IP限制的几种方法总结&lt;/a&gt;， &lt;a href=&quot;http://www.runoob.com/regexp/regexp-syntax.html&quot;&gt;正则语法&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;将IP改写为8、16进制，10、16进制整数格式，以绕过正则&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;http://xip.io&lt;/code&gt;,访问这个网站的子域名&lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.0.1.xip.io&lt;/code&gt;，就会自动重定向到192.168.0.1，使用&lt;code class=&quot;highlighter-rouge&quot;&gt;http://tinyurl.com&lt;/code&gt;变短地址&lt;/li&gt;
+      &lt;li&gt;利用解析URL所出现的问题，&lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.baidu.com@192.168.0.1/&lt;/code&gt;
+        &lt;ul&gt;
+          &lt;li&gt;Redirect：302跳转绕过http协议限制，如在302.php里面写入&lt;code class=&quot;highlighter-rouge&quot;&gt;dict&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt;等&lt;/li&gt;
+          &lt;li&gt;CRLF注入：WebLogic SSRF HTTP头注入（这个还不太懂，先马住👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/web//wb1.png&quot; height=&quot;300&quot; width=&quot;800&quot; /&gt;
+  &lt;img src=&quot;/images/posts/2018/03/web//wb2.png&quot; height=&quot;300&quot; width=&quot;800&quot; /&gt;
+  &lt;img src=&quot;/images/posts/2018/03/web//wb3.png&quot; height=&quot;300&quot; width=&quot;800&quot; /&gt;
+  &lt;img src=&quot;/images/posts/2018/03/web//we4.png&quot; height=&quot;300&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;通过各种非HTTP协议:&lt;code class=&quot;highlighter-rouge&quot;&gt;gopher&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;DNS Rebinding:第一次去请求DNS服务进行域名解析到第二次服务端去请求URL之间存在一个时间查，利用这个时间差，我们可以进行DNS 重绑定攻击。
+  &lt;img src=&quot;/images/posts/2018/03/web/dnsrebinding.png&quot; height=&quot;400&quot; width=&quot;600&quot; /&gt; 
+  &lt;img src=&quot;/images/posts/2018/03/web/dns.png&quot; height=&quot;150&quot; width=&quot;500&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;防御：
     &lt;ul&gt;
-      &lt;li&gt;过滤返回信息&lt;/li&gt;
+      &lt;li&gt;对url参数进行过滤，过滤返回信息&lt;/li&gt;
       &lt;li&gt;限制请求端口为http常用的端口&lt;/li&gt;
       &lt;li&gt;内网IP黑名单&lt;/li&gt;
       &lt;li&gt;禁用不需要的协议&lt;/li&gt;
@@ -1312,15 +1336,54 @@ Output Layer维度跟Input Layer的维度一样，用的是Softmax回归，输�
 &lt;p&gt;&lt;a href=&quot;https://thief.one/2017/06/20/1/&quot;&gt;浅谈XXE漏洞攻击与防御&lt;/a&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;原理：应用程序解析XML输入时，没有禁止外部实体的加载，导致可加载恶意外部文件，造成文件读取、命令执行、内网端口扫描、攻击内网网站、发起dos攻击等危害。
+  &lt;li&gt;XML基础：
+    &lt;ul&gt;
+      &lt;li&gt;XML声明、文档元素&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/u011479875/article/details/49637893&quot;&gt;DTD&lt;/a&gt;（Document Type Definitions）文档类型定义，为漏洞根源
+        &lt;ul&gt;
+          &lt;li&gt;内部声明：&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE 根元素 [元素声明]&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;引用外部：&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE 根元素 SYSTEM &quot;文件名&quot;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;关键字如下：
+            &lt;ul&gt;
+              &lt;li&gt;DOCTYPE（DTD的声明）&lt;/li&gt;
+              &lt;li&gt;SYSTEM、PUBLIC（外部资源申请）&lt;/li&gt;
+              &lt;li&gt;ENTITY（实体的声明）：
+                &lt;ul&gt;
+                  &lt;li&gt;分类：内置实体、字符实体、通用实体、参数实体、外部实体&lt;/li&gt;
+                  &lt;li&gt;外部实体：&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;!ENTITY 实体名称 SYSTEM &quot;URI&quot;&amp;gt;&lt;/code&gt;,url中可用file、http、https、ftp等
+  &lt;img src=&quot;/images/posts/2018/03/web/dtdentity.png&quot; height=&quot;200&quot; width=&quot;400&quot; /&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+
+                &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE a [
+      &amp;lt;!ENTITY content SYSTEM &quot;file:///etc/passwd&quot;&amp;gt;&lt;/span&gt;]&amp;gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;foo&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;&lt;span class=&quot;ni&quot;&gt;&amp;amp;content;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt; 
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/foo&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+                &lt;/div&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;原理：应用程序解析XML输入时，没有禁止DTD引用外部实体的加载，导致可加载恶意外部文件，造成文件读取、命令执行、内网端口扫描、攻击内网网站、发起dos攻击等危害。
     &lt;ul&gt;
       &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;!ENTITY 实体名称 SYSTEM &quot;URI&quot;&amp;gt;&lt;/code&gt;,支持file、http、https、ftp等&lt;/li&gt;
       &lt;li&gt;触发的点往往是可以上传xml文件的位置，没有对上传的xml文件进行过滤，导致可上传恶意xml文件&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;利用：
+    &lt;ul&gt;
+      &lt;li&gt;任意文件读取（有回显）&lt;/li&gt;
+      &lt;li&gt;blind xxe（无回显）：构建一条带外信道提取数据&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;防御：
     &lt;ul&gt;
-      &lt;li&gt;使用开发语言提供的禁用外部实体的方法&lt;/li&gt;
+      &lt;li&gt;使用开发语言提供的&lt;code class=&quot;highlighter-rouge&quot;&gt;禁用外部实体&lt;/code&gt;的方法&lt;/li&gt;
       &lt;li&gt;过滤用户提交的XML数据，过滤关键词：&amp;lt;!DOCTYPE和&amp;lt;!ENTITY，或者SYSTEM和PUBLIC。&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
