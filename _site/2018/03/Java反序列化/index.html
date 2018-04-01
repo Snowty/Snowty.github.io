@@ -177,6 +177,8 @@
 RMI：远程方法调用(Remote Method Invocation),让在某个java虚拟机上的对象像调用本地对象一样调用另一个java虚拟机中的对象上的方法。RMI的传输100%基于反序列化,默认端口是1099。
 
 JMX：Java Management Extensions,让程序有被管理的功能，中间件软件WebLogic的管理页面就是基于JMX开发的，而JBoss则整个系统都基于JMX构架。 ​
+
+JDNI(Java Naming and Directory Interface):提供了查找和访问各种命名和目录服务的通用、统一的接口,支持的对象有DNS、LDAP、 CORBA 对象服务、RMI 等。简单的来说就是RMI注册的服务可以让 JNDI 应用程序来访问，调用。
 </code></pre>
 </div>
 
@@ -235,13 +237,29 @@ JMX：Java Management Extensions,让程序有被管理的功能，中间件软�
   </li>
 </ul>
 
-<h3 id="实验">实验</h3>
+<h3 id="防御">防御</h3>
 
 <ul>
-  <li>抓取序列化对象入口点，握手包之后就开始发送了，<code class="highlighter-rouge">aced0005</code></li>
-</ul>
+  <li>
+    <p>如何发现反序列化漏洞</p>
 
-<p><img src="/images/posts/2018/03/java//aced0005.png" height="400" width="800" /></p>
+    <ol>
+      <li>从流量中发现序列化的痕迹，关键字：ac ed 00 05，rO0AB</li>
+      <li>Java RMI 的传输 100% 基于反序列化，Java RMI 的默认端口是1099端口</li>
+      <li>从源码入手，可以被序列化的类一定实现了Serializable接口</li>
+      <li>观察反序列化时的readObject()方法是否重写，重写中是否有设计不合理，可以被利用之处</li>
+    </ol>
+  </li>
+  <li>
+    <p>防范</p>
+
+    <ol>
+      <li><code class="highlighter-rouge">String obj2=(String)ois.readObject();</code>这种方法并不能奏效，应为强制转换为<code class="highlighter-rouge">string</code>之前readObject()函数就已经运行完毕</li>
+      <li>类白名单校验：在 ObjectInputStream 中 resolveClass 里只是进行了 class 是否能被 load ，自定义 ObjectInputStream , 重载 resolveClass 的方法，对 className 进行白名单校验</li>
+      <li>禁止 JVM 执行外部命令 Runtime.exec</li>
+    </ol>
+  </li>
+</ul>
 
 
   </section>
