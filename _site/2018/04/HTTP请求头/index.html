@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>HTTP报文解析</title>
+  <meta name="description" content="详解HTTP请求行、请求头、请求体详解">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTTP报文解析">
+  <meta name="twitter:description" content="详解HTTP请求行、请求头、请求体详解">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="HTTP报文解析">
+  <meta property="og:description" content="详解HTTP请求行、请求头、请求体详解">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/04/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/">
+  <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<!-- 站点统计 -->
+  <script 
+  async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>  
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 筱筱汀的碎碎念 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                Snowty
+                            
+                        </h2>
+                        <p>
+                           
+                                主业瘦身美白 / 业余信息安全
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 筱筱汀的碎碎念" class="blog-button">筱筱汀的碎碎念</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎聆听我的碎碎念😯</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">HTTP报文解析</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2018-04-02 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-04-02</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h3 id="详解">详解</h3>
+<p><a href="https://blog.csdn.net/u010256388/article/details/68491509">HTTP请求行、请求头、请求体详解</a></p>
+
+<p><img src="/images/posts/2018/04/HTTP报文//1.jpg" height="400" width="600" /></p>
+
+<p>①<a href="http://www.runoob.com/http/http-methods.html">请求方法(HTTP 1.1中支持)</a>：</p>
+<ul>
+  <li><a href="https://blog.csdn.net/u010529455/article/details/42918639">解析HTTP协议六种请求方法,get,head,put,delete,post有什么区别</a>
+    <ul>
+      <li>get：提交的数据最多1024字节</li>
+      <li>head：只请求页面的首部</li>
+      <li>post:数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。</li>
+      <li>put：与post相似，但是会指定资源的存放位置</li>
+      <li>options：允许客户端查看服务器的性能,获取当前URL所支持的方法</li>
+      <li>delete：删除某一资源，返回的状态码（200：ok，202：Accepted，204：No Content）</li>
+      <li>trace：回显服务器收到的请求，主要用于测试或诊断</li>
+      <li><a href="https://www.web-tinker.com/article/20055.html">connect</a>：动态切换为隧道的代理，把服务器作为跳板，让服务器代替用户去访问其它网页，之后把数据原原本本的返回给用户。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>②URL地址</p>
+
+<p>③协议名称及版本号</p>
+
+<p>④<a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields">HTTP报文头</a></p>
+<ul>
+  <li>一些标准报文头：
+    <ul>
+      <li><code class="highlighter-rouge">Accept:text/plain</code>:告诉服务器，客户端接受什么类型的相应,属性值可以为一个或者多个<a href="https://en.wikipedia.org/wiki/Media_type">MIME</a>类型的值</li>
+      <li><code class="highlighter-rouge">Accept-Charset: utf-8</code></li>
+      <li><code class="highlighter-rouge">Accept-Encoding: gzip, deflate</code></li>
+      <li><code class="highlighter-rouge">Accept-Language: en-US</code></li>
+      <li><code class="highlighter-rouge">Access-Control-Request-Method: GET</code>:<a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Cross-origin resource sharing</a></li>
+      <li><code class="highlighter-rouge">Host</code>:The domain name of the server</li>
+      <li><code class="highlighter-rouge">Connection: keep-alive</code></li>
+      <li><code class="highlighter-rouge">Origin: http://www.example-social-network.com</code></li>
+      <li><code class="highlighter-rouge">Content-Type: application/x-www-form-urlencoded</code>:Media type of the body of the request(post and put)</li>
+      <li><code class="highlighter-rouge">Cookie</code></li>
+      <li><code class="highlighter-rouge">Referer</code></li>
+      <li><code class="highlighter-rouge">Cache-Control: no-cache</code>:让服务端将对应请求返回的响应内容不要在客户端缓存</li>
+      <li><code class="highlighter-rouge">User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/12.0</code></li>
+      <li><code class="highlighter-rouge">Content-Length: 348</code></li>
+      <li><code class="highlighter-rouge">X-Forwarded-For: client1, proxy1, proxy2</code>:<a href="http://blog.csdn.net/caiqiiqi/article/details/72852083">绕过服务器IP地址过滤</a>,tcp层伪造源IP比较困难可以在http层进行伪造</li>
+      <li><code class="highlighter-rouge">X-Frame-Options: deny</code>:<a href="http://blog.csdn.net/wangnan537/article/details/76599962">防止网页被Frame</a>,点劫持防御。<code class="highlighter-rouge">deny</code>表示页面不能被嵌入到任何iframe或frame中。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>⑤报文体：将一个页面表单中的组件值通过param1=value1&amp;param2=value2的键值对形式编码成一个格式化串，它承载多个请求参数的数据。</p>
+
+<p><img src="/images/posts/2018/04/HTTP报文//2.jpg" height="200" width="400" /></p>
+
+<h3 id="状态码"><a href="https://www.jianshu.com/p/49ebc4a78474">状态码</a></h3>
+
+<p>HTTP的响应状态码由3位数字构成，根据第一位数字的值可以把HTTP响应分为5类：</p>
+<ul>
+  <li>1xx：代表响应已经被服务器接受，需要继续处理</li>
+  <li>2xx：这一类型的状态码，表示该HTTP请求已经被服务器成功接受和理解。</li>
+  <li>3xx：重定向标识。表示客户端需要采取进一步操作才能完成请求，重定向地址会在本次响应报文的消息报头中给出，其字段名为Location。</li>
+  <li>4xx：客户端错误。这类状态码表示发送请求的客户端发生了错误，妨碍了服务器的请求处理。</li>
+  <li>5xx：服务器错误。其表示服务器在处理请求的过程中有错误或者异常状态发生，也可能是服务器当前的硬件资源无法完成对客户端的请求处理。</li>
+</ul>
+
+<p>常见状态码：</p>
+<ul>
+  <li>200 OK：客户端请求成功。</li>
+  <li>400 Bad Request：客户端请求有语法错误，不能被服务器所理解。</li>
+  <li>401 Unauthorized：请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用。</li>
+  <li>403 Forbidden：服务器收到请求，但是拒绝提供服务。</li>
+  <li>404 Not Found：请求资源不存在，举个例子：输入了错误的URL。</li>
+  <li>500 Internal Server Error：服务器发生不可预期的错误。</li>
+  <li>503 Server Unavailable：服务器当前不能处理客户端的请求，一段时间后可能恢复正常，举个例子：HTTP/1.1 200 OK（CRLF）。</li>
+</ul>
+
+
+  </section>
+</article>
+
+<section class="post-comments">
+
+  
+
+
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id: '', // 可选。默认为 location.href
+    owner: 'Snowty',
+    repo: 'Snowty.github.io',
+    oauth: {
+      client_id: '1c6bdb0a02ec35d98436',
+      client_secret: 'd22a904bbaff6e64cc5ab9ea286573ebc448ae3c',
+    },
+  })
+  gitment.render('container')
+  </script>
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Snowty" title="@Snowty 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:xsnowting@gmail.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+          </ul>
+        </nav>
+
+        </div>
+
+        <div class = "footer_div">  
+           <p class="copyright text-muted" align="center">
+            Copyright &copy; 筱筱汀的碎碎念 2018 Powerde by <a href="http://jekyll.com.cn/">jekyll</a>。
+            
+            </p>
+        	<div align="right">
+    			<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+          <!-- 访问统计 
+          <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+          </span>
+          -->
+
+        </div>
+        <div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

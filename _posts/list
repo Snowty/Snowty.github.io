@@ -241,12 +241,6 @@ HTTP头的sql注入：
     + cookie
 
 
-X-Forwarded-For绕过服务器IP地址过滤：
-    http://blog.csdn.net/caiqiiqi/article/details/72852083
-
-X-Frame-Options:防止网页被Frame
-    http://blog.csdn.net/wangnan537/article/details/76599962
-
 
 [金融行业平台常见安全漏洞与防御](http://www.freebuf.com/news/topnews/61082.html)
     + 任意用户密码重置、交易参数恶意篡改等
@@ -255,12 +249,7 @@ X-Frame-Options:防止网页被Frame
 
 状态码：404、403
 
-HTTP的响应状态码由3位数字构成，根据第一位数字的值可以把HTTP响应分为5类：
-1xx：代表响应已经被服务器接受，需要继续处理，该类状态码代表的响应都是信息性的，标识客户端应该采取其他行动。
-2xx： 这一类型的状态码，表示该HTTP请求已经被服务器成功接受和理解。
-3xx：重定向标识。表示客户端需要采取进一步操作才能完成请求，重定向地址会在本次响应报文的消息报头中给出，其字段名为Location。
-4xx：客户端错误。这类状态码表示发送请求的客户端发生了错误，妨碍了服务器的请求处理。
-5xx：服务器错误。其表示服务器在处理请求的过程中有错误或者异常状态发生，也可能是服务器当前的硬件资源无法完成对客户端的请求处理。
+
 
 
 spring:

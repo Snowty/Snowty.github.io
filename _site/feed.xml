@@ -5,9 +5,95 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 01 Apr 2018 21:40:09 +0800</pubDate>
-    <lastBuildDate>Sun, 01 Apr 2018 21:40:09 +0800</lastBuildDate>
+    <pubDate>Mon, 02 Apr 2018 20:34:18 +0800</pubDate>
+    <lastBuildDate>Mon, 02 Apr 2018 20:34:18 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>HTTP报文解析</title>
+        <description>&lt;h3 id=&quot;详解&quot;&gt;详解&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/u010256388/article/details/68491509&quot;&gt;HTTP请求行、请求头、请求体详解&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/04/HTTP报文//1.jpg&quot; height=&quot;400&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;①&lt;a href=&quot;http://www.runoob.com/http/http-methods.html&quot;&gt;请求方法(HTTP 1.1中支持)&lt;/a&gt;：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/u010529455/article/details/42918639&quot;&gt;解析HTTP协议六种请求方法,get,head,put,delete,post有什么区别&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;get：提交的数据最多1024字节&lt;/li&gt;
+      &lt;li&gt;head：只请求页面的首部&lt;/li&gt;
+      &lt;li&gt;post:数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。&lt;/li&gt;
+      &lt;li&gt;put：与post相似，但是会指定资源的存放位置&lt;/li&gt;
+      &lt;li&gt;options：允许客户端查看服务器的性能,获取当前URL所支持的方法&lt;/li&gt;
+      &lt;li&gt;delete：删除某一资源，返回的状态码（200：ok，202：Accepted，204：No Content）&lt;/li&gt;
+      &lt;li&gt;trace：回显服务器收到的请求，主要用于测试或诊断&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.web-tinker.com/article/20055.html&quot;&gt;connect&lt;/a&gt;：动态切换为隧道的代理，把服务器作为跳板，让服务器代替用户去访问其它网页，之后把数据原原本本的返回给用户。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;②URL地址&lt;/p&gt;
+
+&lt;p&gt;③协议名称及版本号&lt;/p&gt;
+
+&lt;p&gt;④&lt;a href=&quot;https://en.wikipedia.org/wiki/List_of_HTTP_header_fields&quot;&gt;HTTP报文头&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;一些标准报文头：
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Accept:text/plain&lt;/code&gt;:告诉服务器，客户端接受什么类型的相应,属性值可以为一个或者多个&lt;a href=&quot;https://en.wikipedia.org/wiki/Media_type&quot;&gt;MIME&lt;/a&gt;类型的值&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Accept-Charset: utf-8&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Accept-Encoding: gzip, deflate&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Accept-Language: en-US&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Access-Control-Request-Method: GET&lt;/code&gt;:&lt;a href=&quot;https://en.wikipedia.org/wiki/Cross-origin_resource_sharing&quot;&gt;Cross-origin resource sharing&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Host&lt;/code&gt;:The domain name of the server&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Connection: keep-alive&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Origin: http://www.example-social-network.com&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Type: application/x-www-form-urlencoded&lt;/code&gt;:Media type of the body of the request(post and put)&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Cookie&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Referer&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control: no-cache&lt;/code&gt;:让服务端将对应请求返回的响应内容不要在客户端缓存&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/12.0&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Length: 348&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;X-Forwarded-For: client1, proxy1, proxy2&lt;/code&gt;:&lt;a href=&quot;http://blog.csdn.net/caiqiiqi/article/details/72852083&quot;&gt;绕过服务器IP地址过滤&lt;/a&gt;,tcp层伪造源IP比较困难可以在http层进行伪造&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;X-Frame-Options: deny&lt;/code&gt;:&lt;a href=&quot;http://blog.csdn.net/wangnan537/article/details/76599962&quot;&gt;防止网页被Frame&lt;/a&gt;,点劫持防御。&lt;code class=&quot;highlighter-rouge&quot;&gt;deny&lt;/code&gt;表示页面不能被嵌入到任何iframe或frame中。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;⑤报文体：将一个页面表单中的组件值通过param1=value1&amp;amp;param2=value2的键值对形式编码成一个格式化串，它承载多个请求参数的数据。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/04/HTTP报文//2.jpg&quot; height=&quot;200&quot; width=&quot;400&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;状态码&quot;&gt;&lt;a href=&quot;https://www.jianshu.com/p/49ebc4a78474&quot;&gt;状态码&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;HTTP的响应状态码由3位数字构成，根据第一位数字的值可以把HTTP响应分为5类：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;1xx：代表响应已经被服务器接受，需要继续处理&lt;/li&gt;
+  &lt;li&gt;2xx：这一类型的状态码，表示该HTTP请求已经被服务器成功接受和理解。&lt;/li&gt;
+  &lt;li&gt;3xx：重定向标识。表示客户端需要采取进一步操作才能完成请求，重定向地址会在本次响应报文的消息报头中给出，其字段名为Location。&lt;/li&gt;
+  &lt;li&gt;4xx：客户端错误。这类状态码表示发送请求的客户端发生了错误，妨碍了服务器的请求处理。&lt;/li&gt;
+  &lt;li&gt;5xx：服务器错误。其表示服务器在处理请求的过程中有错误或者异常状态发生，也可能是服务器当前的硬件资源无法完成对客户端的请求处理。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;常见状态码：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;200 OK：客户端请求成功。&lt;/li&gt;
+  &lt;li&gt;400 Bad Request：客户端请求有语法错误，不能被服务器所理解。&lt;/li&gt;
+  &lt;li&gt;401 Unauthorized：请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用。&lt;/li&gt;
+  &lt;li&gt;403 Forbidden：服务器收到请求，但是拒绝提供服务。&lt;/li&gt;
+  &lt;li&gt;404 Not Found：请求资源不存在，举个例子：输入了错误的URL。&lt;/li&gt;
+  &lt;li&gt;500 Internal Server Error：服务器发生不可预期的错误。&lt;/li&gt;
+  &lt;li&gt;503 Server Unavailable：服务器当前不能处理客户端的请求，一段时间后可能恢复正常，举个例子：HTTP/1.1 200 OK（CRLF）。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 02 Apr 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/04/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/04/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4/</guid>
+        
+        <category>Sec</category>
+        
+        
+      </item>
     
       <item>
         <title>Hack the box 的一些write up</title>
@@ -473,6 +559,32 @@ Memcached的key-value功能。前文提到key-value的作用是决定存储容�
 &lt;p&gt;鹅厂的面试基本贯穿了我这个月的面试流程，挂了的话是不是可以4月5号笔试之后再面一波🤣🤣🤣🤣🤣&lt;/p&gt;
 
 &lt;p&gt;段少说我可以到时候写个帖子，说鹅厂面了我10面，最后把我给刷了😤😤😤😤😤&lt;/p&gt;
+
+&lt;h3 id=&quot;腾讯-2018-04-02&quot;&gt;腾讯 2018-04-02&lt;/h3&gt;
+
+&lt;p&gt;腾讯teg的安全云二面，之前那个部门就是挂了啊&lt;/p&gt;
+
+&lt;p&gt;问了我我如何识别垃圾短信&lt;/p&gt;
+
+&lt;p&gt;国民经济平均值报表发出来，大家都说自己达不到平均收入，如何看待&lt;/p&gt;
+
+&lt;p&gt;了解正态分布吗&lt;/p&gt;
+
+&lt;p&gt;鱼妹说我这种面了三个部门的只此一家了，现在总共加起来腾讯有7面了，估计也是凉凉了🤣&lt;/p&gt;
+
+&lt;h3 id=&quot;阿里-2018-04-02&quot;&gt;阿里 2018-04-02&lt;/h3&gt;
+
+&lt;p&gt;阿里云二面，小哥哥的评价是总体还行，具体细节还需要加强。就算凉了我也是服气的，毕竟自己学的太粗浅了，很多分明知道的东西也不去深究&lt;/p&gt;
+
+&lt;p&gt;HTTP协议解析(是不是这个问题来着…)，反正就是要问burp抓到的包里面HTTP请求头有哪些&lt;/p&gt;
+
+&lt;p&gt;GET、POST、OPTION等请求方式的区别&lt;/p&gt;
+
+&lt;p&gt;XSS在输入检查还是输出编码处防御好&lt;/p&gt;
+
+&lt;p&gt;web指纹技术&lt;/p&gt;
+
+&lt;p&gt;session与cookie的区别&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 16 Mar 2018 00:00:00 +0800</pubDate>
@@ -1602,43 +1714,6 @@ We want the green numbers to be high and red numbers to be low.
         <guid isPermaLink="true">http://localhost:4000/2018/03/LSTM%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</guid>
         
         <category>AI</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>杂七杂八的安全tips</title>
-        <description>&lt;h3 id=&quot;xss-tips&quot;&gt;XSS TIPS&lt;/h3&gt;
-
-&lt;p&gt;Ref:&lt;a href=&quot;https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Open%20redirect&quot;&gt;PayloadsAllTheThings&lt;/a&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;CRLF&lt;/code&gt;:    (&lt;code class=&quot;highlighter-rouge&quot;&gt;CR&lt;/code&gt;:&lt;code class=&quot;highlighter-rouge&quot;&gt;\r&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;0x0d&lt;/code&gt;;&lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;:&lt;code class=&quot;highlighter-rouge&quot;&gt;\n&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;0x0a&lt;/code&gt;)
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java%0d%0ascript%0d%0a:alert(0)
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;XSS from Open URL - If it’s in a JS variable
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;;alert(0);//
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;XSS from data:// wrapper
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://www.example.com/redirect.php?url=data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik7PC9zY3JpcHQ+Cg==
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;XSS from javascript:// wrapper
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://www.example.com/redirect.php?url=javascript:prompt(1)
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Tue, 02 Jan 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/01/secTips/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/01/secTips/</guid>
-        
-        <category>Sec</category>
         
         
       </item>
