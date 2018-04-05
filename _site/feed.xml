@@ -5,8 +5,8 @@
     <description>欢迎聆听我的碎碎念😯</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Apr 2018 20:34:18 +0800</pubDate>
-    <lastBuildDate>Mon, 02 Apr 2018 20:34:18 +0800</lastBuildDate>
+    <pubDate>Tue, 03 Apr 2018 16:00:58 +0800</pubDate>
+    <lastBuildDate>Tue, 03 Apr 2018 16:00:58 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -585,6 +585,26 @@ Memcached的key-value功能。前文提到key-value的作用是决定存储容�
 &lt;p&gt;web指纹技术&lt;/p&gt;
 
 &lt;p&gt;session与cookie的区别&lt;/p&gt;
+
+&lt;h3 id=&quot;阿里-2018-04-03&quot;&gt;阿里 2018-04-03&lt;/h3&gt;
+
+&lt;p&gt;阿里云三面&lt;/p&gt;
+
+&lt;p&gt;CSRF防御，为什么在https跳转到http的时候不带referer？因为https要确保流量全程加密，所以在这种会被抓到包的细微之处也要做好。&lt;/p&gt;
+
+&lt;p&gt;三次握手，syn flood怎么防御。怎么设计UDP让其也有序传输。&lt;/p&gt;
+
+&lt;p&gt;sql注入怎么样防御&lt;/p&gt;
+
+&lt;p&gt;函数调用的汇编流程，一图胜千言吧…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2018/03/meeting//函数调用.png&quot; height=&quot;400&quot; width=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;看过什么书，怎么学习的&lt;/p&gt;
+
+&lt;p&gt;神经网络的padding，激活函数，过拟合，问的比较简单了&lt;/p&gt;
+
+&lt;p&gt;总体来说还是细节处需要加强，要做算法的话数学功底需要好，概率论和线代要看看，创造力有待培养和提升。&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 16 Mar 2018 00:00:00 +0800</pubDate>
