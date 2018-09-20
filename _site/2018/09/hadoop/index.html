@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>hadoop相关基础</title>
+  <meta name="description" content="概述  狭义的hadoop：    HDFS:分布式存储MapReduce:分布式计算YARN:资源调度        广义hadoop生态圈:    Flume进行数据采集Spark/MR/Hive等进行数据处理HDFS/HBase进行数据存储          ">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="hadoop相关基础">
+  <meta name="twitter:description" content="概述  狭义的hadoop：    HDFS:分布式存储MapReduce:分布式计算YARN:资源调度        广义hadoop生态圈:    Flume进行数据采集Spark/MR/Hive等进行数据处理HDFS/HBase进行数据存储          ">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="hadoop相关基础">
+  <meta property="og:description" content="概述  狭义的hadoop：    HDFS:分布式存储MapReduce:分布式计算YARN:资源调度        广义hadoop生态圈:    Flume进行数据采集Spark/MR/Hive等进行数据处理HDFS/HBase进行数据存储          ">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/09/hadoop/">
+  <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<!-- 站点统计 -->
+  <script 
+  async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>  
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 筱筱汀的碎碎念 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                Snowty
+                            
+                        </h2>
+                        <p>
+                           
+                                主业瘦身美白 / 业余信息安全
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 筱筱汀的碎碎念" class="blog-button">筱筱汀的碎碎念</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎聆听我的碎碎念😯</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">hadoop相关基础</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2018-09-18 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-09-18</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h3 id="概述">概述</h3>
+<ol>
+  <li>狭义的hadoop：
+    <div class="highlighter-rouge"><pre class="highlight"><code>HDFS:分布式存储
+MapReduce:分布式计算
+YARN:资源调度
+</code></pre>
+    </div>
+    <p>广义hadoop生态圈:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>Flume进行数据采集
+Spark/MR/Hive等进行数据处理
+HDFS/HBase进行数据存储
+</code></pre>
+    </div>
+    <p><img src="/images/posts/2018/09/hadoop//hadoop生态.png" height="280" width="600" /></p>
+  </li>
+  <li>
+    <p>HDFS架构：
+<img src="/images/posts/2018/09/hadoop//hdfs架构.png" height="400" width="600" /></p>
+
+    <p><code class="highlighter-rouge">1 个Master（即为NameNode/NN）带N个Slaves（DataNode/DN）</code></p>
+
+    <p>1个文件会被拆分成多个Block，例:blocksize 128M</p>
+
+    <p>NN:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1)负责客户端请求的响应
+2)负责元数据（文件的名称、副本洗漱、block存放的DN）的管理
+</code></pre>
+    </div>
+    <p>DN：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1）存储用户的文件对应的数据块（Block）
+2) 要定期向NN发送心跳信息，汇报本身及所有的block信息，健康状况
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>启动HDFS:<code class="highlighter-rouge">sbin/start-dfs.sh</code></p>
+
+    <p>验证是否启动成功：<code class="highlighter-rouge">jps</code></p>
+
+    <p>浏览器：<code class="highlighter-rouge">http://localhost:50070</code></p>
+
+    <p>停止HDFS:   <code class="highlighter-rouge">sbin/stop-dfs.sh</code></p>
+  </li>
+  <li>
+    <p>HDFS优点：高容错、批处理、适合大数据处理、可部署在廉价机器上
+缺点：延迟大、不适合小文件</p>
+  </li>
+  <li>
+    <p>YARN架构</p>
+
+    <p><img src="/images/posts/2018/09/hadoop//yarn架构.png" height="400" width="600" /></p>
+
+    <p><code class="highlighter-rouge">1 RM(Resource Manager)+ N NM(Node Manager)</code></p>
+
+    <p>Resource Manager的职责： 一个集群active状态的RM只有一个，负责整个集群的资源管理和调度</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1） 处理客户端的请求（启动/杀死）
+2） 启动/监控ApplicationMaster（一个作业对应一个AM）
+3） 监控NM
+4） 系统的资源分配和调度
+</code></pre>
+    </div>
+    <p>NodeManager：整个集群中有N个，负责单个节点的资源管理和使用以及task的运行情况</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1）定期向RM汇报本节点的资源使用情况和各个Container的运行状态
+2）接收并处理RM的container启停的各种命令
+3）单个节点的资源管理和任务管理
+</code></pre>
+    </div>
+    <p>ApplicationMaseter：每个应用/作业对应一个，负责应用程序的管理</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1）数据切分
+2）为应用程序向RM申请资源（container），并分配给内部任务
+3）与NM通信并启停task，task是运行在container中的
+4）task的监控和容错
+</code></pre>
+    </div>
+    <p>Container：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>对任务运行情况的描述:CPU、memory、环境变量
+</code></pre>
+    </div>
+
+    <p>YARN执行流程：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1) 用户向YARN提交作业
+2）RM为该作业分配第一个container（启动AM）
+3) RM会与对应的NM通信，要求NM在这个container上启动应用程序的AM
+4）AM首先向RM注册，然后AM将为各个任务申请资源，并监控运行情况
+5）AM采用轮训的方式通过RPC协议向RM申请和领取资源
+6）AM申请到资源以后，便和相应的NM通信，要求NM启动任务
+7）NM启动我们作业对应的task
+
+</code></pre>
+    </div>
+    <p><img src="/images/posts/2018/09/hadoop//yarn执行流程.png" height="400" width="600" />
+启动yarn：<code class="highlighter-rouge">sbin/start-yarn.sh</code>,<code class="highlighter-rouge">http://localhost:8088</code></p>
+  </li>
+  <li>
+    <p>Hive:构建在hadoop上面的数据仓库，使用hdfs进行数据存储，使用MR进行计算。
+    用于离线数据处理，底层的执行引擎有MR、Tez、Spark，支持多种不同的压缩/存储格式,统一的元数据管理（可与SparkSQL等共享数据）
+<img src="/images/posts/2018/09/hadoop//hive架构.png" height="400" width="600" /></p>
+
+    <p>基本操作：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>创建表：create table hive_wordcount(context string);
+加载数据到hive：load data local inpath './hello.txt' into table hive_wordcount;
+统计：select word,count(1) from hive_wordcount lateral view explode(split(context,'\t')) wc as word group by word;
+(lateral view explode():把每行记录按照指定分隔符进行拆解) 
+hive sql 提交执行以后会生成MR作业，并在yarn上运行
+</code></pre>
+    </div>
+  </li>
+  <li>spark：数据处理框架，快：基于内存，DAG执行引擎，基于线程的模型（有线程池）</li>
+  <li>MR的局限性：
+    <div class="highlighter-rouge"><pre class="highlight"><code>1) 代码繁琐
+2）只能够支持map和reduce方法
+3）执行效率低下
+4）不适合迭代多次、交互式、流式的处理
+</code></pre>
+    </div>
+
+    <p>架构多样化：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1) 批处理（离线）：MapReduce、Hive、Pig
+2）流式处理（实时）：Storm、JStorm
+3）交互式计算：Impala
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Spark与Hadoop对比：
+<img src="/images/posts/2018/09/hadoop//hadoop与spark对比.png" height="400" width="600" />
+<img src="/images/posts/2018/09/hadoop//内部对比.png" height="400" width="600" /></p>
+
+    <p>MR与Spark对比：存储位置不同（磁盘与内存）
+<img src="/images/posts/2018/09/hadoop//mr与spark.png" height="400" width="600" /></p>
+
+    <p>Hadoop+Spark
+<img src="/images/posts/2018/09/hadoop//hadoop+spark.png" height="200" width="600" /></p>
+  </li>
+</ol>
+
+
+
+  </section>
+</article>
+
+<section class="post-comments">
+
+  
+
+
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id: '', // 可选。默认为 location.href
+    owner: 'Snowty',
+    repo: 'Snowty.github.io',
+    oauth: {
+      client_id: '1c6bdb0a02ec35d98436',
+      client_secret: 'd22a904bbaff6e64cc5ab9ea286573ebc448ae3c',
+    },
+  })
+  gitment.render('container')
+  </script>
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Snowty" title="@Snowty 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:xsnowting@gmail.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+          </ul>
+        </nav>
+
+        </div>
+
+        <div class = "footer_div">  
+           <p class="copyright text-muted" align="center">
+            Copyright &copy; 筱筱汀的碎碎念 2018 Powerde by <a href="http://jekyll.com.cn/">jekyll</a>。
+            
+            </p>
+        	<div align="right">
+    			<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+          <!-- 访问统计 
+          <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+          </span>
+          -->
+
+        </div>
+        <div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
