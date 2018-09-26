@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>安全岗面试相关问题--web常见漏洞原理与防御</title>
-  <meta name="description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
+  <title>web常见漏洞原理与防御</title>
+  <meta name="description" content="前言下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="安全岗面试相关问题--web常见漏洞原理与防御">
-  <meta name="twitter:description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
+  <meta name="twitter:title" content="web常见漏洞原理与防御">
+  <meta name="twitter:description" content="前言下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="安全岗面试相关问题--web常见漏洞原理与防御">
-  <meta property="og:description" content="怎么又要开始准备面试了下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
+  <meta property="og:title" content="web常见漏洞原理与防御">
+  <meta property="og:description" content="前言下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2018/03/%E9%9D%A2%E8%AF%95_web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E4%B8%8E%E9%98%B2%E5%BE%A1/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,7 +148,7 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">安全岗面试相关问题--web常见漏洞原理与防御</h1>
+    <h1 class="post-title">web常见漏洞原理与防御</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
       <time datetime="2018-03-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-06</time>  
@@ -159,7 +159,7 @@
   </header>
 
   <section class="post">
-    <h3 id="怎么又要开始准备面试了">怎么又要开始准备面试了</h3>
+    <h3 id="前言">前言</h3>
 <p>下面总结的内容都比较简略，可能是摘抄了《白帽子》，可能是网上搜集的资料，或者直接给出了别人总结的很好的文章供以后查看，因为每个点展开来将都可以写好几篇文章（嗯，为自己偷懒找借口</p>
 
 <h3 id="xss">XSS</h3>
@@ -380,14 +380,15 @@
   <li>
     <p>原理：通过伪装来自受信任用户的请求来利用受信任的网站,例如：用户登录某账户，浏览器获得cookie；攻击者诱使用户访问某构造好的恶意CSRF页面。</p>
   </li>
-  <li>
-    <p>防御：</p>
+  <li>防御：
     <ul>
       <li>验证码</li>
       <li>Referer Check（HTTPS跳转到HTTP不会发送Referer）</li>
       <li>Anti CSRF Token</li>
     </ul>
   </li>
+  <li>Json劫持属于CSRF的一种：csrf只管发送http请求，但是json-hijack的目的是获取敏感数据。一些web应用会把一些敏感数据以json的形式返回到前端。防御手段与CSRF基本一致。
+<a href="https://www.cnblogs.com/52php/p/5677775.html">JSONP 安全攻防技术（JSON劫持、 XSS漏洞）</a></li>
 </ul>
 
 <h3 id="ssrfserver-side-request-forgery">SSRF（Server-Side Request Forgery）</h3>
@@ -512,6 +513,30 @@
   </li>
 </ul>
 
+<h3 id="命令注入">命令注入</h3>
+
+<p><a href="https://blog.csdn.net/u011781521/article/details/54974440">DVWA系列(四)—-Command Injection (命令行注入)</a></p>
+
+<h3 id="其他">其他</h3>
+
+<ol>
+  <li>一个web服务器存在命令注入漏洞与任意文件读取漏洞，哪些方式可以获取服务器权限？
+    <ul>
+      <li>通过命令注入直接写shell，将测试命令输出写道/tmp/路径下，通过任意文件读取查看调试。</li>
+      <li>通过命令注入漏洞，执行命令写crontab，执行命令写reverse shell文件，然后crontab执行shell。</li>
+      <li>命令注入执行wget，获取ssh key放到/root/.ssh目录下</li>
+    </ul>
+  </li>
+  <li>Mysql注入直接getshell的条件
+    <ul>
+      <li>要知道网站绝对路径，可以通过报错，phpinfo界面，404界面等一些方式知道</li>
+      <li>gpc没有开启，开启了单引号被转义了，语句就不能正常执行了
+（开启magic_quote_gpc=on之后，能实现addslshes()和stripslashes()这两个函数的功能。在PHP4.0及以上的版本中，该选项默认情况下是开启的，所以在PHP4.0及以上的版本中，就算PHP程序中的参数没有进行过滤，PHP系统也会对每一个通过GET、POST、COOKIE方式传递的变量自动转换，换句话说，输入的注入攻击代码将会全部被转换）</li>
+      <li>要有file权限，默认情况下只有root有</li>
+      <li>对目录要有写权限，一般image之类的存放突破的目录就有</li>
+    </ul>
+  </li>
+</ol>
 
 
   </section>

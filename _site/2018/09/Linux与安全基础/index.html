@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Linux与安全基础</title>
+  <meta name="description" content="Linux基础">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux与安全基础">
+  <meta name="twitter:description" content="Linux基础">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Linux与安全基础">
+  <meta property="og:description" content="Linux基础">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/09/Linux%E4%B8%8E%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/">
+  <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<!-- 站点统计 -->
+  <script 
+  async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>  
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 筱筱汀的碎碎念 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                Snowty
+                            
+                        </h2>
+                        <p>
+                           
+                                主业瘦身美白 / 业余信息安全
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 筱筱汀的碎碎念" class="blog-button">筱筱汀的碎碎念</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎聆听我的碎碎念😯</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">Linux与安全基础</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/> 
+      <time datetime="2018-09-22 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-09-22</time>  
+         
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h3 id="linux基础">Linux基础</h3>
+
+<ol>
+  <li><a href="https://blog.csdn.net/yangbodong22011/article/details/50753906">/etc/passwd 和 /etc/shadows 详解</a>
+    <ul>
+      <li>passwd文件举例
+        <div class="highlighter-rouge"><pre class="highlight"><code>root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</code></pre>
+        </div>
+      </li>
+    </ul>
+
+    <p>对应字段
+<img src="/images/posts/2018/09/安全相关//passwd.png" height="500" width="800" /></p>
+
+    <ul>
+      <li>shadow文件
+        <div class="highlighter-rouge"><pre class="highlight"><code>root:$6$X9iEgIhv$wGtrUhjiNRp72LgCTzC1qdi.myfSU9S5nqsfr.m1KInUFoeOUBN73AmMy5sTe91biJLdHgsoimZQzeD9EvGlv1:16769:0:99999:7:::
+daemon:*:16547:0:99999:7:::
+bin:*:16547:0:99999:7:::
+sys:*:16547:0:99999:7:::
+sync:*:16547:0:99999:7:::
+games:*:16547:0:99999:7:::
+man:*:16547:0:99999:7:::
+</code></pre>
+        </div>
+      </li>
+    </ul>
+
+    <p><img src="/images/posts/2018/09/安全相关//shadow.png" height="500" width="800" /></p>
+  </li>
+  <li>
+    <p>软连接</p>
+
+    <ul>
+      <li>文件分为：
+        <div class="highlighter-rouge"><pre class="highlight"><code>用户数据（user data）:即文件数据块（data block），记录文件真实内容的地方
+元数据（metadata）：文件的附加属性，如文件大小、创建时间、所有者信息。其中的`inode`号即为文件的唯一标志
+</code></pre>
+        </div>
+        <p><img src="/images/posts/2018/09/安全相关//inode.jpg" height="150" width="300" /></p>
+      </li>
+      <li>硬链接（hard link）：同一个文件使用了多个别名，即一个inode号对应多个文件名，可由link或ln创建
+        <div class="highlighter-rouge"><pre class="highlight"><code>文件有相同的 inode 及 data block；
+只能对已存在的文件进行创建；
+不能交叉文件系统进行硬链接的创建；
+不能对目录进行创建，只可对文件创建；
+删除一个硬链接文件并不影响其他有相同 inode 号的文件。
+</code></pre>
+        </div>
+      </li>
+      <li>软链接（soft link or symbolic link）：若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软链接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块
+<img src="/images/posts/2018/09/安全相关//softlink.jpg" height="150" width="300" />
+        <div class="highlighter-rouge"><pre class="highlight"><code>软链接有自己的文件属性及权限等；
+可对不存在的文件或目录创建软链接；
+软链接可交叉文件系统；
+软链接可对文件或目录创建；
+创建软链接时，链接计数 i_nlink 不会增加；
+删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）。
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>shell
+    <ul>
+      <li>新浪的一道笔试题：
+        <div class="highlighter-rouge"><pre class="highlight"><code>找出web日志中响应时间小于0.03的客户端IP并去重：
+201.158.69.116 - - [03/Jan/2013:21:17:20 -0600] "GET /api/insert?test=1" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" "114.229.23.58" "0.015"
+201.158.69.116 - - [03/Jan/2013:21:17:20 -0600] "GET /api/insert?test=1" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" "114.229.23.58" "0.002"
+201.158.69.116 - - [03/Jan/2013:21:17:20 -0600] "GET /api/insert?test=1" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" "114.229.23.58" "0.039"
+201.158.69.118 - - [03/Jan/2013:21:17:20 -0600] "GET /api/insert?test=1" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" "114.229.23.58" "0.015"
+201.158.69.119 - - [03/Jan/2013:21:17:20 -0600] "GET /api/insert?test=1" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" "114.229.23.58" "0.015"
+201.158.69.119 - - [03/Jan/2013:21:17:20 -0600] "GET /api/insert?test=1" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" "114.229.23.58" "0.030"
+</code></pre>
+        </div>
+        <p>解析：</p>
+        <div class="highlighter-rouge"><pre class="highlight"><code>cat log | awk '{if($NF&lt;0.03) print $1}' | sort -u     //这样写的话最后一位是str类型，无法做数值比较，应该是扑街了
+cat log | awk 'BEGIN{FS="\""} $8 &gt; 0.03 {print $1}' | awk '{print $1}'      //大神指导我的第一版本，以"\""为分隔符
+cat log | awk '{if(strtonum(substr($NF,2,5))&lt;0.03) print $1}' | sort -u     //大神指导的第二版本，很优雅啦~
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li><a href="https://www.cnblogs.com/renzhuang/articles/6733461.html">进程与线程的区别</a>
+    <ul>
+      <li>进程是指程序执行时的一个实例。线程是进程的一个实体。</li>
+      <li>进程——资源分配的最小单位；线程——程序执行的最小单位，处理机调度和分配的单位。</li>
+      <li>进程拥有独立的堆栈空间和数据段，所以每当启动一个新的进程必须分配给它独立的地址空间，建立众多的数据表来维护它的代码段、堆栈段和数据段,但是安全性高;线程拥有独立的堆栈空间，但是共享数据段，它们彼此之间使用相同的地址空间，共享大部分数据，比进程更节俭，开销比较小，切换速度也比进程快，效率高，但是一个线程死掉就等于整个进程死掉。</li>
+      <li>通信机制上面，正因为进程之间互不干扰，相互独立，进程的通信机制相对很复杂，譬如管道，信号，消息队列，共享内存，套接字等通信机制，而线程由于共享数据段所以通信机制很方便</li>
+      <li>一个线程可以创建另一个线程。线程是不分父子线程的，一个线程创建另一个线程，尽管第一个线程已经结束，第二个线程还是可以照常运行。</li>
+      <li>运行在一个进程里的线程共享该进程的整个虚拟地址空间</li>
+    </ul>
+
+    <p><a href="https://blog.csdn.net/q_l_s/article/details/51789245">同一进程中的线程究竟共享哪些资源</a></p>
+  </li>
+</ol>
+
+<h3 id="其他">其他</h3>
+
+<ol>
+  <li>
+    <p><a href="https://blog.csdn.net/u013761036/article/details/52268500">DLL劫持</a></p>
+  </li>
+  <li>
+    <p><a href="https://blog.csdn.net/bytxl/article/details/11552353">IPSec</a>:为 IP 数据报提供了高质量的、可互操作的、基于密码学的安全性。特定的通信方之间在 IP 层通过加密与数据源验证等方式，来保证数据报在网络上传输时的私有性、完整性、真实性和防重放。</p>
+    <pre><code class="language- ">私有性（Confidentiality ）指对用户数据进行加密保护，用密文的形式传送。
+完整性（Data integrity ）指对接收的数据进行验证，以判定报文是否被篡改。
+真实性（Data authentication ）指验证数据源，以保证数据来自真实的发送者。
+防重放（Anti-replay ）指防止恶意用户通过重复发送捕获到的数据包所进行的攻击，即接收方会拒绝旧的或重复的数据包。
+</code></pre>
+  </li>
+</ol>
+
+
+  </section>
+</article>
+
+<section class="post-comments">
+
+  
+
+
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id: '', // 可选。默认为 location.href
+    owner: 'Snowty',
+    repo: 'Snowty.github.io',
+    oauth: {
+      client_id: '1c6bdb0a02ec35d98436',
+      client_secret: 'd22a904bbaff6e64cc5ab9ea286573ebc448ae3c',
+    },
+  })
+  gitment.render('container')
+  </script>
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Snowty" title="@Snowty 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:xsnowting@gmail.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+          </ul>
+        </nav>
+
+        </div>
+
+        <div class = "footer_div">  
+           <p class="copyright text-muted" align="center">
+            Copyright &copy; 筱筱汀的碎碎念 2018 Powerde by <a href="http://jekyll.com.cn/">jekyll</a>。
+            
+            </p>
+        	<div align="right">
+    			<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+          <!-- 访问统计 
+          <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+          </span>
+          -->
+
+        </div>
+        <div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

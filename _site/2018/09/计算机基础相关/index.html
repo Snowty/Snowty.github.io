@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>hadoop相关基础</title>
-  <meta name="description" content="概述  狭义的hadoop：    HDFS:分布式存储MapReduce:分布式计算YARN:资源调度        广义hadoop生态圈:    Flume进行数据采集Spark/MR/Hive等进行数据处理HDFS/HBase进行数据存储          ">
+  <title>计算机基础相关的问题（数据结构、数据库、密码学等）</title>
+  <meta name="description" content="C/S与B/S">
   <meta name="author" content="leopardpan">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="hadoop相关基础">
-  <meta name="twitter:description" content="概述  狭义的hadoop：    HDFS:分布式存储MapReduce:分布式计算YARN:资源调度        广义hadoop生态圈:    Flume进行数据采集Spark/MR/Hive等进行数据处理HDFS/HBase进行数据存储          ">
+  <meta name="twitter:title" content="计算机基础相关的问题（数据结构、数据库、密码学等）">
+  <meta name="twitter:description" content="C/S与B/S">
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="hadoop相关基础">
-  <meta property="og:description" content="概述  狭义的hadoop：    HDFS:分布式存储MapReduce:分布式计算YARN:资源调度        广义hadoop生态圈:    Flume进行数据采集Spark/MR/Hive等进行数据处理HDFS/HBase进行数据存储          ">
+  <meta property="og:title" content="计算机基础相关的问题（数据结构、数据库、密码学等）">
+  <meta property="og:description" content="C/S与B/S">
   
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2018/09/hadoop/">
+  <link rel="canonical" href="http://localhost:4000/2018/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/">
   <link rel="alternate" type="application/rss+xml" title="筱筱汀的碎碎念" href="http://localhost:4000/feed.xml">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
@@ -148,10 +148,10 @@
         <div class="content-wrapper__inner">
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title">hadoop相关基础</h1>
+    <h1 class="post-title">计算机基础相关的问题（数据结构、数据库、密码学等）</h1>
     <div class="post-meta">
       <img src="/images/calendar.png" width="20px"/> 
-      <time datetime="2018-09-18 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-09-18</time>  
+      <time datetime="2018-09-22 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-09-22</time>  
          
       <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
     </p>
@@ -159,143 +159,127 @@
   </header>
 
   <section class="post">
-    <h3 id="概述">概述</h3>
+    <h3 id="cs与bs"><a href="https://m.jb51.net/article/56605.htm">C/S与B/S</a></h3>
+
 <ol>
-  <li>狭义的hadoop：
-    <div class="highlighter-rouge"><pre class="highlight"><code>HDFS:分布式存储
-MapReduce:分布式计算
-YARN:资源调度
-</code></pre>
-    </div>
-    <p>广义hadoop生态圈:</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>Flume进行数据采集
-Spark/MR/Hive等进行数据处理
-HDFS/HBase进行数据存储
-</code></pre>
-    </div>
-    <p><img src="/images/posts/2018/09/hadoop//hadoop生态.png" height="280" width="600" /></p>
-  </li>
   <li>
-    <p>HDFS架构：
-<img src="/images/posts/2018/09/hadoop//hdfs架构.png" height="400" width="600" /></p>
+    <p><code class="highlighter-rouge">C/S</code>结构，即Client/Server(客户机/服务器)结构，通过将任务合理分配到Client端和Server端，降低了系统的通讯开销，可以充分利用两端
+硬件环境的优势。早期的软件系统多以此作为首选设计标准。</p>
 
-    <p><code class="highlighter-rouge">1 个Master（即为NameNode/NN）带N个Slaves（DataNode/DN）</code></p>
-
-    <p>1个文件会被拆分成多个Block，例:blocksize 128M</p>
-
-    <p>NN:</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1)负责客户端请求的响应
-2)负责元数据（文件的名称、副本洗漱、block存放的DN）的管理
+    <p>优点：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>2.1 C/S架构的界面和操作可以很丰富。
+2.2 安全性能可以很容易保证，实现多层认证也不难。
+2.3 由于只有一层交互，因此响应速度较快。
 </code></pre>
     </div>
-    <p>DN：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1）存储用户的文件对应的数据块（Block）
-2) 要定期向NN发送心跳信息，汇报本身及所有的block信息，健康状况
+    <p>缺点：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>2.4 适用面窄，通常用于局域网中。
+2.5 用户群固定。由于程序需要安装才可使用，因此不适合面向一些不可知的用户。
+2.6 维护成本高，发生一次升级，则所有客户端的程序都需要改变。
 </code></pre>
     </div>
   </li>
   <li>
-    <p>启动HDFS:<code class="highlighter-rouge">sbin/start-dfs.sh</code></p>
+    <p><code class="highlighter-rouge">B/S</code>结构，即Browser/Server(浏览器/服务器)结构，用户界面完全通过WWW浏览器实现，一部分事务逻辑在前端实现，但是主要事务逻辑在服务器端实现</p>
 
-    <p>验证是否启动成功：<code class="highlighter-rouge">jps</code></p>
-
-    <p>浏览器：<code class="highlighter-rouge">http://localhost:50070</code></p>
-
-    <p>停止HDFS:   <code class="highlighter-rouge">sbin/stop-dfs.sh</code></p>
-  </li>
-  <li>
-    <p>HDFS优点：高容错、批处理、适合大数据处理、可部署在廉价机器上
-缺点：延迟大、不适合小文件</p>
-  </li>
-  <li>
-    <p>YARN架构</p>
-
-    <p><img src="/images/posts/2018/09/hadoop//YARN架构.png" height="400" width="600" /></p>
-
-    <p><code class="highlighter-rouge">1 RM(Resource Manager)+ N NM(Node Manager)</code></p>
-
-    <p>Resource Manager的职责： 一个集群active状态的RM只有一个，负责整个集群的资源管理和调度</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1） 处理客户端的请求（启动/杀死）
-2） 启动/监控ApplicationMaster（一个作业对应一个AM）
-3） 监控NM
-4） 系统的资源分配和调度
+    <p>优点：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1）客户端无需安装，有Web浏览器即可。
+2）BS架构可以直接放在广域网上，通过一定的权限控制实现多客户访问的目的，交互性较强。
+3）BS架构无需升级多个客户端，升级服务器即可。
 </code></pre>
     </div>
-    <p>NodeManager：整个集群中有N个，负责单个节点的资源管理和使用以及task的运行情况</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1）定期向RM汇报本节点的资源使用情况和各个Container的运行状态
-2）接收并处理RM的container启停的各种命令
-3）单个节点的资源管理和任务管理
+    <p>缺点：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1）在跨浏览器上，BS架构不尽如人意。
+2）表现要达到CS程序的程度需要花费不少精力。
+3）在速度和安全性上需要花费巨大的设计成本，这是BS架构的最大问题。
+4）客户端服务器端的交互是请求-响应模式，通常需要刷新页面，这并不是客户乐意看到的。（在Ajax风行后此问题得到了一定程度的缓解）
 </code></pre>
     </div>
-    <p>ApplicationMaseter：每个应用/作业对应一个，负责应用程序的管理</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1）数据切分
-2）为应用程序向RM申请资源（container），并分配给内部任务
-3）与NM通信并启停task，task是运行在container中的
-4）task的监控和容错
-</code></pre>
-    </div>
-    <p>Container：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>对任务运行情况的描述:CPU、memory、环境变量
-</code></pre>
-    </div>
-
-    <p>YARN执行流程：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1) 用户向YARN提交作业
-2）RM为该作业分配第一个container（启动AM）
-3) RM会与对应的NM通信，要求NM在这个container上启动应用程序的AM
-4）AM首先向RM注册，然后AM将为各个任务申请资源，并监控运行情况
-5）AM采用轮训的方式通过RPC协议向RM申请和领取资源
-6）AM申请到资源以后，便和相应的NM通信，要求NM启动任务
-7）NM启动我们作业对应的task
-
-</code></pre>
-    </div>
-    <p><img src="/images/posts/2018/09/hadoop//YARN执行流程.png" height="400" width="600" />
-启动yarn：<code class="highlighter-rouge">sbin/start-yarn.sh</code>,<code class="highlighter-rouge">http://localhost:8088</code></p>
-  </li>
-  <li>
-    <p>Hive:构建在hadoop上面的数据仓库，使用hdfs进行数据存储，使用MR进行计算。
-    用于离线数据处理，底层的执行引擎有MR、Tez、Spark，支持多种不同的压缩/存储格式,统一的元数据管理（可与SparkSQL等共享数据）
-<img src="/images/posts/2018/09/hadoop//hive架构.png" height="400" width="600" /></p>
-
-    <p>基本操作：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>创建表：create table hive_wordcount(context string);
-加载数据到hive：load data local inpath './hello.txt' into table hive_wordcount;
-统计：select word,count(1) from hive_wordcount lateral view explode(split(context,'\t')) wc as word group by word;
-(lateral view explode():把每行记录按照指定分隔符进行拆解) 
-hive sql 提交执行以后会生成MR作业，并在yarn上运行
-</code></pre>
-    </div>
-  </li>
-  <li>spark：数据处理框架，快：基于内存，DAG执行引擎，基于线程的模型（有线程池）</li>
-  <li>MR的局限性：
-    <div class="highlighter-rouge"><pre class="highlight"><code>1) 代码繁琐
-2）只能够支持map和reduce方法
-3）执行效率低下
-4）不适合迭代多次、交互式、流式的处理
-</code></pre>
-    </div>
-
-    <p>架构多样化：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>1) 批处理（离线）：MapReduce、Hive、Pig
-2）流式处理（实时）：Storm、JStorm
-3）交互式计算：Impala
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>Spark与Hadoop对比：
-<img src="/images/posts/2018/09/hadoop//hadoop与spark对比.png" height="400" width="600" />
-<img src="/images/posts/2018/09/hadoop//内部对比.png" height="400" width="600" /></p>
-
-    <p>MR与Spark对比：存储位置不同（磁盘与内存）
-<img src="/images/posts/2018/09/hadoop//mr与spark.png" height="400" width="600" /></p>
-
-    <p>Hadoop+Spark
-<img src="/images/posts/2018/09/hadoop//hadoop+spark.png" height="200" width="600" /></p>
   </li>
 </ol>
 
+<h3 id="数据库">数据库</h3>
+
+<ol>
+  <li>数据库的ACID:
+    <div class="highlighter-rouge"><pre class="highlight"><code>原子性（Atomicity）:事务是一个不可再分割的工作单元，事务中的操作要么都发生，要么都不发生
+一致性（Consistency）:事务开始之前和事务结束以后，数据库的完整性约束没有被破坏。这是说数据库事务不能破坏关系数据的完整性以及业务逻辑上的一致性。
+隔离性（Isolation）:多个事务并发访问时，事务之间是隔离的，一个事务不应该影响其它事务运行效果。
+持久性（Durability）:在事务完成以后，该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚。
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p><a href="https://blog.csdn.net/LemonTreey/article/details/53067437">数据库的死锁</a>：</p>
+
+    <p>原因：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.  系统资源不足
+2.  进程运行推进的顺序不合适
+3.  资源分配不当
+</code></pre>
+    </div>
+
+    <p>四个必要条件：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.  互斥条件：一个资源每次只能被一个进程使用
+2.  请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放
+3.  不可剥夺条件
+3.  循环等待条件
+</code></pre>
+    </div>
+
+    <p>预防与解除：避免产生的四个条件</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.  按同一顺序访问对象
+2.  避免事务中的用户交互
+3.  保持事务简短并在同一个批处理中
+4.  使用低隔离级别
+5.  使用绑定连接
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<h3 id="密码学">密码学</h3>
+
+<ol>
+  <li>
+    <p><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA算法原理（欧拉定理）</a></p>
+
+    <p><a href="http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html">RSA算法原理</a></p>
+
+    <p><a href="https://www.anquanke.com/post/id/84632">【技术分享】CTF中RSA的常见攻击方法</a>（没有细看，有时间的话要仔细看看看啊！！！！</p>
+  </li>
+</ol>
+
+<h3 id="数据结构">数据结构</h3>
+
+<ol>
+  <li>
+    <p><a href="https://www.zhihu.com/question/21923021">KMP</a></p>
+  </li>
+  <li>
+    <p>二叉树：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.  完全二叉树：若设二叉树的深度为h，除第h层外，其它各层 (1～h-1) 的结点数都达到最大个数，第h层所有的结点都连续集中在最左边，这就是完全二叉树
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p><a href="https://www.cnblogs.com/JVxie/p/4859889.html">堆</a>：堆是完全二叉树</p>
+  </li>
+  <li>
+    <p><a href="https://blog.csdn.net/Antineutrino/article/details/6763722">前缀、中缀、后缀表达式</a></p>
+
+    <p><img src="/images/posts/2018/09/计算机基础//前缀表达式.jpeg" height="300" width="600" /></p>
+
+    <p>选B</p>
+  </li>
+  <li>
+    <p>线性表：</p>
+    <ul>
+      <li>插入和删除的时间复杂度为：O(n),其余操作（如访问）为O(1)</li>
+    </ul>
+  </li>
+</ol>
 
 
   </section>
